@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <title><%= content_for?(:title) ? yield(:title) : "Resource Scheduler" %></title>
+  <%= csrf_meta_tags %>
+
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"
+   integrity="sha512-07I2e+7D8p6he1SIM+1twR5TIrhUQn9+I6yjqD53JQjFiMf8EtC93ty0/5vJTZGF8aAocvHYNEDJajGdNx1IsQ=="
+   crossorigin=""/>
+
+</head>
+
+<body>
+  <!-- begin .app -->
+  <div class="app">
+    <!-- begin .app-wrap -->
+    <div class="app-wrap">
+      <!-- begin .app-heading -->
+      <header class=" app-heading canvas is-fixed is-top bg-white p-v-15 shadow-4dp" id="top-search">
+
+          <div class="container-fluid">
+            <div class="input-group input-group-lg icon-before-input">
+              <input type="text" class="form-control input-lg b-0" placeholder="Search for...">
+              <div class="icon z-3">
+                <i class="fa fa-fw fa-lg fa-search"></i>
+              </div>
+              <span class="input-group-btn">
+                <button data-target="#top-search" data-toggle="canvas" class="btn btn-danger btn-line b-0">
+                  <i class="fa fa-fw fa-lg fa-times"></i>
+                </button>
+              </span>
+            </div>
+            <!-- /input-group -->
+          </div>
+
+        </header>
+       	<!-- Side bar -->
+       	 <!-- begin .navbar -->
+        <nav class="navbar navbar-default navbar-static-top shadow-2dp">
+          <!-- begin .navbar-header -->
+          <div class="navbar-header">
+            <!-- begin .navbar-header-left with image -->
+            <div class="navbar-header-left b-r">
+              <!--begin logo-->
+              <%= link_to users_path, class: "logo" do %>
+                <span class="logo-lg hidden-xs">
+                   <%= image_tag('era_logo.png', alt: 'Era Logo') %>
+                </span>
+              <% end %>
+              <!--end logo-->
+            </div>
+            <% if current_user.present? and current_user.first_name %>
+            <!-- END: .navbar-header-left with image -->
+            <nav class="nav navbar-header-nav">
+              <a class="visible-xs b-r" href="#" data-side=collapse>
+                <i class="fa fa-fw fa-bars"></i>
+              </a>
+              <a class="hidden-xs b-r" href="#" data-side=mini>
+                <i class="fa fa-fw fa-bars"></i>
+              </a>
+            </nav>
+            <ul class="nav navbar-header-nav m-l-a">
+              
+              <li class="dropdown b-l">
+                <a class="dropdown-toggle profile-pic" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                  <b class="hidden-xs hidden-sm">Logged in as <%= current_user.first_name %></b>
+                </a>
+                <ul class="dropdown-menu animated flipInY pull-right">
+                  <li>
+                    <%= link_to destroy_user_session_path  do %>
+                        <i class="fa fa-fw fa-sign-out"></i>
+                        Logout
+                    <% end %>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+
+            <% end %>
+          </div>
+          <!-- END: .navbar-header -->
+        </nav>
+        <!-- END: .navbar -->
+      </header>
+      <!-- END:  .app-heading -->
+
+      <!-- begin .app-container -->
+      <div class="app-container">
+        <% if current_user.present? and current_user.first_name %>
+        <!-- begin .app-side -->
+        <aside class="app-side">
+          <!-- begin .side-content -->
+          <div class="side-content">
+            <!-- begin user-panel -->
+            <div class="user-panel">
+              <div class="user-info">
+                <h5><%= current_user.first_name.to_s + " "+ current_user.last_name.to_s %></h5>
+                <ul class="nav">
+                  <li class="dropdown">
+                    <a href="#" class="text-turquoise small dropdown-toggle bg-transparent" data-toggle="dropdown">
+                      <i class="fa fa-fw fa-circle">
+                      </i> Online
+                    </a>
+                    <ul class="dropdown-menu animated flipInY pull-right">
+                      <li>
+                        <%= link_to destroy_user_session_path  do %>
+                            <i class="fa fa-fw fa-sign-out"></i>
+                            Logout
+                        <% end %>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <!-- END: user-panel -->
+            <!-- begin .side-nav -->
+            <nav class="side-nav">
+              <!-- BEGIN: nav-content -->
+              <ul class="metismenu nav nav-inverse nav-bordered nav-stacked" data-plugin="metismenu">
+                <li class="nav-divider"></li>
+                <li class="nav-header">Components</li>
+                <!-- BEGIN: reports -->
+                <li class="reports_nav">
+                  <a href="javascript:;">
+                    <span class="nav-icon">
+                      <i class="fa fa-fw fa-bar-chart-o"></i>
+                    </span>
+                    <span class="nav-title">Reports</span>
+                    <span class="nav-tools">
+                      <i class="fa fa-fw arrow"></i>
+                    </span>
+                  </a>
+                  <ul class="nav nav-sub nav-stacked">
+                    
+                  </ul>
+                </li>
+                <!-- END: reports -->
+                <!-- BEGIN: forms -->
+                <li class="locations_nav">
+                  <a href="javascript:;">
+                    <span class="nav-icon">
+                      <i class="fa fa-fw fa-edit"></i>
+                    </span>
+                    <span class="nav-title">Manage Locations</span>
+                    <span class="nav-tools">
+                      <i class="fa fa-fw arrow"></i>
+                    </span>
+                  </a>
+                  <ul class="nav nav-sub nav-stacked">
+                    <li>                      
+                    </li>
+                  </ul>
+                </li>
+                <!-- END: forms -->
+                <!-- BEGIN: contract management -->
+                <li>
+                    <span class="nav-icon">
+                      <i class="fa fa-fw fa-edit"></i>
+                    </span>
+                    <span class="nav-title">Manage Contracts</span>
+                </li>
+                <!-- END: contract management -->
+              </ul>
+              <!-- END: nav-content -->
+            </nav>
+            <!-- END: .side-nav -->
+          </div>
+          <!-- END: .side-content -->
+        </aside>
+        <!-- END: .app-side -->
+        <!-- begin side-collapse-visible bar -->
+        <div class="side-visible-line hidden-xs" data-side="collapse">
+          <i class="fa fa-caret-left"></i>
+        </div>
+        <!-- begin side-collapse-visible bar -->
+        <% end %>
+        <!-- begin .app-main -->
+        <div class="app-main" id="mainContainer">
+
+          <!-- begin .main-content -->
+          <div class="main-content ">
+            <%= javascript_include_tag "application" %>
+             <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"
+   integrity="sha512-A7vV8IFfih/D732iSSKi20u/ooOfj/AGehOKq0f4vLT1Zr2Y+RX7C+w8A1gaSasGtRUZpF/NZgzSAu4/Gc41Lg=="
+   crossorigin=""></script>
+            <!-- begin .container-fluid -->
+            <div class="container-fluid p-t-15">
+             <%= render 'layouts/alerts' %>
+
+              <%= yield %>
+            </div>
+            <!-- END: .container-fluid -->
+
+          </div>
+          <!-- END: .main-content -->
+        </div>
+        <!-- END: .app-main -->
+      </div>
+      <!-- END: .app-container -->
+
+    </div>
+    <!-- END: .app-wrap -->
+  <!-- END: .app -->
+  <script>
+    $(function() {
+      
+      if (location.pathname.split("/").length > 2){
+        $('nav a[href^="' + location.pathname + '"]').addClass('active').parent().parent().parent().addClass('active').find('ul.collapse[aria-expanded="false"]').attr('aria-expanded', 'true').addClass('in').parent().find('a[href="javascript:;"]').attr('aria-expanded', 'true');
+      }
+      else{
+        if ($('.'+location.pathname.split("/")[1] + '_nav').length != -1)
+        {
+          $('.'+location.pathname.split("/")[1] + '_nav').addClass('active').find('ul.collapse[aria-expanded="false"]').attr('aria-expanded', 'true').addClass('in').parent().find('a[href="javascript:;"]').attr('aria-expanded', 'true');  
+        }
+      }
+
+      $("body").bind('change_size', function(){
+        e = setTimeout(setMaxWidth, 300);
+      })
+      setMaxWidth();
+      $( window ).resize(function(){ setMaxWidth() }); //Remove this if it's not needed. It will react when window changes size.
+
+      function setMaxWidth() {
+        side_nav = 0
+        if ($('body').hasClass('app-side-opened')){
+          side_nav = $('.side-visible-line').width() + $('.app-side').width()
+        }
+        $( "#mainContainer" ).css( "maxWidth", ( $( window ).width() - side_nav | 0 ) *.99 + "px" );
+      }
+
+    });
+  </script>
+  </body>
+</html>

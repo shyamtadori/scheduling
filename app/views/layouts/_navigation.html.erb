@@ -1,0 +1,134 @@
+ <!-- begin .navbar -->
+        <nav class="navbar navbar-default navbar-static-top shadow-2dp">
+          <!-- begin .navbar-header -->
+          <div class="navbar-header">
+            <!-- begin .navbar-header-left with image -->
+            <div class="navbar-header-left b-r">
+              <!--begin logo-->
+              <%= link_to reports_path, class: "logo" do %>
+                <span class="logo-lg hidden-xs">
+                   <%= image_tag('era_logo.png', alt: 'Era Logo') %>
+                </span>
+              <% end %>
+              <!--end logo-->
+            </div>
+            <% if current_user.first_name %>
+            <!-- END: .navbar-header-left with image -->
+            <nav class="nav navbar-header-nav">
+              <a class="visible-xs b-r" href="#" data-side=collapse>
+                <i class="fa fa-fw fa-bars"></i>
+              </a>
+              <a class="hidden-xs b-r" href="#" data-side=mini>
+                <i class="fa fa-fw fa-bars"></i>
+              </a>
+            </nav>
+            <ul class="nav navbar-header-nav m-l-a">
+              
+              <li class="dropdown b-l">
+                <a class="dropdown-toggle profile-pic" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                  <b class="hidden-xs hidden-sm">Logged in as <%= current_user.first_name %></b>
+                </a>
+                <ul class="dropdown-menu animated flipInY pull-right">
+                  <li>
+                    <%= link_to logout_path  do %>
+                        <i class="fa fa-fw fa-sign-out"></i>
+                        Logout
+                    <% end %>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+
+            <% end %>
+          </div>
+          <!-- END: .navbar-header -->
+        </nav>
+        <!-- END: .navbar -->
+      </header>
+      <!-- END:  .app-heading -->
+
+      <!-- begin .app-container -->
+      <div class="app-container">
+        <% if current_user.first_name %>
+        <!-- begin .app-side -->
+        <aside class="app-side">
+          <!-- begin .side-content -->
+          <div class="side-content">
+            <!-- begin user-panel -->
+            <div class="user-panel">
+              <div class="user-info">
+                <h5><%= current_user.first_name.to_s + " "+ current_user.last_name.to_s %></h5>
+                <ul class="nav">
+                  <li class="dropdown">
+                    <a href="#" class="text-turquoise small dropdown-toggle bg-transparent" data-toggle="dropdown">
+                      <i class="fa fa-fw fa-circle">
+                      </i> Online
+                    </a>
+                    <ul class="dropdown-menu animated flipInY pull-right">
+                      <li>
+                        <%= link_to logout_path  do %>
+                            <i class="fa fa-fw fa-sign-out"></i>
+                            Logout
+                        <% end %>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <!-- END: user-panel -->
+            <!-- begin .side-nav -->
+            <nav class="side-nav">
+              <!-- BEGIN: nav-content -->
+              <ul class="metismenu nav nav-inverse nav-bordered nav-stacked" data-plugin="metismenu">
+                <li class="nav-divider"></li>
+                <li class="nav-header">Components</li>
+                <!-- BEGIN: reports -->
+                <li class="reports_nav">
+                  <a href="javascript:;">
+                    <span class="nav-icon">
+                      <i class="fa fa-fw fa-bar-chart-o"></i>
+                    </span>
+                    <span class="nav-title">Reports</span>
+                    <span class="nav-tools">
+                      <i class="fa fa-fw arrow"></i>
+                    </span>
+                  </a>
+                  <ul class="nav nav-sub nav-stacked">
+                    
+                  </ul>
+                </li>
+                <!-- END: reports -->
+                <!-- BEGIN: forms -->
+                <li class="locations_nav">
+                  <a href="javascript:;">
+                    <span class="nav-icon">
+                      <i class="fa fa-fw fa-edit"></i>
+                    </span>
+                    <span class="nav-title">Manage Locations</span>
+                    <span class="nav-tools">
+                      <i class="fa fa-fw arrow"></i>
+                    </span>
+                  </a>
+                  <ul class="nav nav-sub nav-stacked">
+                    <li>                      
+                    </li>
+                  </ul>
+                </li>
+                <!-- END: forms -->
+                <!-- BEGIN: contract management -->
+                <li>
+                    <span class="nav-icon">
+                      <i class="fa fa-fw fa-edit"></i>
+                    </span>
+                    <span class="nav-title">Manage Contracts</span>
+                </li>
+                <!-- END: contract management -->
+              </ul>
+              <!-- END: nav-content -->
+            </nav>
+            <!-- END: .side-nav -->
+          </div>
+          <!-- END: .side-content -->
+        </aside>
+        <!-- END: .app-side -->
