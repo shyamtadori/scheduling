@@ -6,8 +6,8 @@
 #
 default: &default
   adapter: oracle_enhanced
-  username: era
-  password: v5rayi99
+  username: rss
+  password: 8f!QT6
   encoding: AMERICAN_AMERICA.WE8MSWIN1252
   pool: 5
   timeout: 5000
