@@ -7,6 +7,14 @@ class Hitch < ActiveRecord::Base
 	has_many :calendars_hitches
 	has_many :hitches, through: :calendars_hitches
 
+  validates_presence_of :name, :hour_start, :hour_end
+  validate :hour_end_is_after_hour_start
+  validate :hitch_type_should_not_be_null
+  validates_presence_of :days_on, :if => lambda { self.days_off && self.days_off > 0 }
+  validates_presence_of :days_off, :if => lambda { self.days_on && self.days_on > 0 }
+  validates_numericality_of :days_on, :only_integer => true, :greater_than => 0, :if => lambda { self.days_on && self.days_on == 0 }
+  validates_numericality_of :days_off, :only_integer => true, :greater_than => 0, :if => lambda { self.days_off && self.days_off == 0 }
+
 	before_create do
     self.created_by = User.current.id
     self.last_updated_by = User.current.id
@@ -97,5 +105,19 @@ class Hitch < ActiveRecord::Base
     working_days_array << 5 if self.fri
     working_days_array << 6 if self.sat
     working_days_array
+  end
+
+  private
+  def hour_end_is_after_hour_start
+    return if hour_end.blank? || hour_start.blank?
+
+    if hour_end <= hour_start
+      errors.add(:hour_end, "cannot be before the hour start")
+    end
+  end
+
+  def hitch_type_should_not_be_null
+    return if days_on || days_off
+    errors.add(:hitch, "choose hitch type")  if !mon && !tue && !wed && !thu && !fri && !sat
   end
 end
