@@ -511,7 +511,7 @@ textarea.md-text-area {
 .weekDays-selector input[type=checkbox] + label {
   display: inline-block;
   border-radius: 6px;
-  background: #3498db;
+  background: #dddddd;
   color: #ffffff;
   height: 40px;
   width: 30px;
@@ -522,7 +522,19 @@ textarea.md-text-area {
 }
 
 .weekDays-selector input[type=checkbox]:checked + label {
-  background: #dddddd;
+  background: #3498db;
+}
+
+.btn-white-blue:hover, .btn-white-blue.active:hover, .btn-white-blue.active:focus, .btn-white-blue.active {
+  color: #fff;
+  background-color: #3498db;
+  border-color: #2e6da4;
+}
+
+.btn-white-blue:focus{
+  color: #333;
+  background-color: #fff;
+  border-color: #ccc;
 }
 
 .no_bullets {

@@ -1,1 +1,83 @@
 <p>You're in</p>
+
+<div class="row">
+	<div class="col-md-6">
+		<div class="form-group">
+
+			<div class="col-md-6">
+				<button type="button" class="btn btn-default btn-block btn-white-blue work_type_selector" data-work-type="days_on_off">Days On/Off</button>
+			</div>
+			<div class="col-md-6">
+	    	<button type="button" class="btn btn-default btn-block btn-white-blue work_type_selector" data-work-type="week_days">Week Days</button>
+			</div>		
+		</div>
+		<div class="form-group" id="days-on-off-container">
+			<div class="form-group">
+        <label class="col-sm-2 control-label" for="hitch_days_on">Work Cycle</label>
+        <div class="col-sm-10">
+          <div class="row no-margin-l-r">
+            <div class="form-group col-md-6">
+              <div class="input-group-addon">
+                Days On
+              </div>
+              <input class="form-control" id="job_num_of_ac" name="hitch[days_on]" type="number">   
+            </div>
+            <div class="form-group col-md-6">
+              <div class="input-group-addon">
+                Days Off
+              </div>
+              <input class="form-control" id="job_num_of_ac" name="hitch[days_off]" type="number">
+            </div>
+          </div>
+        </div>
+      </div>
+		</div>
+		<div class="form-group" id="week-days-container">
+			<label class="col-sm-2 control-label">Work Days</label>
+			<div class="col-sm-10 weekDays-selector">
+			  <input name="job[sun]" type="hidden" value="0"><input id="job_sun" name="job[sun]" type="checkbox" value="1">
+			  <label for="job_sun">S</label>
+			  <input name="job[mon]" type="hidden" value="0"><input id="job_mon" name="job[mon]" type="checkbox" value="1">
+			  <label for="job_mon">M</label>
+			  <input name="job[tue]" type="hidden" value="0"><input id="job_tue" name="job[tue]" type="checkbox" value="1">
+			  <label for="job_tue">T</label>
+			  <input name="job[wed]" type="hidden" value="0"><input id="job_wed" name="job[wed]" type="checkbox" value="1">
+			  <label for="job_wed">W</label>
+			  <input name="job[thu]" type="hidden" value="0"><input id="job_thu" name="job[thu]" type="checkbox" value="1">
+			  <label for="job_thu">T</label>
+			  <input name="job[fri]" type="hidden" value="0"><input id="job_fri" name="job[fri]" type="checkbox" value="1">
+			  <label for="job_fri">F</label>
+			  <input name="job[sat]" type="hidden" value="0"><input id="job_sat" name="job[sat]" type="checkbox" value="1">
+			  <label for="job_sat">S</label>
+			</div>
+		</div>
+	</div>		
+</div>
+<script>
+	$('.btn-white-blue').on('click', function(){
+		if ($(this).hasClass('active')){
+			$(this).removeClass('active')
+		}
+		else{
+			$('.btn-white-blue').removeClass('active');
+			$(this).addClass('active');
+		}
+	})
+	$(document).ready(function(){
+		$('#days-on-off-container').hide();
+		$('#week-days-container').hide();
+	})
+
+	$('.work_type_selector').on('click', function(){
+		if ($(this).data('work-type') === "week_days" ){
+			$('#days-on-off-container').hide();
+			$('#week-days-container').show();
+		}
+		else{
+			$('#days-on-off-container').show();
+			$('#week-days-container').hide();
+		}
+	});
+
+</script>
+	
