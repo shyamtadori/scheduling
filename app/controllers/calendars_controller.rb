@@ -10,7 +10,7 @@ class CalendarsController < ApplicationController
 
   # GET /calendars/1
   # GET /calendars/1.json
-  def show
+  def show 
   end
 
   # GET /calendars/new
