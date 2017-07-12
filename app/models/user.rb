@@ -41,4 +41,11 @@ class User < ActiveRecord::Base
   def employee_id
     self[:employee_id].to_i  
   end
+
+  def self.current
+    Thread.current[:user]
+  end
+  def self.current=(user)
+    Thread.current[:user] = user
+  end
 end

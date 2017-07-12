@@ -1,0 +1,41 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Calendars Hitches</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Calendar</th>
+      <th>Hitch</th>
+      <th>Initial days on</th>
+      <th>Initial days off</th>
+      <th>Created by</th>
+      <th>Last updated by</th>
+      <th>Creation date</th>
+      <th>Last update date</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @calendars_hitches.each do |calendars_hitch| %>
+      <tr>
+        <td><%= calendars_hitch.calendar_id %></td>
+        <td><%= calendars_hitch.hitch_id %></td>
+        <td><%= calendars_hitch.initial_days_on %></td>
+        <td><%= calendars_hitch.initial_days_off %></td>
+        <td><%= calendars_hitch.created_by %></td>
+        <td><%= calendars_hitch.last_updated_by %></td>
+        <td><%= calendars_hitch.creation_date %></td>
+        <td><%= calendars_hitch.last_update_date %></td>
+        <td><%= link_to 'Show', calendars_hitch %></td>
+        <td><%= link_to 'Edit', edit_calendars_hitch_path(calendars_hitch) %></td>
+        <td><%= link_to 'Destroy', calendars_hitch, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Calendars hitch', new_calendars_hitch_path %>
