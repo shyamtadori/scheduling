@@ -165,14 +165,26 @@
                   </ul>
                 </li>
                 <!-- END: forms -->
-                <!-- BEGIN: contract management -->
-                <li>
-                    <span class="nav-icon">
-                      <i class="fa fa-fw fa-edit"></i>
-                    </span>
-                    <span class="nav-title">Manage Contracts</span>
-                </li>
-                <!-- END: contract management -->
+                <!-- BEGIN: Hitches management -->
+                  <li class="calendars_nav">
+                    <%= link_to calendars_path do %>
+                      <span class="nav-icon">
+                        <i class="fa fa-fw fa-edit"></i>
+                      </span>
+                      <span class="nav-title">Calendars</span>
+                    <%end%>
+                  </li>
+                <!-- END: Hitches management -->
+                <!-- BEGIN: Calendars management -->
+                  <li class="hitches_nav">
+                    <%= link_to hitches_path do %>
+                      <span class="nav-icon">
+                        <i class="fa fa-fw fa-edit"></i>
+                      </span>
+                      <span class="nav-title">Hitches</span>
+                    <%end%>
+                  </li>
+                <!-- END: Calendars management -->
               </ul>
               <!-- END: nav-content -->
             </nav>
@@ -216,8 +228,9 @@
   <!-- END: .app -->
   <script>
     $(function() {
-      
-      if (location.pathname.split("/").length > 2){
+      debugger
+      if (location.pathname.split("/").length >=1){
+
         $('nav a[href^="' + location.pathname + '"]').addClass('active').parent().parent().parent().addClass('active').find('ul.collapse[aria-expanded="false"]').attr('aria-expanded', 'true').addClass('in').parent().find('a[href="javascript:;"]').attr('aria-expanded', 'true');
       }
       else{
