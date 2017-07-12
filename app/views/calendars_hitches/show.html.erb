@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Calendar:</strong>
+  <%= @calendars_hitch.calendar_id %>
+</p>
+
+<p>
+  <strong>Hitch:</strong>
+  <%= @calendars_hitch.hitch_id %>
+</p>
+
+<p>
+  <strong>Initial days on:</strong>
+  <%= @calendars_hitch.initial_days_on %>
+</p>
+
+<p>
+  <strong>Initial days off:</strong>
+  <%= @calendars_hitch.initial_days_off %>
+</p>
+
+<p>
+  <strong>Created by:</strong>
+  <%= @calendars_hitch.created_by %>
+</p>
+
+<p>
+  <strong>Last updated by:</strong>
+  <%= @calendars_hitch.last_updated_by %>
+</p>
+
+<p>
+  <strong>Creation date:</strong>
+  <%= @calendars_hitch.creation_date %>
+</p>
+
+<p>
+  <strong>Last update date:</strong>
+  <%= @calendars_hitch.last_update_date %>
+</p>
+
+<%= link_to 'Edit', edit_calendars_hitch_path(@calendars_hitch) %> |
+<%= link_to 'Back', calendars_hitches_path %>

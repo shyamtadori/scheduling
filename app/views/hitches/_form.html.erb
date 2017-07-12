@@ -1,0 +1,65 @@
+<%= form_for(@hitch) do |f| %>
+  <% if @hitch.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@hitch.errors.count, "error") %> prohibited this hitch from being saved:</h2>
+
+      <ul>
+      <% @hitch.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :days_on %><br>
+    <%= f.number_field :days_on %>
+  </div>
+  <div class="field">
+    <%= f.label :days_off %><br>
+    <%= f.number_field :days_off %>
+  </div>
+  <div class="field">
+    <%= f.label :mon %><br>
+    <%= f.check_box :mon %>
+  </div>
+  <div class="field">
+    <%= f.label :tue %><br>
+    <%= f.check_box :tue %>
+  </div>
+  <div class="field">
+    <%= f.label :wed %><br>
+    <%= f.check_box :wed %>
+  </div>
+  <div class="field">
+    <%= f.label :thu %><br>
+    <%= f.check_box :thu %>
+  </div>
+  <div class="field">
+    <%= f.label :fri %><br>
+    <%= f.check_box :fri %>
+  </div>
+  <div class="field">
+    <%= f.label :sat %><br>
+    <%= f.check_box :sat %>
+  </div>
+  <div class="field">
+    <%= f.label :sun %><br>
+    <%= f.check_box :sun %>
+  </div>
+  <div class="field">
+    <%= f.label :hour_start %><br>
+    <%= f.datetime_select :hour_start %>
+  </div>
+  <div class="field">
+    <%= f.label :hour_end %><br>
+    <%= f.datetime_select :hour_end %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

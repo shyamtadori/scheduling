@@ -1,0 +1,45 @@
+<!-- <p id="notice"><%= notice %></p> -->
+
+<p>
+  <strong>Name:</strong>
+  <%= @calendar.name %>
+</p>
+
+<p>
+  <strong>Effective start date:</strong>
+  <%= @calendar.effective_start_date %>
+</p>
+
+<p>
+  <strong>Effective end date:</strong>
+  <%= @calendar.effective_end_date %>
+</p>
+
+<p>
+  <strong>Created by:</strong>
+  <%= @calendar.created_user_name %>
+</p>
+
+<p>
+  <strong>Last updated by:</strong>
+  <%= @calendar.last_upated_user_name %>
+</p>
+
+<p>
+  <strong>Creation date:</strong>
+  <%= @calendar.creation_date %>
+</p>
+
+<p>
+  <strong>Last update date:</strong>
+  <%= @calendar.last_update_date %>
+</p>
+
+<p>
+  <strong>Hitches:</strong>
+  <%= @calendar.hitches.length %>
+</p>
+
+<%= link_to 'Edit', edit_calendar_path(@calendar) %> |
+<%= link_to 'Back', calendars_path %> |
+<%= link_to 'Add Hitch', new_calendar_hitch_path(@calendar) %>

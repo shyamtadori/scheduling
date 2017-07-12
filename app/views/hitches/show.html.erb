@@ -1,0 +1,84 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @hitch.name %>
+</p>
+
+<p>
+  <strong>Days on:</strong>
+  <%= @hitch.days_on %>
+</p>
+
+<p>
+  <strong>Days off:</strong>
+  <%= @hitch.days_off %>
+</p>
+
+<p>
+  <strong>Mon:</strong>
+  <%= @hitch.mon %>
+</p>
+
+<p>
+  <strong>Tue:</strong>
+  <%= @hitch.tue %>
+</p>
+
+<p>
+  <strong>Wed:</strong>
+  <%= @hitch.wed %>
+</p>
+
+<p>
+  <strong>Thu:</strong>
+  <%= @hitch.thu %>
+</p>
+
+<p>
+  <strong>Fri:</strong>
+  <%= @hitch.fri %>
+</p>
+
+<p>
+  <strong>Sat:</strong>
+  <%= @hitch.sat %>
+</p>
+
+<p>
+  <strong>Sun:</strong>
+  <%= @hitch.sun %>
+</p>
+
+<p>
+  <strong>Hour start:</strong>
+  <%= @hitch.hour_start %>
+</p>
+
+<p>
+  <strong>Hour end:</strong>
+  <%= @hitch.hour_end %>
+</p>
+
+<p>
+  <strong>Created by:</strong>
+  <%= @hitch.created_user_name %>
+</p>
+
+<p>
+  <strong>Last updated by:</strong>
+  <%= @hitch.last_upated_user_name %>
+</p>
+
+<p>
+  <strong>Creation date:</strong>
+  <%= @hitch.creation_date %>
+</p>
+
+<p>
+  <strong>Last update date:</strong>
+  <%= @hitch.last_update_date %>
+</p>
+
+<%= link_to 'Edit', edit_hitch_path(@hitch) %> |
+<%= link_to 'Back', hitches_path %>
