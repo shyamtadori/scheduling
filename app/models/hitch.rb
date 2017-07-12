@@ -16,10 +16,6 @@ class Hitch < ActiveRecord::Base
 
   before_destroy do
   	# delete all calenders_hitch records
-    puts "*"*90
-    puts self.id
-    puts self.hitch_id
-    puts CalendarsHitch.where(:hitch_id => self.id).length
     CalendarsHitch.where(:hitch_id => self.id).destroy_all
   end
 

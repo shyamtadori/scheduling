@@ -25,6 +25,6 @@ class CalendarsHitch < ActiveRecord::Base
   end
 
   def id
-    calendar_id
+    cal_hitch_id
   end
 end

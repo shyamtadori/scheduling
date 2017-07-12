@@ -1,7 +1,7 @@
 class Calendar < ActiveRecord::Base
 	self.primary_key = 'calendar_id'
 
-	has_many :calendars_hitches#, dependent: :destroy
+	has_many :calendars_hitches
 	has_many :hitches, through: :calendars_hitches
 
 	before_create do
@@ -16,11 +16,7 @@ class Calendar < ActiveRecord::Base
 
   before_destroy do
   	# delete all calender hitch records
-  	 # puts "*"*90
-    # puts self.id
-    # puts self.calendar_id
-    puts CalendarsHitch.where(:calendar_id => self.id).length
-    CalendarsHitch.where('"CALENDARS_HITCHES"."CALENDAR_ID" = ?',self.id).destroy_all
+    CalendarsHitch.where(:calendar_id => self.id).destroy_all
   end
 
   def created_user_name
