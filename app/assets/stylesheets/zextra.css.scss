@@ -514,7 +514,7 @@ textarea.md-text-area {
   background: #dddddd;
   color: #ffffff;
   height: 40px;
-  width: 30px;
+  width: 40px;
   margin-right: 3px;
   line-height: 40px;
   text-align: center;
@@ -575,4 +575,13 @@ textarea.md-text-area {
 }
 .min-height-165{
   min-height: 165px;
+}
+.no-wrap{
+    white-space:nowrap;
+    text-align: left;
+}
+.secondary{
+  font-weight: 400;
+  line-height: 1;
+  color: #777;
 }

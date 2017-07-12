@@ -1,4 +1,4 @@
-<%= form_for(@hitch) do |f| %>
+<%= form_for(@hitch,  html: {class: "form-horizontal"}) do |f| %>
   <% if @hitch.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@hitch.errors.count, "error") %> prohibited this hitch from being saved:</h2>
@@ -10,56 +10,135 @@
       </ul>
     </div>
   <% end %>
-
-  <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
+<div class="row">
+  <div class="col-md-6">
+    <div class="form-group">
+      <%= f.label :name, class: "col-sm-2 control-label" %>
+      <div class="col-sm-10">
+        <%= f.text_field :name, class: "form-control"%>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Work Type</label>
+      <div class="col-md-10">
+        <div class="row">
+          <div class="col-md-6">
+            <label class="btn btn-default btn-block btn-white-blue work_type_selector <%= 'active' if @hitch.work_type == 'days_on_off' %>" data-work-type="days_on_off">
+            <input type="radio" name='work_type' class='hide' <%= 'checked' if @hitch.work_type == 'days_on_off' %>>Days On/Off</label>
+          </div>
+          <div class="col-md-6">
+            <label class="btn btn-default btn-block btn-white-blue work_type_selector <%= 'active' if @hitch.work_type == 'week_days' %>" data-work-type="week_days">
+            <input type="radio" name='work_type' class='hide' <%= 'checked' if @hitch.work_type == 'week_days' %>>Week Days</label>
+          </div>    
+        </div>
+      </div>
+    </div>
+    <div class="form-group work_type_option" id="week_days_container">
+      <label class="col-sm-2 control-label">Work Days</label>
+      <div class="col-sm-10 weekDays-selector">
+        <%= f.check_box :mon %>
+        <%= f.label :mon, 'Mon' %>
+        <%= f.check_box :tue %>
+        <%= f.label :tue, 'Tue' %>
+        <%= f.check_box :wed %>
+        <%= f.label :wed, 'Wed' %>
+        <%= f.check_box :thu %>
+        <%= f.label :thu, 'Thu' %>
+        <%= f.check_box :fri %>
+        <%= f.label :fri, 'Fri' %>
+        <%= f.check_box :sat %>
+        <%= f.label :sat, 'Sat' %>
+        <%= f.check_box :sun %>
+        <%= f.label :sun, 'Sun' %>
+      </div>
+    </div>
+    <div class="form-group work_type_option" id="days_on_off_container">
+      <label class="col-sm-2 control-label" for="hitch_days_on">Work Cycle</label>
+      <div class="col-sm-10">
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="input-group">
+              <div class="input-group-addon">
+                Days On
+              </div>
+              <%= f.number_field :days_on, class: 'form-control' %>  
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="input-group">
+              <div class="input-group-addon">
+                Days Off
+              </div>
+              <%= f.number_field :days_off, class: 'form-control'  %> 
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :hour_start, class: "col-sm-2 control-label" %>
+      <div class="col-sm-10">
+        <div class="input-group date">
+          <%= f.text_field :hour_start, value: @hitch.hour_start.try(:strftime, "%H:%M"), class: "form-control", id: 'hour_start'%>
+          <span class="input-group-addon">
+            HH24:MM
+          </span>
+        </div>  
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :hour_end, class: "col-sm-2 control-label" %>
+      <div class="col-sm-10">
+        <div class="input-group date">
+          <%= f.text_field :hour_end, value: @hitch.hour_end.try(:strftime, "%H:%M"), class: "form-control", id: 'hour_end'%>
+          <span class="input-group-addon">
+            HH24:MM
+          </span>
+        </div>  
+      </div>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :days_on %><br>
-    <%= f.number_field :days_on %>
+</div>
+<div class="row">
+  <div class="col-md-6 col-lg-6">
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <%= f.submit ( f.object.new_record? ? "Create" : "Update") + ' Hitch', class:"btn btn-default float-right" %>
+      </div>
+    </div> 
   </div>
-  <div class="field">
-    <%= f.label :days_off %><br>
-    <%= f.number_field :days_off %>
-  </div>
-  <div class="field">
-    <%= f.label :mon %><br>
-    <%= f.check_box :mon %>
-  </div>
-  <div class="field">
-    <%= f.label :tue %><br>
-    <%= f.check_box :tue %>
-  </div>
-  <div class="field">
-    <%= f.label :wed %><br>
-    <%= f.check_box :wed %>
-  </div>
-  <div class="field">
-    <%= f.label :thu %><br>
-    <%= f.check_box :thu %>
-  </div>
-  <div class="field">
-    <%= f.label :fri %><br>
-    <%= f.check_box :fri %>
-  </div>
-  <div class="field">
-    <%= f.label :sat %><br>
-    <%= f.check_box :sat %>
-  </div>
-  <div class="field">
-    <%= f.label :sun %><br>
-    <%= f.check_box :sun %>
-  </div>
-  <div class="field">
-    <%= f.label :hour_start %><br>
-    <%= f.datetime_select :hour_start %>
-  </div>
-  <div class="field">
-    <%= f.label :hour_end %><br>
-    <%= f.datetime_select :hour_end %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+</div> 
+<script>
+  $(function(){
+    $("#hour_start").datetimepicker({
+      format: 'H:mm'
+    });
+    $("#hour_end").datetimepicker({
+      format: 'H:mm'
+    });
+    $("#hour_start").on("dp.change", function (e) {
+        $('#hour_end').data("DateTimePicker").minDate(e.date);
+    });
+    $("#hour_end").on("dp.change", function (e) {
+        $('#hour_start').data("DateTimePicker").maxDate(e.date);
+    });
+  });
+  $(document).ready(function(){
+    $('.work_type_option').hide();
+    $('#<%= @hitch.work_type %>_container').show();
+  })
+  $('.work_type_selector').on('click', function(){
+    $('.btn-white-blue').removeClass('active');
+    $(this).addClass('active');
+    if ($(this).data('work-type') === "week_days" ){
+      $('#days_on_off_container').hide();
+      $('#week_days_container').show();
+    }
+    else{
+      $('#days_on_off_container').show();
+      $('#week_days_container').hide();
+    }
+  });
+</script>
+ 
 <% end %>

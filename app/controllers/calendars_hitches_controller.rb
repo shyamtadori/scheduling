@@ -1,4 +1,5 @@
 class CalendarsHitchesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_calendars_hitch, only: [:show, :edit, :update, :destroy]
 
   # GET /calendars_hitches

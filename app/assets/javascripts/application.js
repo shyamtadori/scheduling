@@ -21,10 +21,10 @@
 //= require inputmask.phone.extentions
 //= require jquery.inputmask
 //= require pace.min.js
-//= require vendor.js
 //= require perfect-scrollbar.jquery.min.js
 //= require zchl.min.js
-//= require bootstrap-datepicker.min.js
+//= require moment
+//= require bootstrap-datetimepicker
 //= require_tree .
 
 function isHidden(el) {

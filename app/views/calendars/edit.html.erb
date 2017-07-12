@@ -1,6 +1,7 @@
-<h1>Editing Calendar</h1>
+<ol class="breadcrumb">
+  <li><%= link_to "Manage Calendars", calendars_path %></li>
+  <li class="active">Editing Calendar <%= link_to @calendar.name, @calendar %></li>
+</ol>
 
 <%= render 'form' %>
 
-<%= link_to 'Show', @calendar %> |
-<%= link_to 'Back', calendars_path %>

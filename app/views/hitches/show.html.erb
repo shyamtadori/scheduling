@@ -1,84 +1,145 @@
-<p id="notice"><%= notice %></p>
+<ol class="breadcrumb">
+  <li><%= link_to "Manage Hitches", hitches_path %></li>
+  <li class="active">Editing Hitch <%= link_to @hitch.name, @hitch %></li>
+</ol>
+<div class="row">
+  <div class="col-md-12">
+    <h2>
+      <div class="row">
+        <div class="col-md-11">
+          Hitch <%= @hitch.name %> 
+          <%= link_to edit_hitch_path(@hitch), class: 'btn btn-default' do %> 
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+            Edit
+          <% end %>
+        </div>
+        <div class="col-md-1">
+          <i class="fa fa-chevron-down float-right" aria-hidden="true" data-toggle="collapse" data-target="#hitch_details" aria-expanded="false" aria-controls="hitch_details"></i>
+        </div>
+      </div>
+    </h2>
+    <hr>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-8">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-sm-8">Associated Pilots</div>
+          <div class="col-sm-4 float-right" id="hitch-search-container"></div>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="row expaneded">
+          <div class="col-sm-12">
+            <div class="row">
+              <div class="col-sm-6">
+                <button type="button" data-url-path="#" class="btn btn-default filter_status" id="associated_pilot_status"><%= 'Active' %></button>
+              </div>
+              <div class="col-sm-6">
+                <%= link_to '#', class: 'btn btn-info float-right' do %>
+                  <i class="fa fa-plus-square" aria-hidden="true"></i>
+                  Add Pilots
+                <% end %>
+              </div>    
+            </div>
+          
+          <% if @pilots.present? %>
+            <table class='table table-striped datatable'>
+              <thead>
+                <tr>
+                  <th>Last Name</th>
+                  <th>First Name</th>
+                  <th></th>
+                </tr>
+              </thead>
 
-<p>
-  <strong>Name:</strong>
-  <%= @hitch.name %>
-</p>
-
-<p>
-  <strong>Days on:</strong>
-  <%= @hitch.days_on %>
-</p>
-
-<p>
-  <strong>Days off:</strong>
-  <%= @hitch.days_off %>
-</p>
-
-<p>
-  <strong>Mon:</strong>
-  <%= @hitch.mon %>
-</p>
-
-<p>
-  <strong>Tue:</strong>
-  <%= @hitch.tue %>
-</p>
-
-<p>
-  <strong>Wed:</strong>
-  <%= @hitch.wed %>
-</p>
-
-<p>
-  <strong>Thu:</strong>
-  <%= @hitch.thu %>
-</p>
-
-<p>
-  <strong>Fri:</strong>
-  <%= @hitch.fri %>
-</p>
-
-<p>
-  <strong>Sat:</strong>
-  <%= @hitch.sat %>
-</p>
-
-<p>
-  <strong>Sun:</strong>
-  <%= @hitch.sun %>
-</p>
-
-<p>
-  <strong>Hour start:</strong>
-  <%= @hitch.hour_start %>
-</p>
-
-<p>
-  <strong>Hour end:</strong>
-  <%= @hitch.hour_end %>
-</p>
-
-<p>
-  <strong>Created by:</strong>
-  <%= @hitch.created_user_name %>
-</p>
-
-<p>
-  <strong>Last updated by:</strong>
-  <%= @hitch.last_upated_user_name %>
-</p>
-
-<p>
-  <strong>Creation date:</strong>
-  <%= @hitch.creation_date %>
-</p>
-
-<p>
-  <strong>Last update date:</strong>
-  <%= @hitch.last_update_date %>
-</p>
-
-<%= link_to 'Edit', edit_hitch_path(@hitch) %> |
-<%= link_to 'Back', hitches_path %>
+              <tbody>
+                <% @pilots.each do |pilot| %>
+                  <tr>
+                    <td><%= pilot.last_name %></td>
+                    <td><%= pilot.first_name %></td>
+                    <td>Remove from hitch</td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          <% else %>
+            <h3>No Pilots found</h3>
+          <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Details
+      </div>
+        <!-- /.panel-heading -->
+      <div class="panel-body">
+        <div class="list-group">
+            <span class="list-group-item">
+              <i class="fa fa-user-circle-o fa-fw"></i> Name
+              <span class="pull-right text-muted small"><em><%= @hitch.name %></em>
+              </span>
+            </span>
+            <span class="list-group-item">
+              <% if @hitch.work_type == 'week_days' %>
+                <i class="fa fa-calendar-check-o fa-fw"></i> Work Days
+                <span class="pull-right text-muted small">
+                  <em class="no-wrap">
+                    <span class='label label-<%= @hitch.mon ? "primary" : "default" %>'>Mon</span>
+                    <span class='label label-<%= @hitch.tue ? "primary" : "default" %>'>Tue</span>
+                    <span class='label label-<%= @hitch.wed ? "primary" : "default" %>'>Wed</span>
+                    <span class='label label-<%= @hitch.thu ? "primary" : "default" %>'>Thu</span>
+                    <span class='label label-<%= @hitch.fri ? "primary" : "default" %>'>Fri</span>
+                    <span class='label label-<%= @hitch.sat ? "primary" : "default" %>'>Sat</span>
+                    <span class='label label-<%= @hitch.sun ? "primary" : "default" %>'>Sun</span>
+                  </em>
+                </span>
+              <% else %>
+                <i class="fa fa-calendar-check-o fa-fw"></i> Days On/Off
+                <span class="pull-right text-muted small"><em><%= @hitch.days_on %>/<%= @hitch.days_off %></em>
+                </span>
+              <% end %>
+            </span>
+            <span class="list-group-item">
+                <i class="fa fa-clock-o fa-fw"></i> Hour Start
+                <span class="pull-right text-muted small"><em><%= time_format(@hitch.hour_start) %></em>
+                </span>
+            </span>
+            <span class="list-group-item">
+                <i class="fa fa-clock-o fa-fw"></i> Hour End
+                <span class="pull-right text-muted small"><em><%= time_format(@hitch.hour_end) %></em>
+                </span>
+            </span>
+            <span class="list-group-item">
+                <i class="fa fa-user fa-fw"></i> Create By
+                <span class="pull-right text-muted small"><em><%= @hitch.created_user_name %></em>
+                </span>
+            </span>
+            <span class="list-group-item">
+                <i class="fa fa-calendar fa-fw"></i> Creation Date
+                <span class="pull-right text-muted small"><em><%= date_format(@hitch.creation_date) %></em>
+                </span>
+            </span>
+            <span class="list-group-item">
+                <i class="fa fa-user fa-fw"></i> Last Updated By
+                <span class="pull-right text-muted small"><em><%= @hitch.last_upated_user_name %></em>
+                </span>
+            </span>
+            <span class="list-group-item">
+                <i class="fa fa-calendar fa-fw"></i> Last Updated At
+                <span class="pull-right text-muted small"><em><%= date_format(@hitch.last_update_date) %></em>
+                </span>
+            </span>
+        </div>
+        <!-- /.list-group -->
+      </div>
+      <!-- /.panel-body -->
+    </div>
+  </div>
+</div>

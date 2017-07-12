@@ -1,6 +1,7 @@
 <h1>Editing Hitch</h1>
-
+<ol class="breadcrumb">
+  <li><%= link_to "Manage Hitches", hitches_path %></li>
+  <li class="active">Editing Hitch <%= link_to @hitch.name, @hitch %></li>
+</ol>
 <%= render 'form' %>
 
-<%= link_to 'Show', @hitch %> |
-<%= link_to 'Back', hitches_path %>

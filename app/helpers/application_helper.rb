@@ -29,4 +29,17 @@ module ApplicationHelper
     end
     nil
   end
+
+  def date_format(date)
+    date.strftime("%m-%d-%Y")
+  end
+
+  def date_time_format(date)
+    date.strftime("%m-%d-%Y %H:%M")
+  end
+
+  def time_format(date)
+    date.strftime("%H:%M")
+  end
+  
 end

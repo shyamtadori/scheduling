@@ -131,40 +131,6 @@
               <!-- BEGIN: nav-content -->
               <ul class="metismenu nav nav-inverse nav-bordered nav-stacked" data-plugin="metismenu">
                 <li class="nav-divider"></li>
-                <li class="nav-header">Components</li>
-                <!-- BEGIN: reports -->
-                <li class="reports_nav">
-                  <a href="javascript:;">
-                    <span class="nav-icon">
-                      <i class="fa fa-fw fa-bar-chart-o"></i>
-                    </span>
-                    <span class="nav-title">Reports</span>
-                    <span class="nav-tools">
-                      <i class="fa fa-fw arrow"></i>
-                    </span>
-                  </a>
-                  <ul class="nav nav-sub nav-stacked">
-                    
-                  </ul>
-                </li>
-                <!-- END: reports -->
-                <!-- BEGIN: forms -->
-                <li class="locations_nav">
-                  <a href="javascript:;">
-                    <span class="nav-icon">
-                      <i class="fa fa-fw fa-edit"></i>
-                    </span>
-                    <span class="nav-title">Manage Locations</span>
-                    <span class="nav-tools">
-                      <i class="fa fa-fw arrow"></i>
-                    </span>
-                  </a>
-                  <ul class="nav nav-sub nav-stacked">
-                    <li>                      
-                    </li>
-                  </ul>
-                </li>
-                <!-- END: forms -->
                 <!-- BEGIN: Hitches management -->
                   <li class="calendars_nav">
                     <%= link_to calendars_path do %>
@@ -228,7 +194,6 @@
   <!-- END: .app -->
   <script>
     $(function() {
-      debugger
       if (location.pathname.split("/").length >=1){
 
         $('nav a[href^="' + location.pathname + '"]').addClass('active').parent().parent().parent().addClass('active').find('ul.collapse[aria-expanded="false"]').attr('aria-expanded', 'true').addClass('in').parent().find('a[href="javascript:;"]').attr('aria-expanded', 'true');
