@@ -13,11 +13,11 @@
 
   <div class="field">
     <%= f.label :hitch_id %><br>
-    <%= f.number_field :hitch_id %>
+    <%= f.collection_select :hitch_id, Hitch.all, :id, :name %>
   </div>
   <div class="field">
     <%= f.label :employee_id %><br>
-    <%= f.number_field :employee_id %>
+    <%= f.collection_select :employee_id, User.pilot, :id, :username %>
   </div>
   <div class="field">
     <%= f.label :effective_start_date %><br>
@@ -27,23 +27,13 @@
     <%= f.label :effective_end_date %><br>
     <%= f.datetime_select :effective_end_date %>
   </div>
-  <div class="field">
-    <%= f.label :created_by %><br>
-    <%= f.number_field :created_by %>
-  </div>
-  <div class="field">
-    <%= f.label :last_updated_by %><br>
-    <%= f.number_field :last_updated_by %>
-  </div>
-  <div class="field">
-    <%= f.label :creation_date %><br>
-    <%= f.datetime_select :creation_date %>
-  </div>
-  <div class="field">
-    <%= f.label :last_update_date %><br>
-    <%= f.datetime_select :last_update_date %>
-  </div>
   <div class="actions">
     <%= f.submit %>
   </div>
 <% end %>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("#pilots_hitch_employee_id").select2();
+  });
+</script>

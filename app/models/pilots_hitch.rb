@@ -1,6 +1,6 @@
 class PilotsHitch < ActiveRecord::Base
 	belongs_to :hitch
-	belongs_to :pilot, , class_name: "User", foreign_key: "employee_id"
+	belongs_to :pilot, class_name: "User", foreign_key: "employee_id"
 
 	validates_presence_of :hitch
 	validates_presence_of :pilot

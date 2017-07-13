@@ -18,6 +18,8 @@ class User < ActiveRecord::Base
   
   has_many :pilots_hitches
   
+  scope :pilot, -> { where(pilot: true) }
+
   def readonly?
     true
   end
