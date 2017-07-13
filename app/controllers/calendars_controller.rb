@@ -1,4 +1,5 @@
 class CalendarsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_calendar, only: [:show, :edit, :update, :destroy]
 
 
@@ -11,6 +12,10 @@ class CalendarsController < ApplicationController
   # GET /calendars/1
   # GET /calendars/1.json
   def show
+    @calendars_hitches = @calendar.calendars_hitches.includes(:hitch)
+    puts '='*100
+    puts @calendars_hitches.length
+    puts '='*100
   end
 
   # GET /calendars/new
@@ -26,7 +31,12 @@ class CalendarsController < ApplicationController
   # POST /calendars.json
   def create
     @calendar = Calendar.new(calendar_params)
-
+    if params[:calendar].has_key?(:effective_start_date)
+      @calendar.effective_start_date = Date.strptime(params[:calendar][:effective_start_date], "%m/%d/%Y") rescue nil
+    end
+    if params[:calendar].has_key?(:effective_end_date)
+      @calendar.effective_end_date = Date.strptime(params[:calendar][:effective_end_date], "%m/%d/%Y") rescue nil
+    end
     respond_to do |format|
       if @calendar.save
         format.html { redirect_to @calendar, notice: 'Calendar was successfully created.' }
@@ -41,8 +51,15 @@ class CalendarsController < ApplicationController
   # PATCH/PUT /calendars/1
   # PATCH/PUT /calendars/1.json
   def update
+    @calendar.assign_attributes(calendar_params)
+    if params[:calendar].has_key?(:effective_start_date)
+      @calendar.effective_start_date = Date.strptime(params[:calendar][:effective_start_date], "%m/%d/%Y") rescue nil
+    end
+    if params[:calendar].has_key?(:effective_end_date)
+      @calendar.effective_end_date = Date.strptime(params[:calendar][:effective_end_date], "%m/%d/%Y") rescue nil
+    end
     respond_to do |format|
-      if @calendar.update(calendar_params)
+      if @calendar.save
         format.html { redirect_to @calendar, notice: 'Calendar was successfully updated.' }
         format.json { render :show, status: :ok, location: @calendar }
       else

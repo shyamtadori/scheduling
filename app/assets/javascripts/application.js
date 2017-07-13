@@ -12,16 +12,19 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require dataTables/jquery.dataTables
+//= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
+//= require dataTables/jquery.dataTables
 //= require jquery-ui
 //= require inputmask
 //= require inputmask.extensions
 //= require inputmask.phone.extentions
 //= require jquery.inputmask
 //= require pace.min.js
-//= require vendor.js
 //= require perfect-scrollbar.jquery.min.js
 //= require zchl.min.js
-//= require bootstrap-datepicker.min.js
+//= require moment
+//= require bootstrap-datetimepicker
 //= require_tree .
 
 function isHidden(el) {

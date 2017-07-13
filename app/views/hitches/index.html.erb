@@ -1,57 +1,62 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Listing Hitches</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Days on</th>
-      <th>Days off</th>
-      <th>Mon</th>
-      <th>Tue</th>
-      <th>Wed</th>
-      <th>Thu</th>
-      <th>Fri</th>
-      <th>Sat</th>
-      <th>Sun</th>
-      <th>Hour start</th>
-      <th>Hour end</th>
-      <th>Created by</th>
-      <th>Last updated by</th>
-      <th>Creation date</th>
-      <th>Last update date</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @hitches.each do |hitch| %>
-      <tr>
-        <td><%= hitch.name %></td>
-        <td><%= hitch.days_on %></td>
-        <td><%= hitch.days_off %></td>
-        <td><%= hitch.mon %></td>
-        <td><%= hitch.tue %></td>
-        <td><%= hitch.wed %></td>
-        <td><%= hitch.thu %></td>
-        <td><%= hitch.fri %></td>
-        <td><%= hitch.sat %></td>
-        <td><%= hitch.sun %></td>
-        <td><%= hitch.hour_start %></td>
-        <td><%= hitch.hour_end %></td>
-        <td><%= hitch.created_user_name %></td>
-        <td><%= hitch.last_upated_user_name %></td>
-        <td><%= hitch.creation_date %></td>
-        <td><%= hitch.last_update_date %></td>
-        <td><%= link_to 'Show', hitch %></td>
-        <td><%= link_to 'Edit', edit_hitch_path(hitch) %></td>
-        <td><%= link_to 'Destroy', hitch, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+<div class="row">
+  <div class="col-md-10">
+  <h1>Listing Hitches 
+    <%= link_to new_hitch_path, class: 'float-right btn btn-primary' do  %>
+      <i class="fa fa-plus" aria-hidden="true"></i>
+      New Hitch
     <% end %>
-  </tbody>
-</table>
+  </h1>
+  <table class='table table-striped datatable'>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Days on/off</th>
+        <th>Week Days</th>
+        <th>Hour start</th>
+        <th>Hour end</th>
+        <th>Created by</th>
+        <th>Last updated by</th>
+        <th>Creation date</th>
+        <th>Last update date</th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
 
-<br>
+    <tbody>
+      <% @hitches.each do |hitch| %>
+        <tr>
+          <td><%= hitch.name %></td>
+          <td><%= hitch.days_on || 'N' %>/<%= hitch.days_off || 'A'%></td>
+          <td class="no-wrap">
+            <span class='label label-<%= hitch.mon ? "primary" : "default" %>'>Mon</span>
+            <span class='label label-<%= hitch.tue ? "primary" : "default" %>'>Tue</span>
+            <span class='label label-<%= hitch.wed ? "primary" : "default" %>'>Wed</span>
+            <span class='label label-<%= hitch.thu ? "primary" : "default" %>'>Thu</span>
+            <span class='label label-<%= hitch.fri ? "primary" : "default" %>'>Fri</span>
+            <span class='label label-<%= hitch.sat ? "primary" : "default" %>'>Sat</span>
+            <span class='label label-<%= hitch.sun ? "primary" : "default" %>'>Sun</span>
+          </td>
+          <td><%= time_format(hitch.hour_start) %></td>
+          <td><%= time_format(hitch.hour_end) %></td>
+          <td><%= hitch.created_user_name %></td>
+          <td><%= hitch.last_upated_user_name %></td>
+          <td><%= date_time_format(hitch.creation_date) %></td>
+          <td><%= date_time_format(hitch.last_update_date) %></td>
+          <td><%= link_to 'Show', hitch %></td>
+          <td><%= link_to 'Edit', edit_hitch_path(hitch) %></td>
+          <td><%= link_to 'Destroy', hitch, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<script>
+  $(function(){
+    $('.datatable').DataTable();
+  })
+</script>
 
-<%= link_to 'New Hitch', new_hitch_path %>

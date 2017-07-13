@@ -1,4 +1,4 @@
-<%= form_for(@calendars_hitch) do |f| %>
+<%= form_for([@calendar, @calendars_hitch],  html: {class: "form-horizontal"}) do |f| %>
   <% if @calendars_hitch.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@calendars_hitch.errors.count, "error") %> prohibited this calendars_hitch from being saved:</h2>
@@ -10,39 +10,86 @@
       </ul>
     </div>
   <% end %>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            Select a Hitch
+          </div>
+          <div class="panel-body">
+            <% if @hitches.blank? %>
+              <h2>No Hitches available to assign</h2>
+            <% else %>
+              <table class='table table-striped datatable'>
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Days on/off</th>
+                    <th>Week Days</th>
+                    <th>Hour start</th>
+                    <th>Hour end</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @hitches.each do |hitch| %>
+                    <tr>
+                      <td><%= f.radio_button :hitch_id, hitch.id %></td>
+                      <td><%= hitch.name %></td>
+                      <td><%= hitch.days_on || 'N' %>/<%= hitch.days_off || 'A'%></td>
+                      <td class="no-wrap">
+                        <span class='label label-<%= hitch.mon ? "primary" : "default" %>'>Mon</span>
+                        <span class='label label-<%= hitch.tue ? "primary" : "default" %>'>Tue</span>
+                        <span class='label label-<%= hitch.wed ? "primary" : "default" %>'>Wed</span>
+                        <span class='label label-<%= hitch.thu ? "primary" : "default" %>'>Thu</span>
+                        <span class='label label-<%= hitch.fri ? "primary" : "default" %>'>Fri</span>
+                        <span class='label label-<%= hitch.sat ? "primary" : "default" %>'>Sat</span>
+                        <span class='label label-<%= hitch.sun ? "primary" : "default" %>'>Sun</span>
+                      </td>
+                      <td><%= time_format(hitch.hour_start) %></td>
+                      <td><%= time_format(hitch.hour_end) %></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <h3><small>Advanced Options</small></h3>
+      <hr>
+      <div class="form-group">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="panel panel-default">
+              <div class="panel-heading">Days on</div>
+              <div class="panel-body">
+                <div class="input-group">
+                  <div class="input-group-addon"># of Days Off</div>
+                  <%= f.number_field :initial_days_on, class: 'form-control' %>
+                </div>
+                This will shorten or lengthen the initial amount of days this hitch is scheduled to work.  After the number of days you enter, this hitch will be scheduled off and on normally
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="panel panel-default">
+              <div class="panel-heading">Days off</div>
+              <div class="panel-body">
+                <div class="input-group">
+                  <div class="input-group-addon"># of Days Off</div>
+                  <%= f.number_field :initial_days_off, class: 'form-control' %>
+                </div>
+                This will shorten or lengthen the initial amount of days this hitch is scheduled to be off.  After the number of days you enter, this hitch will be scheduled on and off normally
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  <div class="field">
-    <%= f.label :calendar_id %><br>
-    <%= f.hidden_field :calendar_id, :value => @calendar.id %>
-  </div>
-  <div class="field">
-    <%= f.label :hitch_id %><br>
-    <%= f.collection_select :hitch_id, Hitch.all, :id, :name %>
-  </div>
-  <div class="field">
-    <%= f.label :initial_days_on %><br>
-    <%= f.number_field :initial_days_on %>
-  </div>
-  <div class="field">
-    <%= f.label :initial_days_off %><br>
-    <%= f.number_field :initial_days_off %>
-  </div>
-  <!-- <div class="field">
-    <%= f.label :created_by %><br>
-    <%= f.number_field :created_by %>
-  </div>
-  <div class="field">
-    <%= f.label :last_updated_by %><br>
-    <%= f.number_field :last_updated_by %>
-  </div>
-  <div class="field">
-    <%= f.label :creation_date %><br>
-    <%= f.datetime_select :creation_date %>
-  </div>
-  <div class="field">
-    <%= f.label :last_update_date %><br>
-    <%= f.datetime_select :last_update_date %>
-  </div> -->
   <div class="actions">
     <%= f.submit "Save" %>
   </div>

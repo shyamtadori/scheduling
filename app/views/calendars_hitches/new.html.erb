@@ -1,5 +1,7 @@
 <h1>Add Hitch to <%= @calendar.name %></h1>
-
+<ol class="breadcrumb">
+  <li><%= link_to "Manage Calendars", calendars_path %></li>
+  <li><%= link_to "Calendar #{@calendar.name}", @calendar %></li>
+  <li class="active">Adding Hitch Association </li>
+</ol>
 <%= render 'form' %>
-
-<%= link_to 'Back', calendars_hitches_path %>

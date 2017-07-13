@@ -1,6 +1,7 @@
 class CalendarsHitchesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_calendars_hitch, only: [:show, :edit, :update, :destroy]
-
+  before_action :set_calendar
   # GET /calendars_hitches
   # GET /calendars_hitches.json
   def index
@@ -16,6 +17,7 @@ class CalendarsHitchesController < ApplicationController
   def new
     @calendars_hitch = CalendarsHitch.new
     @calendar = Calendar.find(params[:calendar_id])
+    @hitches = Hitch.joins('left outer join "CALENDARS_HITCHES" on "CALENDARS_HITCHES"."HITCH_ID" = "HITCHES"."HITCH_ID"and "CALENDARS_HITCHES"."CALENDAR_ID" = '+ @calendar.id.to_s).where('"CALENDARS_HITCHES"."CAL_HITCH_ID" is null')
   end
 
   # GET /calendars_hitches/1/edit
@@ -26,9 +28,8 @@ class CalendarsHitchesController < ApplicationController
   # POST /calendars_hitches
   # POST /calendars_hitches.json
   def create
-    @calendars_hitch = CalendarsHitch.new(calendars_hitch_params)
-    @calendar = Calendar.find(params[:calendars_hitch][:calendar_id])
-
+    @calendars_hitch = @calendar.calendars_hitches.new(calendars_hitch_params)
+  
     respond_to do |format|
       if @calendars_hitch.save
         format.html { redirect_to @calendar, notice: 'hitch was successfully added.' }
@@ -68,6 +69,10 @@ class CalendarsHitchesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_calendars_hitch
       @calendars_hitch = CalendarsHitch.find(params[:id])
+    end
+
+    def set_calendar
+      @calendar = Calendar.find(params[:calendar_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

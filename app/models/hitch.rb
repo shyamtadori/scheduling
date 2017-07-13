@@ -32,4 +32,13 @@ class Hitch < ActiveRecord::Base
   def id
     hitch_id
   end
+
+
+  def work_type
+    if mon or tue or wed or thu or fri or sat or sun
+      "week_days"
+    else
+      "days_on_off"
+    end
+  end
 end

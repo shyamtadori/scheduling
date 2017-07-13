@@ -1,4 +1,5 @@
 class HitchesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_hitch, only: [:show, :edit, :update, :destroy]
 
   # GET /hitches
@@ -8,6 +9,7 @@ class HitchesController < ApplicationController
 
   # GET /hitches/1
   def show
+    @pilots = nil
   end
 
   # GET /hitches/new
