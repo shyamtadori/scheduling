@@ -2,13 +2,11 @@ class PilotsHitchesController < ApplicationController
   before_action :set_pilots_hitch, only: [:show, :edit, :update, :destroy]
 
   # GET /pilots_hitches
-  # GET /pilots_hitches.json
   def index
     @pilots_hitches = PilotsHitch.all
   end
 
   # GET /pilots_hitches/1
-  # GET /pilots_hitches/1.json
   def show
   end
 
@@ -22,7 +20,6 @@ class PilotsHitchesController < ApplicationController
   end
 
   # POST /pilots_hitches
-  # POST /pilots_hitches.json
   def create
     @pilots_hitch = PilotsHitch.new(pilots_hitch_params)
 
@@ -38,7 +35,6 @@ class PilotsHitchesController < ApplicationController
   end
 
   # PATCH/PUT /pilots_hitches/1
-  # PATCH/PUT /pilots_hitches/1.json
   def update
     respond_to do |format|
       if @pilots_hitch.update(pilots_hitch_params)
@@ -52,7 +48,6 @@ class PilotsHitchesController < ApplicationController
   end
 
   # DELETE /pilots_hitches/1
-  # DELETE /pilots_hitches/1.json
   def destroy
     @pilots_hitch.destroy
     respond_to do |format|
@@ -69,6 +64,6 @@ class PilotsHitchesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def pilots_hitch_params
-      params.require(:pilots_hitch).permit(:hitch_id, :employee_id, :effective_start_date, :effective_end_date, :created_by, :last_updated_by, :creation_date, :last_update_date)
+      params.require(:pilots_hitch).permit(:hitch_id, :employee_id, :effective_start_date, :effective_end_date)
     end
 end
