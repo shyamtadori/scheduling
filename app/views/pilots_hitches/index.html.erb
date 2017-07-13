@@ -20,12 +20,12 @@
   <tbody>
     <% @pilots_hitches.each do |pilots_hitch| %>
       <tr>
-        <td><%= pilots_hitch.hitch_id %></td>
-        <td><%= pilots_hitch.employee_id %></td>
+        <td><%= pilots_hitch.hitch.name %></td>
+        <td><%= pilots_hitch.pilot.username %></td>
         <td><%= pilots_hitch.effective_start_date %></td>
         <td><%= pilots_hitch.effective_end_date %></td>
-        <td><%= pilots_hitch.created_by %></td>
-        <td><%= pilots_hitch.last_updated_by %></td>
+        <td><%= pilots_hitch.created_user_name %></td>
+        <td><%= pilots_hitch.last_upated_user_name %></td>
         <td><%= pilots_hitch.creation_date %></td>
         <td><%= pilots_hitch.last_update_date %></td>
         <td><%= link_to 'Show', pilots_hitch %></td>
