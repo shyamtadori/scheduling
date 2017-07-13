@@ -1,2 +1,65 @@
-<p>You're in</p>
+<table id="user_table">
+  
+  <thead>
+    <tr>
+      <th>Last name</th>
+      <th>First name</th>
+      <th>Username</th>
+      <th>Pilot</th>
+      <th>Job description</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tfoot class="search_header">
+    <tr>
+      <th class="search">Last name</th>
+      <th class="search">First name</th>
+      <th class="search">Username</th>
+      <th class="search">Pilot</th>
+      <th class="search">Job description</th>
+      <th class="search">Status</th>
+      <th></th>
+    </tr>
+  </tfoot>
+  <tbody>
+    <% @users.each do |user| %>
+    <tr>
+      <td><%= user.last_name %></td>
+      <td><%= user.first_name %></td>
+      <td><%= user.username %></td>
+      <td><%= user.pilot %></td>
+      <td><%= user.job_description %></td>
+      <td><%= user.status %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+
+<script>
+$(document).ready(function(){
+
+  $('#user_table .search_header th.search').each( function () {
+      var title = $(this).text();
+      $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+  } );
+
+  var user_table = $("#user_table").DataTable({
+    "order": [[0, "asc"]]
+
+  });
+
+  user_table.columns().every( function () {
+      var that = this;
+
+      $( 'input', this.footer() ).on( 'keyup change', function () {
+          if ( that.search() !== this.value ) {
+              that
+                  .search( this.value )
+                  .draw();
+          }
+      } );
+  } );
+});
+</script>
 
