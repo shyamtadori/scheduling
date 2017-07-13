@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   
 
+  resources :pilots_hitches
   resources :calendars do
     resources :calendars_hitches
     resources :hitches

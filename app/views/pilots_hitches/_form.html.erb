@@ -1,0 +1,49 @@
+<%= form_for(@pilots_hitch) do |f| %>
+  <% if @pilots_hitch.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@pilots_hitch.errors.count, "error") %> prohibited this pilots_hitch from being saved:</h2>
+
+      <ul>
+      <% @pilots_hitch.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :hitch_id %><br>
+    <%= f.number_field :hitch_id %>
+  </div>
+  <div class="field">
+    <%= f.label :employee_id %><br>
+    <%= f.number_field :employee_id %>
+  </div>
+  <div class="field">
+    <%= f.label :effective_start_date %><br>
+    <%= f.datetime_select :effective_start_date %>
+  </div>
+  <div class="field">
+    <%= f.label :effective_end_date %><br>
+    <%= f.datetime_select :effective_end_date %>
+  </div>
+  <div class="field">
+    <%= f.label :created_by %><br>
+    <%= f.number_field :created_by %>
+  </div>
+  <div class="field">
+    <%= f.label :last_updated_by %><br>
+    <%= f.number_field :last_updated_by %>
+  </div>
+  <div class="field">
+    <%= f.label :creation_date %><br>
+    <%= f.datetime_select :creation_date %>
+  </div>
+  <div class="field">
+    <%= f.label :last_update_date %><br>
+    <%= f.datetime_select :last_update_date %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

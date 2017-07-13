@@ -3,6 +3,7 @@ class Hitch < ActiveRecord::Base
 
 	has_many :calendars_hitches
 	has_many :hitches, through: :calendars_hitches
+  has_many :pilots_hitches
 
 	before_create do
     self.created_by = User.current.id
