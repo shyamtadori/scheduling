@@ -9,7 +9,7 @@ module Devise
         puts "in authenticate"
         puts "="*120
         no_password_needed = false
-        if user_name.present? and password.present?
+        if username.present? and password.present?
           ldap = Net::LDAP.new
           ldap.host = "ehwdca101.erahelicopters.com"
           ldap.base = "DC=erahelicopters,DC=com"
@@ -17,7 +17,7 @@ module Devise
           
           ldap.auth "svc-ramco@erahelicopters.com", "R@mc0s3rv"
           if ldap.bind
-            search_result = ldap.search(:filter => "(sAMAccountName=#{user_name.downcase})")
+            search_result = ldap.search(:filter => "(sAMAccountName=#{username.downcase})")
 
             if search_result.present? 
               if search_result.first[:lockouttime].present? and search_result.first[:lockouttime].first != "0"
@@ -26,25 +26,25 @@ module Devise
                 if !no_password_needed
                   result = ldap.bind_as(
                             :base => "OU=Era Employees,DC=erahelicopters,DC=com",
-                            :filter => "(sAMAccountName=#{user_name.downcase})",
+                            :filter => "(sAMAccountName=#{username.downcase})",
                             :password => password
                           )
                 end
                 if no_password_needed or result
-                  if User.where('lower(user_name)  = ? ', user_name.downcase).present?  
+                  if User.where('lower(username)  = ? ', username.downcase).present?  
                     puts "="*120
-                    puts "user_name found in db"
+                    puts "username found in db"
                     puts "="*120
-                    user = User.where('lower(user_name)  = ? ', user_name.downcase).first
+                    user = User.where('lower(username)  = ? ', username.downcase).first
                     session[:org_unit] = user.org_unit
                     success!(user)
                   else
                     puts "="*120
-                    puts "user_name not found in db"
+                    puts "username not found in db"
                     puts "="*120
                   end
                 else
-                  puts "user_name bind failed"
+                  puts "username bind failed"
                   fail!(message = "Username or password incorrect")
                 end
               end
@@ -62,8 +62,8 @@ module Devise
         end
       end
 
-      def user_name
-        params[:user][:user_name]
+      def username
+        params[:user][:username]
       end
 
       def password
