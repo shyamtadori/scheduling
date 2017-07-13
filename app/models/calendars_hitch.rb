@@ -8,6 +8,7 @@ class CalendarsHitch < ActiveRecord::Base
   validates_presence_of :calendar
   validates_absence_of :initial_days_off, :message => ' & initial_days_on can not allowed together', :if => lambda { self.initial_days_on && self.initial_days_on > 0 }
   validates_absence_of :initial_days_on, :message => ' & initial_days_off can not allowed together', :if => lambda { self.initial_days_on && self.initial_days_off > 0 }
+  validates_uniqueness_of :calendar_id, :scope => :hitch_id
 
 	before_create do
     self.created_by = User.current.id
