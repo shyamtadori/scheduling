@@ -1,6 +1,8 @@
 <h1>Editing Calendars Hitch</h1>
-
+<ol class="breadcrumb">
+  <li><%= link_to "Manage Calendars", calendars_path %></li>
+  <li><%= link_to "Calendar #{@calendar.name}", @calendar %></li>
+  <li class="active">Editing Hitch Association <%= link_to @calendars_hitch.hitch.name, calendar_calendars_hitches_path(@calendar, @calendars_hitch) %></li>
+</ol>
 <%= render 'form' %>
 
-<%= link_to 'Show', @calendars_hitch %> |
-<%= link_to 'Back', calendars_hitches_path %>

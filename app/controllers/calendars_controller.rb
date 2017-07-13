@@ -12,7 +12,10 @@ class CalendarsController < ApplicationController
   # GET /calendars/1
   # GET /calendars/1.json
   def show
-    @hitches = @calendar.hitches
+    @calendars_hitches = @calendar.calendars_hitches.includes(:hitch)
+    puts '='*100
+    puts @calendars_hitches.length
+    puts '='*100
   end
 
   # GET /calendars/new

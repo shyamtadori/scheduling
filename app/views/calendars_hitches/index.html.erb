@@ -28,9 +28,9 @@
         <td><%= calendars_hitch.last_updated_by %></td>
         <td><%= calendars_hitch.creation_date %></td>
         <td><%= calendars_hitch.last_update_date %></td>
-        <td><%= link_to 'Show', calendars_hitch %></td>
-        <td><%= link_to 'Edit', edit_calendars_hitch_path(calendars_hitch) %></td>
-        <td><%= link_to 'Destroy', calendars_hitch, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', calendar_calendars_hitch_path(@calendar) %></td>
+        <td><%= link_to 'Edit', edit_calendar_calendars_hitch_path(@calendar, calendars_hitch) %></td>
+        <td><%= link_to 'Destroy', calendar_calendars_hitch_path(@calendar), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -38,4 +38,4 @@
 
 <br>
 
-<%= link_to 'New Calendars hitch', new_calendars_hitch_path %>
+<%= link_to 'New Calendars hitch', new_calendar_calendars_hitch_path(@calendar) %>

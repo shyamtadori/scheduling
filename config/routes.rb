@@ -2,10 +2,10 @@ Rails.application.routes.draw do
   
 
   resources :calendars do
-    resources :hitches, controller: 'calendars_hitches'
+    resources :calendars_hitches
+    resources :hitches
   end
-  
-  resources :calendars_hitches
+
   
   resources :hitches
   

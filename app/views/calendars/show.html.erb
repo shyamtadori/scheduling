@@ -57,14 +57,14 @@
             <button type="button" data-url-path="#" class="btn btn-default filter_status" id="associated_hitch_status"><%= 'Active' %></button>
           </div>
           <div class="col-sm-6">
-            <%= link_to new_calendar_hitch_path(@calendar), class: 'btn btn-info float-right' do %>
+            <%= link_to new_calendar_calendars_hitch_path(@calendar), class: 'btn btn-info float-right' do %>
               <i class="fa fa-plus-square" aria-hidden="true"></i>
               Add Hitch
             <% end %>
           </div>    
         </div>
       
-      <% if @hitches.present? %>
+      <% if @calendars_hitches.present? %>
         <table class='table table-striped datatable'>
           <thead>
             <tr>
@@ -84,26 +84,26 @@
           </thead>
 
           <tbody>
-            <% @hitches.each do |hitch| %>
+            <% @calendars_hitches.each do |calendars_hitch| %>
               <tr>
-                <td><%= hitch.name %></td>
-                <td><%= hitch.days_on || 'N' %>/<%= hitch.days_off || 'A'%></td>
+                <td><%= calendars_hitch.hitch.name %></td>
+                <td><%= calendars_hitch.hitch.days_on || 'N' %>/<%= calendars_hitch.hitch.days_off || 'A'%></td>
                 <td class="no-wrap">
-                  <span class='label label-<%= hitch.mon ? "primary" : "default" %>'>Mon</span>
-                  <span class='label label-<%= hitch.tue ? "primary" : "default" %>'>Tue</span>
-                  <span class='label label-<%= hitch.wed ? "primary" : "default" %>'>Wed</span>
-                  <span class='label label-<%= hitch.thu ? "primary" : "default" %>'>Thu</span>
-                  <span class='label label-<%= hitch.fri ? "primary" : "default" %>'>Fri</span>
-                  <span class='label label-<%= hitch.sat ? "primary" : "default" %>'>Sat</span>
-                  <span class='label label-<%= hitch.sun ? "primary" : "default" %>'>Sun</span>
+                  <span class='label label-<%= calendars_hitch.hitch.mon ? "primary" : "default" %>'>Mon</span>
+                  <span class='label label-<%= calendars_hitch.hitch.tue ? "primary" : "default" %>'>Tue</span>
+                  <span class='label label-<%= calendars_hitch.hitch.wed ? "primary" : "default" %>'>Wed</span>
+                  <span class='label label-<%= calendars_hitch.hitch.thu ? "primary" : "default" %>'>Thu</span>
+                  <span class='label label-<%= calendars_hitch.hitch.fri ? "primary" : "default" %>'>Fri</span>
+                  <span class='label label-<%= calendars_hitch.hitch.sat ? "primary" : "default" %>'>Sat</span>
+                  <span class='label label-<%= calendars_hitch.hitch.sun ? "primary" : "default" %>'>Sun</span>
                 </td>
-                <td><%= time_format(hitch.hour_start) %></td>
-                <td><%= time_format(hitch.hour_end) %></td>
-                <td><%= hitch.created_user_name %></td>
-                <td><%= hitch.last_upated_user_name %></td>
-                <td><%= date_time_format(hitch.creation_date) %></td>
-                <td><%= date_time_format(hitch.last_update_date) %></td>
-                <td><%= link_to 'Remove from Calendar', hitch, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                <td><%= time_format(calendars_hitch.hitch.hour_start) %></td>
+                <td><%= time_format(calendars_hitch.hitch.hour_end) %></td>
+                <td><%= calendars_hitch.hitch.created_user_name %></td>
+                <td><%= calendars_hitch.hitch.last_upated_user_name %></td>
+                <td><%= date_time_format(calendars_hitch.hitch.creation_date) %></td>
+                <td><%= date_time_format(calendars_hitch.hitch.last_update_date) %></td>
+                <td><%= link_to 'Remove from Calendar', calendar_calendars_hitch_path(@calendar, calendars_hitch), method: :delete, data: { confirm: 'Are you sure?' } %></td>
               </tr>
             <% end %>
           </tbody>
