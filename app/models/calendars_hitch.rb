@@ -27,4 +27,14 @@ class CalendarsHitch < ActiveRecord::Base
   def id
     cal_hitch_id
   end
+
+  def initial_offset_type
+    if initial_days_on.present? and initial_days_on > 0
+      "on"
+    elsif initial_days_off.present? and initial_days_off > 0
+      "off" 
+    else
+      nil
+    end
+  end
 end
