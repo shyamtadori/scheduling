@@ -52,19 +52,28 @@ class Hitch < ActiveRecord::Base
     end
   end
 
-  def pick_working_dates(all_dates)
+  def pick_working_dates(all_dates, initial_days_on, initial_days_off)
     if self.hitch_type == Hitch::ON_OFF_TYPE
-      puts 'ON_OFF'
-      pick_working_dates_with_on_off(all_dates)
+      pick_working_dates_with_on_off(all_dates, initial_days_on, initial_days_off)
     else
       pick_working_dates_with_days_on(all_dates)
     end
   end
 
-   def pick_working_dates_with_on_off(all_dates)
+   def pick_working_dates_with_on_off(all_dates, initial_days_on, initial_days_off)
     iter_work_days = 0
     iter_off_days = 0
     working_dates = []
+
+    ######## Handling initial_days_off and initial_days_on #################
+    all_dates.shift(initial_days_off) if initial_days_off
+    if initial_days_on
+      working_dates = working_dates + all_dates.shift(initial_days_on)
+      all_dates.shift(self.days_off)
+    end
+    #########################################################################
+
+    # Iterating the dates and adding work dates to working_dates
     all_dates.each do |i|
       if iter_work_days < self.days_on
         iter_work_days += 1
@@ -88,11 +97,8 @@ class Hitch < ActiveRecord::Base
     working_days = get_working_days_array  # day of the week in 0-6. Sunday is day-of-week 0; Saturday is day-of-week 6.
     working_dates = []
 
-    puts '*'*87
-    puts working_days
-    puts '*'*96
-
     working_dates = all_dates.select {|k| working_days.include?(k.wday)}
+    working_dates
   end
 
   def get_working_days_array
