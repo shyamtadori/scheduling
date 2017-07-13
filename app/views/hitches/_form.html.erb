@@ -116,11 +116,32 @@
     $("#hour_end").datetimepicker({
       format: 'H:mm'
     });
+    var next_day_warning = $('<span />').addClass('next-day-warning label label-warning').html('Time for the next day');
+    
     $("#hour_start").on("dp.change", function (e) {
-        $('#hour_end').data("DateTimePicker").minDate(e.date);
+        if (moment($('#hour_end').data("date"), 'H:mm') < e.date){
+          console.log('end hour is next day');
+          if (!$('#hour_end').parent().parent().find(".next-day-warning").length){
+            $('#hour_end').parent().parent().append(next_day_warning);
+          }
+        }
+        else{
+          console.log('end hour is same day');
+          $('#hour_end').parent().parent().find('.next-day-warning').remove();
+        }
+
     });
     $("#hour_end").on("dp.change", function (e) {
-        $('#hour_start').data("DateTimePicker").maxDate(e.date);
+        if (moment($('#hour_start').data("date"), 'H:mm') > e.date){
+          console.log('end hour is next day');
+          if (!$('#hour_end').parent().parent().find(".next-day-warning").length){
+            $('#hour_end').parent().parent().append(next_day_warning);
+          }
+        }
+        else{
+          console.log('end hour is same day');
+          $('#hour_end').parent().parent().find('.next-day-warning').remove();
+        }
     });
   });
   $(document).ready(function(){
