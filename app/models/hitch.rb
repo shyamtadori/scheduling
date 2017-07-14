@@ -1,5 +1,6 @@
 class Hitch < ActiveRecord::Base
 	self.primary_key = 'hitch_id'
+  include CreatorModifier
 
 	has_many :calendars_hitches
 	has_many :hitches, through: :calendars_hitches
@@ -18,16 +19,6 @@ class Hitch < ActiveRecord::Base
   before_destroy do
   	# delete all calenders_hitch records
     CalendarsHitch.where(:hitch_id => self.id).destroy_all
-  end
-
-  def created_user_name
-  	calendar_created_user = User.find(self.created_by)
-  	calendar_created_user.first_name
-  end
-
-  def last_upated_user_name
-  	calendar_created_user = User.find(self.last_updated_by)
-  	calendar_created_user.first_name
   end
 
   def id

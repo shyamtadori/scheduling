@@ -17,11 +17,13 @@ class CalendarsHitchesController < ApplicationController
   def new
     @calendars_hitch = CalendarsHitch.new
     @calendar = Calendar.find(params[:calendar_id])
-    @hitches = Hitch.joins('left outer join "CALENDARS_HITCHES" on "CALENDARS_HITCHES"."HITCH_ID" = "HITCHES"."HITCH_ID"and "CALENDARS_HITCHES"."CALENDAR_ID" = '+ @calendar.id.to_s).where('"CALENDARS_HITCHES"."CAL_HITCH_ID" is null')
+    @hitches = Hitch.joins('left outer join "CALENDARS_HITCHES" on "CALENDARS_HITCHES"."HITCH_ID" = "HITCHES"."HITCH_ID" and "CALENDARS_HITCHES"."CALENDAR_ID" = '+ @calendar.id.to_s).where('"CALENDARS_HITCHES"."CAL_HITCH_ID" is null')
   end
 
   # GET /calendars_hitches/1/edit
   def edit
+    @hitches = Hitch.joins('left outer join "CALENDARS_HITCHES" on "CALENDARS_HITCHES"."HITCH_ID" = "HITCHES"."HITCH_ID" and "CALENDARS_HITCHES"."CALENDAR_ID" = '+ @calendar.id.to_s).where('"CALENDARS_HITCHES"."CAL_HITCH_ID" is null')
+    @hitches << @calendars_hitch.hitch
     @calendar = Calendar.find(params[:calendar_id])
   end
 
@@ -44,10 +46,17 @@ class CalendarsHitchesController < ApplicationController
   # PATCH/PUT /calendars_hitches/1
   # PATCH/PUT /calendars_hitches/1.json
   def update
+    @calendars_hitch.assign_attributes(calendars_hitch_params)
+    if !params[:calendars_hitch].key? :initial_days_on
+      @calendars_hitch.initial_days_on = nil
+    end
+    if !params[:calendars_hitch].key? :initial_days_off
+      @calendars_hitch.initial_days_off = nil
+    end
     respond_to do |format|
-      if @calendars_hitch.update(calendars_hitch_params)
-        format.html { redirect_to @calendars_hitch, notice: 'Calendars hitch was successfully updated.' }
-        format.json { render :show, status: :ok, location: @calendars_hitch }
+      if @calendars_hitch.save
+        format.html { redirect_to @calendar, notice: 'Calendars hitch was successfully updated.' }
+        format.json { render :show, status: :ok, location: @calendar }
       else
         format.html { render :edit }
         format.json { render json: @calendars_hitch.errors, status: :unprocessable_entity }

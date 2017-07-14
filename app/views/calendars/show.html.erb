@@ -89,13 +89,17 @@
                 <td><%= calendars_hitch.hitch.name %></td>
                 <td><%= calendars_hitch.hitch.days_on || 'N' %>/<%= calendars_hitch.hitch.days_off || 'A'%></td>
                 <td class="no-wrap">
-                  <span class='label label-<%= calendars_hitch.hitch.mon ? "primary" : "default" %>'>Mon</span>
-                  <span class='label label-<%= calendars_hitch.hitch.tue ? "primary" : "default" %>'>Tue</span>
-                  <span class='label label-<%= calendars_hitch.hitch.wed ? "primary" : "default" %>'>Wed</span>
-                  <span class='label label-<%= calendars_hitch.hitch.thu ? "primary" : "default" %>'>Thu</span>
-                  <span class='label label-<%= calendars_hitch.hitch.fri ? "primary" : "default" %>'>Fri</span>
-                  <span class='label label-<%= calendars_hitch.hitch.sat ? "primary" : "default" %>'>Sat</span>
-                  <span class='label label-<%= calendars_hitch.hitch.sun ? "primary" : "default" %>'>Sun</span>
+                  <% if calendars_hitch.hitch.work_type == 'days_on_off' %>
+                    N/A
+                  <% else %>
+                    <span class='label label-<%= calendars_hitch.hitch.mon ? "primary" : "default" %>'>Mon</span>
+                    <span class='label label-<%= calendars_hitch.hitch.tue ? "primary" : "default" %>'>Tue</span>
+                    <span class='label label-<%= calendars_hitch.hitch.wed ? "primary" : "default" %>'>Wed</span>
+                    <span class='label label-<%= calendars_hitch.hitch.thu ? "primary" : "default" %>'>Thu</span>
+                    <span class='label label-<%= calendars_hitch.hitch.fri ? "primary" : "default" %>'>Fri</span>
+                    <span class='label label-<%= calendars_hitch.hitch.sat ? "primary" : "default" %>'>Sat</span>
+                    <span class='label label-<%= calendars_hitch.hitch.sun ? "primary" : "default" %>'>Sun</span>
+                  <% end %>
                 </td>
                 <td><%= time_format(calendars_hitch.hitch.hour_start) %></td>
                 <td><%= time_format(calendars_hitch.hitch.hour_end) %></td>
@@ -103,6 +107,7 @@
                 <td><%= calendars_hitch.hitch.last_upated_user_name %></td>
                 <td><%= date_time_format(calendars_hitch.hitch.creation_date) %></td>
                 <td><%= date_time_format(calendars_hitch.hitch.last_update_date) %></td>
+                <td><%= link_to 'Edit', edit_calendar_calendars_hitch_path(@calendar, calendars_hitch) %></td>
                 <td><%= link_to 'Remove from Calendar', calendar_calendars_hitch_path(@calendar, calendars_hitch), method: :delete, data: { confirm: 'Are you sure?' } %></td>
               </tr>
             <% end %>
