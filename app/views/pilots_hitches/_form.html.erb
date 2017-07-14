@@ -1,0 +1,40 @@
+<%= form_for(@pilots_hitch) do |f| %>
+  <% if @pilots_hitch.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@pilots_hitch.errors.count, "error") %> prohibited this pilots_hitch from being saved:</h2>
+
+      <ul>
+      <% @pilots_hitch.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :hitch_id %><br>
+    <%= f.collection_select :hitch_id, Hitch.all, :id, :name %>
+  </div>
+  <div class="field">
+    <%= f.label :employee_id %><br>
+    <%= f.collection_select :employee_id, User.pilot, :id, :username %>
+  </div>
+  <div class="field">
+    <%= f.label :effective_start_date %><br>
+    <%= f.datetime_select :effective_start_date %>
+  </div>
+  <div class="field">
+    <%= f.label :effective_end_date %><br>
+    <%= f.datetime_select :effective_end_date %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("#pilots_hitch_employee_id").select2();
+    $("#pilots_hitch_hitch_id").select2();
+  });
+</script>

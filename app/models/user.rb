@@ -16,6 +16,10 @@ class User < ActiveRecord::Base
   
   TIME_ZONE_OPTIONS = ActiveSupport::TimeZone::MAPPING.select{ |k , v| ["Central Time (US & Canada)","Alaska", "UTC", "Eastern Time (US & Canada)", "Pacific Time (US & Canada)", "Brasilia"].include?(k)  }.to_a.each{ |a| a.reverse!}
   
+  has_many :pilots_hitches
+  
+  scope :pilot, -> { where(pilot: true) }
+
   def readonly?
     true
   end

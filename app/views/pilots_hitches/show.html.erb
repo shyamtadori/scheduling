@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Hitch:</strong>
+  <%= @pilots_hitch.hitch_id %>
+</p>
+
+<p>
+  <strong>Employee:</strong>
+  <%= @pilots_hitch.employee_id %>
+</p>
+
+<p>
+  <strong>Effective start date:</strong>
+  <%= @pilots_hitch.effective_start_date %>
+</p>
+
+<p>
+  <strong>Effective end date:</strong>
+  <%= @pilots_hitch.effective_end_date %>
+</p>
+
+<p>
+  <strong>Created by:</strong>
+  <%= @pilots_hitch.created_by %>
+</p>
+
+<p>
+  <strong>Last updated by:</strong>
+  <%= @pilots_hitch.last_updated_by %>
+</p>
+
+<p>
+  <strong>Creation date:</strong>
+  <%= @pilots_hitch.creation_date %>
+</p>
+
+<p>
+  <strong>Last update date:</strong>
+  <%= @pilots_hitch.last_update_date %>
+</p>
+
+<%= link_to 'Edit', edit_pilots_hitch_path(@pilots_hitch) %> |
+<%= link_to 'Back', pilots_hitches_path %>

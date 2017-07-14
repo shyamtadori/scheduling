@@ -35,17 +35,21 @@
                 <tbody>
                   <% @hitches.each do |hitch| %>
                     <tr>
-                      <td><%= f.radio_button :hitch_id, hitch.id %></td>
+                      <td><%= f.radio_button :hitch_id, hitch.id, data: { hitch_type: hitch.work_type} %></td>
                       <td><%= hitch.name %></td>
                       <td><%= hitch.days_on || 'N' %>/<%= hitch.days_off || 'A'%></td>
                       <td class="no-wrap">
-                        <span class='label label-<%= hitch.mon ? "primary" : "default" %>'>Mon</span>
-                        <span class='label label-<%= hitch.tue ? "primary" : "default" %>'>Tue</span>
-                        <span class='label label-<%= hitch.wed ? "primary" : "default" %>'>Wed</span>
-                        <span class='label label-<%= hitch.thu ? "primary" : "default" %>'>Thu</span>
-                        <span class='label label-<%= hitch.fri ? "primary" : "default" %>'>Fri</span>
-                        <span class='label label-<%= hitch.sat ? "primary" : "default" %>'>Sat</span>
-                        <span class='label label-<%= hitch.sun ? "primary" : "default" %>'>Sun</span>
+                        <% if hitch.work_type == 'days_on_off' %>
+                          N/A
+                        <% else %>
+                          <span class='label label-<%= hitch.mon ? "primary" : "default" %>'>Mon</span>
+                          <span class='label label-<%= hitch.tue ? "primary" : "default" %>'>Tue</span>
+                          <span class='label label-<%= hitch.wed ? "primary" : "default" %>'>Wed</span>
+                          <span class='label label-<%= hitch.thu ? "primary" : "default" %>'>Thu</span>
+                          <span class='label label-<%= hitch.fri ? "primary" : "default" %>'>Fri</span>
+                          <span class='label label-<%= hitch.sat ? "primary" : "default" %>'>Sat</span>
+                          <span class='label label-<%= hitch.sun ? "primary" : "default" %>'>Sun</span>
+                        <% end %>
                       </td>
                       <td><%= time_format(hitch.hour_start) %></td>
                       <td><%= time_format(hitch.hour_end) %></td>
@@ -57,31 +61,31 @@
           </div>
         </div>
       </div>
-      <h3><small>Advanced Options</small></h3>
-      <hr>
-      <div class="form-group">
+      <div class="form-group" id="days_on_off_offset_container">
+        <h3><small>Advanced Options</small></h3>
+        <hr>
         <div class="row">
           <div class="col-md-6">
             <div class="panel panel-default">
-              <div class="panel-heading">Days on</div>
+              <div class="panel-heading panel-select" data-offset-type="on">Days on</div>
               <div class="panel-body">
                 <div class="input-group">
-                  <div class="input-group-addon"># of Days Off</div>
-                  <%= f.number_field :initial_days_on, class: 'form-control' %>
+                  <div class="input-group-addon"># of Days On</div>
+                  <%= f.number_field :initial_days_on, class: 'form-control', id: 'days_on' %>
                 </div>
-                This will shorten or lengthen the initial amount of days this hitch is scheduled to work.  After the number of days you enter, this hitch will be scheduled off and on normally
+                This will shorten or lengthen the initial amount of days this hitch is scheduled to work.  After the number of days on above, this hitch will be scheduled off and on normally.
               </div>
             </div>
           </div>
           <div class="col-md-6">
             <div class="panel panel-default">
-              <div class="panel-heading">Days off</div>
+              <div class="panel-heading panel-select" data-offset-type="off">Days off</div>
               <div class="panel-body">
                 <div class="input-group">
                   <div class="input-group-addon"># of Days Off</div>
-                  <%= f.number_field :initial_days_off, class: 'form-control' %>
+                  <%= f.number_field :initial_days_off, class: 'form-control', id: "days_off" %>
                 </div>
-                This will shorten or lengthen the initial amount of days this hitch is scheduled to be off.  After the number of days you enter, this hitch will be scheduled on and off normally
+                This hitch scheduled to be off for the number of days off above.  After the number of days you enter, this hitch will be scheduled on and off normally.
               </div>
             </div>
           </div>
@@ -93,4 +97,59 @@
   <div class="actions">
     <%= f.submit "Save" %>
   </div>
+  <script>
+    $(function(){
+
+      //The opposite_hash will be used to turn the other panel back to default and disable the opposite input field
+      var opposite_hash = {"on": "off", "off": "on"};
+      var offset_type = null
+      show_hide_advanced_options($('input[name="calendars_hitch[hitch_id]"]:checked'));
+      $('input[name="calendars_hitch[hitch_id]"]').on('click', function(){
+        show_hide_advanced_options($(this));
+      });
+      function show_hide_advanced_options(e){
+        if (e.data('hitch-type') == 'days_on_off'){
+          $('#days_on_off_offset_container').show();
+        }
+        else{
+          $('#days_on_off_offset_container').hide();
+        }  
+      }
+      
+      if ($('#days_on').val()){
+        offset_type = 'on'
+      }
+      else if ($('#days_off').val()){
+        offset_type = 'off'
+      }
+      if (offset_type == null) {
+        $('[id^="days_"]').prop('disabled', true);
+        if ($('.panel-select').parent().hasClass('panel-primary')){
+          $('.panel-select').parent().removeClass('panel-primary').addClass('panel-default');
+        }
+      }
+      else{
+        $('[data-offset-type="'+ offset_type + '"]').parent().removeClass('panel-default').addClass('panel-primary');
+        $('#days_'+ offset_type ).prop('disabled', false);
+        $('#days_'+ opposite_hash[offset_type] ).prop('disabled', true);
+      }
+      $('.panel-select').on('click', function(){
+        offset_type = $(this).data('offset-type');
+        //if the panel is deactivated proceed
+        if ($(this).parent().hasClass('panel-default')){
+          //if the other panel is active, deactivate it, clear and disable the input
+          if ($('[data-offset-type="'+ opposite_hash[offset_type] + '"]').parent().hasClass('panel-primary')){
+            $('[data-offset-type="'+ opposite_hash[offset_type] + '"]').parent().removeClass('panel-primary').addClass('panel-default');
+            $('#days_'+ opposite_hash[offset_type] ).val("").prop('disabled', true);
+          }
+          $(this).parent().removeClass('panel-default').addClass('panel-primary');
+          $('#days_'+ offset_type ).prop('disabled', false).focus();
+        }
+        else{
+          $(this).parent().removeClass('panel-primary').addClass('panel-default');
+          $('#days_'+ offset_type ).val("").prop('disabled', true);
+        }
+      });
+    });
+  </script>
 <% end %>

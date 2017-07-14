@@ -1,6 +1,7 @@
 class CalendarsHitch < ActiveRecord::Base
 	self.primary_key = 'cal_hitch_id'
-
+  include CreatorModifier
+  
 	belongs_to :calendar
 	belongs_to :hitch
 
@@ -36,16 +37,6 @@ class CalendarsHitch < ActiveRecord::Base
     CalendarHitchDate.where(:cal_hitch_id => self.id).destroy_all
   end
 
-  def created_user_name
-  	calendar_hitch_created_user = User.find(self.created_by)
-  	calendar_hitch_created_user.first_name
-  end
-
-  def last_upated_user_name
-  	calendar_hitch_created_user = User.find(self.last_updated_by)
-  	calendar_hitch_created_user.first_name
-  end
-
   def id
     cal_hitch_id
   end
@@ -61,6 +52,16 @@ class CalendarsHitch < ActiveRecord::Base
     working_dates.each do |working_day|
       puts working_day
       CalendarHitchDate.new(:work_date => working_day, :cal_hitch_id => self.id).save
+    end
+  end
+
+  def initial_offset_type
+    if initial_days_on.present? and initial_days_on > 0
+      "on"
+    elsif initial_days_off.present? and initial_days_off > 0
+      "off" 
+    else
+      nil
     end
   end
 end
