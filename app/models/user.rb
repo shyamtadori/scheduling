@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable
-  devise :timeoutable, :timeout_in => 15.minutes
+  devise :timeoutable
   # Setup accessible (or protected) attributes for your model
 
   # :email, :end_date, :last_update_date, :last_updated_by
@@ -19,6 +19,14 @@ class User < ActiveRecord::Base
   has_many :pilots_hitches
   
   scope :pilot, -> { where(pilot: true) }
+
+  def timeout_in
+    if Rails.env.development?
+      return 1.year
+    else
+      return 15.minutes
+    end
+  end
 
   def readonly?
     true

@@ -79,7 +79,7 @@
                 </a>
                 <ul class="dropdown-menu animated flipInY pull-right">
                   <li>
-                    <%= link_to destroy_user_session_path  do %>
+                    <%= link_to destroy_user_session_path, method: :delete  do %>
                         <i class="fa fa-fw fa-sign-out"></i>
                         Logout
                     <% end %>
@@ -115,7 +115,7 @@
                     </a>
                     <ul class="dropdown-menu animated flipInY pull-right">
                       <li>
-                        <%= link_to destroy_user_session_path  do %>
+                        <%= link_to destroy_user_session_path, method: :delete  do %>
                             <i class="fa fa-fw fa-sign-out"></i>
                             Logout
                         <% end %>
