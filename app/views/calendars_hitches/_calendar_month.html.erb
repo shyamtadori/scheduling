@@ -1,37 +1,55 @@
-<div class="panel panel-primary">
-	<div class="panel-heading">
-		<%= @calendar.name %> <%= @hitch.name %> 
+<% (@start_date..@end_date).select {|d| d.day == 1}.each do |month| %>
+	<div class="well well-sm work-month alternative-white">
+		<div class="row">
+			<div class="col-md-1">
+				<h3 class="center-text"><%= month.strftime('%B') %></h3>
+			</div>
+			<div class="col-md-11">
+				<table class="table table-bordered table-condensed">
+					<thead>
+						<tr>
+						<% (month.beginning_of_month..month.end_of_month).each do |day| %>
+							<th class="center-text 
+								<%= 
+									if @work_days.include? day.to_date  
+										'work-day' 
+									else
+									 'white-bg'
+									end %>">
+								<span>
+									<%= day.strftime('%a') %>	
+								</span>
+								<span class="new-line">
+									<%= day.strftime('%e') %>
+								</span>
+							</th>
+						<% end %>				
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
 	</div>
-	<div class="panel-body" id="calendar">
-		
-	</div>
-</div>
+<% end %>
 
 <script>
 	$(document).ready(function() {
 
     // page is now ready, initialize the calendar...
 
-    $('#calendar').fullCalendar({
+/*    $('#calendar').fullCalendar({
         // put your options and callbacks here
         aspectRatio: 4,
-        events: [
-		        {
-		            title  : 'event1',
-		            start  : '2017-07-01'
-		        },
-		        {
-		            title  : 'event2',
-		            start  : '2017-07-05',
-		            end    : '2017-07-07'
-		        },
-		        {
-		            title  : 'event3',
-		            start  : '2017-07-09 12:30:00',
-		            allDay : false
-		        }
-		    ] 
-    })
+        header: {
+	        left: 'prev,next today',
+	        center: 'title',
+	        right: 'month'
+      	},
+        selectable: false,
+        editable: false,
+        events: '/calendars/<%= @calendar.id %>/calendars_hitches/<%= @calendars_hitch.id %>'
 
+    })
+*/
 });
 </script>

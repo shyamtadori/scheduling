@@ -525,9 +525,9 @@ textarea.md-text-area {
   background: #3498db;
 }
 
-.btn-white-blue:hover, .btn-white-blue.active:hover, .btn-white-blue.active:focus, .btn-white-blue.active {
+.work-day, .btn-white-blue:hover, .btn-white-blue.active:hover, .btn-white-blue.active:focus, .btn-white-blue.active {
   color: #fff;
-  background-color: #3498db;
+  background-color: #337ab7;
   border-color: #2e6da4;
 }
 
@@ -590,4 +590,19 @@ textarea.md-text-area {
 }
 .panel-select{
   cursor: pointer;
+}
+.new-line{
+  white-space: pre-line;
+}
+.work-month h3.center-text{
+  line-height: 0.5;
+}
+.work-month table.table-bordered {
+  margin-bottom: 0px;
+}
+.white-bg{
+  background: #fff; 
+}
+.alternative-white:nth-child(even){
+  background: #fff;
 }
