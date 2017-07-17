@@ -1,44 +1,75 @@
 <p id="notice"><%= notice %></p>
+<ol class="breadcrumb">
+  <li><%= link_to "Manage Calendars", calendars_path %></li>
+  <li><%= link_to "Calendar #{@calendar.name}", @calendar %></li>
+  <li class="active">Hitch Association <%=  @calendars_hitch.hitch.name %></li>
+</ol>
+<div class="row">
+  <div class="col-md-12">
+    <div class="panel panel-primary float-left width-100">
+      <div class="panel-heading float-left width-100">
+        
+        <%= @calendar.name %> <%= @hitch.name %> 
+        <%= link_to 'Edit', edit_calendar_calendars_hitch_path(@calendar, @calendars_hitch), class: 'btn btn-default float-right'%> 
+     
+      </div>
+      <div class="panel-body float-left width-100" id="calendars_hitch">
+        <div class="row float-left width-100" id="calendars_hitch_details">
+          <div class="col-md-3">
+            <p class='secondary'>
+              <strong>Created by:</strong>
+              <%= @calendars_hitch.created_user_name %><br>
+              <strong>Creation date:</strong>
+              <%= date_format(@calendars_hitch.creation_date) %>
+            </p>
+          </div>
+          <div class="col-md-3">
+            <p class='secondary'>
+              <strong>Last updated by:</strong>
+              <%= @calendars_hitch.last_upated_user_name %><br>
+              <strong>Last update date:</strong>
+              <%= date_format(@calendars_hitch.last_update_date) %>
+            </p>
+          </div>
+          <div class="col-md-4">
+            <p class='secondary'>
+              <% if @calendars_hitch.initial_days_on %>
+                <strong>Initial Days On:</strong>
+                <%= @calendars_hitch.initial_days_on %><br>
+              <% end %>
+              <% if @calendars_hitch.initial_days_off %>
+                <strong>Initial Days Off:</strong>
+                <%= @calendars_hitch.initial_days_off %><br>
+              <% end %>
+            </p>
+          </div>
+          <div class="col-md-2">
+            
+            <table class="table table-bordered table-condensed">
+              <thead>
+                <tr>
+                  <th>Meaning</th>
+                  <th>Color</th>  
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Working</td>
+                  <td class="work-day"></td>
+                </tr>
+                <tr>
+                  <td>Off</td>
+                  <td class="white-bg"></td>
+                </tr>
 
-<p>
-  <strong>Calendar:</strong>
-  <%= @calendars_hitch.calendar_id %>
-</p>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%= render 'calendar_month' %>
 
-<p>
-  <strong>Hitch:</strong>
-  <%= @calendars_hitch.hitch_id %>
-</p>
 
-<p>
-  <strong>Initial days on:</strong>
-  <%= @calendars_hitch.initial_days_on %>
-</p>
-
-<p>
-  <strong>Initial days off:</strong>
-  <%= @calendars_hitch.initial_days_off %>
-</p>
-
-<p>
-  <strong>Created by:</strong>
-  <%= @calendars_hitch.created_by %>
-</p>
-
-<p>
-  <strong>Last updated by:</strong>
-  <%= @calendars_hitch.last_updated_by %>
-</p>
-
-<p>
-  <strong>Creation date:</strong>
-  <%= @calendars_hitch.creation_date %>
-</p>
-
-<p>
-  <strong>Last update date:</strong>
-  <%= @calendars_hitch.last_update_date %>
-</p>
-
-<%= link_to 'Edit', edit_calendars_hitch_path(@calendars_hitch) %> |
-<%= link_to 'Back', calendars_hitches_path %>

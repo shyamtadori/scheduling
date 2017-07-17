@@ -80,6 +80,7 @@
               <th></th>
               <th></th>
               <th></th>
+              <th></th>
             </tr>
           </thead>
 
@@ -107,6 +108,7 @@
                 <td><%= calendars_hitch.hitch.last_upated_user_name %></td>
                 <td><%= date_time_format(calendars_hitch.hitch.creation_date) %></td>
                 <td><%= date_time_format(calendars_hitch.hitch.last_update_date) %></td>
+                <td><%= link_to 'View Calendar', calendar_calendars_hitch_path(@calendar, calendars_hitch) %></td>
                 <td><%= link_to 'Edit', edit_calendar_calendars_hitch_path(@calendar, calendars_hitch) %></td>
                 <td><%= link_to 'Remove from Calendar', calendar_calendars_hitch_path(@calendar, calendars_hitch), method: :delete, data: { confirm: 'Are you sure?' } %></td>
               </tr>

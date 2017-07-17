@@ -24,6 +24,7 @@
 //= require perfect-scrollbar.jquery.min.js
 //= require zchl.min.js
 //= require moment
+//= require fullcalendar
 //= require bootstrap-datetimepicker
 //= require select2
 //= require_tree .
