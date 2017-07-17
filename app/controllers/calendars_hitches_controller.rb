@@ -11,7 +11,19 @@ class CalendarsHitchesController < ApplicationController
   # GET /calendars_hitches/1
   # GET /calendars_hitches/1.json
   def show
+    @hitch = @calendars_hitch.hitch
+    if params.key? (:start_date) and params.key? (:end_date)
+      @start_date = params[:start_date]
+      @end_date = params[:end_date]
+      @work_days = @calendars_hitch.calendar_hitch_dates.where(work_date: @start_date..@end_date).pluck(:work_date).map(&:to_date)
+    else
+      @start_date = @calendar.effective_start_date.to_datetime
+      @end_date = @calendar.effective_end_date.to_datetime
+      @work_days = @calendars_hitch.calendar_hitch_dates.pluck(:work_date).map(&:to_date)
+    end
+    
   end
+
 
   # GET /calendars_hitches/new
   def new
@@ -69,7 +81,7 @@ class CalendarsHitchesController < ApplicationController
   def destroy
     @calendars_hitch.destroy
     respond_to do |format|
-      format.html { redirect_to calendars_hitches_url, notice: 'Calendars hitch was successfully destroyed.' }
+      format.html { redirect_to @calendar, notice: 'Calendars hitch was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

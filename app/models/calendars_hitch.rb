@@ -4,6 +4,7 @@ class CalendarsHitch < ActiveRecord::Base
   
 	belongs_to :calendar
 	belongs_to :hitch
+  has_many :calendar_hitch_dates, class_name: 'CalendarHitchDate', foreign_key: 'cal_hitch_id'
 
   validates_presence_of :hitch
   validates_presence_of :calendar
