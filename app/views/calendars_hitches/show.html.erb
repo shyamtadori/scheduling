@@ -1,5 +1,5 @@
 <p id="notice"><%= notice %></p>
-
+<%= render 'calendar_month' %>
 <p>
   <strong>Calendar:</strong>
   <%= @calendars_hitch.calendar_id %>
@@ -40,5 +40,5 @@
   <%= @calendars_hitch.last_update_date %>
 </p>
 
-<%= link_to 'Edit', edit_calendars_hitch_path(@calendars_hitch) %> |
-<%= link_to 'Back', calendars_hitches_path %>
+<%= link_to 'Edit', edit_calendar_calendars_hitch_path(@calendar, @calendars_hitch) %> |
+<%= link_to 'Back', @calendar %>

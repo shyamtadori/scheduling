@@ -20,6 +20,8 @@ gem 'jquery-ui-rails'
 
 gem 'font-awesome-sass'
 
+gem 'fullcalendar-rails'
+
 gem 'momentjs-rails', '>= 2.9.0'
 
 gem 'bootstrap3-datetimepicker-rails', '~> 4.17.47'

@@ -11,6 +11,17 @@ class CalendarsHitchesController < ApplicationController
   # GET /calendars_hitches/1
   # GET /calendars_hitches/1.json
   def show
+    @hitch = @calendars_hitch.hitch
+    @date = DateTime.now
+  end
+
+  def work_days
+    start_date = params[:start_date]
+    end_date = params[:end_date]
+    respond_to do |format|
+      format.html { redirect_to calendar_calendars_hitches_url(@calendar), notice: 'Calendars hitch was successfully destroyed.' }
+      format.json { head :no_content }
+    end
   end
 
   # GET /calendars_hitches/new
