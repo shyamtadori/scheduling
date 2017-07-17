@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @rule.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @rule.description %>
+</p>
+
+<p>
+  <strong>Code block:</strong>
+  <%= @rule.code_block %>
+</p>
+
+<p>
+  <strong>Created by:</strong>
+  <%= @rule.created_by %>
+</p>
+
+<p>
+  <strong>Last updated by:</strong>
+  <%= @rule.last_updated_by %>
+</p>
+
+<%= link_to 'Edit', edit_rule_path(@rule) %> |
+<%= link_to 'Back', rules_path %>

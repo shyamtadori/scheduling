@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  mission_type_id: 
+  rule_id: 
+  effective_start_date: 2017-07-17 16:52:19
+  effective_end_date: 2017-07-17 16:52:19
+  created_by: 1
+  last_updated_by: 1
+
+two:
+  mission_type_id: 
+  rule_id: 
+  effective_start_date: 2017-07-17 16:52:19
+  effective_end_date: 2017-07-17 16:52:19
+  created_by: 1
+  last_updated_by: 1

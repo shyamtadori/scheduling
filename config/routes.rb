@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
   
+  resources :mission_types do 
+    resources :rules
+  end
   resources :calendar_hitch_dates
 
   resources :pilots_hitches

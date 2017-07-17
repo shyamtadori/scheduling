@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @mission_type.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @mission_type.description %>
+</p>
+
+<p>
+  <strong>Created by:</strong>
+  <%= @mission_type.created_by %>
+</p>
+
+<p>
+  <strong>Last updated by:</strong>
+  <%= @mission_type.last_updated_by %>
+</p>
+
+<%= link_to 'Edit', edit_mission_type_path(@mission_type) %> |
+<%= link_to 'Back', mission_types_path %>

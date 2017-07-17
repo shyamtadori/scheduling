@@ -1,10 +1,10 @@
-<%= form_for(@calendar, html: {class: "form-horizontal"}) do |f| %>
-  <% if @calendar.errors.any? %>
+<%= form_for(@mission_type, html: {class: "form-horizontal"}) do |f| %>
+  <% if @mission_type.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@calendar.errors.count, "error") %> prohibited this calendar from being saved:</h2>
+      <h2><%= pluralize(@mission_type.errors.count, "error") %> prohibited this mission_type from being saved:</h2>
 
       <ul>
-      <% @calendar.errors.full_messages.each do |message| %>
+      <% @mission_type.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
       </ul>
@@ -19,10 +19,16 @@
       </div>
     </div>
     <div class="form-group">
+      <%= f.label :description, class: "col-sm-2 control-label" %>
+      <div class="col-sm-10">
+        <%= f.text_area :description, class: "form-control"%>
+      </div>
+    </div>
+    <div class="form-group">
       <%= f.label :effective_start_date, "Start Date", class: "col-sm-2 control-label" %>
       <div class="col-sm-10">
         <div class="input-group date">
-          <%= f.text_field :effective_start_date, value: @calendar.effective_start_date.try(:strftime, "%m-%d-%Y"), class: "form-control", id: 'effective_start_date'%>
+          <%= f.text_field :effective_start_date, value: @mission_type.effective_start_date.try(:strftime, "%m-%d-%Y"), class: "form-control", id: 'effective_start_date'%>
           <span class="input-group-addon">
             <i class="fa fa-calendar" aria-hidden="true"></i>
           </span>
@@ -33,7 +39,7 @@
       <%= f.label :effective_end_date, "End Date", class: "col-sm-2 control-label" %>
       <div class="col-sm-10">
         <div class="input-group date">
-          <%= f.text_field :effective_end_date, value: @calendar.effective_end_date.try(:strftime, "%m-%d-%Y"), class: "form-control", id: 'effective_end_date'%>
+          <%= f.text_field :effective_end_date, value: @mission_type.effective_end_date.try(:strftime, "%m-%d-%Y"), class: "form-control", id: 'effective_end_date'%>
           <span class="input-group-addon">
             <i class="fa fa-calendar" aria-hidden="true"></i>
           </span>
@@ -46,7 +52,7 @@
   <div class="col-md-6 col-lg-6">
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
-        <%= f.submit ( f.object.new_record? ? "Create" : "Update") + ' Calendar', class:"btn btn-default float-right" %>
+        <%= f.submit ( f.object.new_record? ? "Create" : "Update") + ' Mission Type', class:"btn btn-default float-right" %>
       </div>
     </div> 
   </div>
@@ -68,4 +74,5 @@
     });
 
   });
-</script>
+</script> 
+ 

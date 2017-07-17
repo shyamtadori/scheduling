@@ -8,7 +8,7 @@ module CreatorModifier
     end
   end
 
-  def last_upated_user_name
+  def last_updated_user_name
   	if user = User.find(self.last_updated_by) rescue nil
   	 return user.first_name
     else
