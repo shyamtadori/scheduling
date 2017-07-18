@@ -7,6 +7,19 @@ class ApplicationController < ActionController::Base
 
   before_filter :set_current_user
 
+  def valid_date?(input_date)
+    if input_date.present?
+      begin
+        Date.strptime(input_date, '%m/%d/%Y')
+        true
+      rescue ArgumentError
+        false
+      end
+    else
+      false
+    end
+  end
+
   protected
 
   def configure_permitted_parameters

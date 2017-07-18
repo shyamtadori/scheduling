@@ -34,15 +34,20 @@ class PilotsHitchesController < ApplicationController
       @hitch.pilots << User.where(:user_id => new_pilot_id).first
     end
 
-    selected_start_date = params[:pilots_hitch][:effective_start_date] || DateTime.now
-    selected_end_date = params[:pilots_hitch][:effective_end_date] || DateTime.now + 1.month
-
+    if valid_date?(params[:pilots_hitch][:effective_start_date]) && valid_date?(params[:pilots_hitch][:effective_end_date])
+      selected_start_date = params[:pilots_hitch][:effective_start_date]
+      selected_end_date = params[:pilots_hitch][:effective_end_date]
+    else
+      selected_start_date = Date.today.strftime("%m/%d/%Y")
+      selected_end_date = (Date.today + 1.month).strftime("%m/%d/%Y")
+    end
     @hitch.pilots_hitches.where(effective_start_date: nil, effective_end_date: nil)
                          .update_all(:effective_start_date => Date.strptime(selected_start_date, "%m/%d/%Y"),
                                      :effective_end_date => Date.strptime(selected_end_date, "%m/%d/%Y"))
     
     respond_to do |format|
-      format.html { redirect_to new_hitch_pilots_hitch_path(@hitch), notice: 'Pilots updated successfully.' }
+      # format.html { redirect_to new_hitch_pilots_hitch_path(@hitch), notice: 'Pilots updated successfully.' }
+      format.html { redirect_to @hitch, notice: 'Pilots updated successfully.' }
     end
   end
 
