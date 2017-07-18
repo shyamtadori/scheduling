@@ -5,6 +5,9 @@ class Calendar < ActiveRecord::Base
 	has_many :calendars_hitches
 	has_many :hitches, through: :calendars_hitches
 
+  has_many :calendars_holidays
+  has_many :holidays, through: :calendars_holidays
+
   validates_presence_of :name, :effective_start_date, :effective_end_date
   validate :end_date_is_after_start_date
 
