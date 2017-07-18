@@ -8,7 +8,7 @@ class CreateHolidays < ActiveRecord::Migration
       t.integer :created_by
       t.datetime :creation_date
       t.integer :last_updated_by
-      t.datetime :last_updated_date
+      t.datetime :last_update_date
     end
   end
 end

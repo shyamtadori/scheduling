@@ -9,6 +9,7 @@ class Calendar < ActiveRecord::Base
   has_many :holidays, through: :calendars_holidays
 
   validates_presence_of :name, :effective_start_date, :effective_end_date
+  validates_length_of :name, :maximum => 250
   validate :end_date_is_after_start_date
 
 	before_create do

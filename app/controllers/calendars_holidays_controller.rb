@@ -2,27 +2,14 @@ class CalendarsHolidaysController < ApplicationController
   before_action :set_calendars_holiday, only: [:show, :edit, :update, :destroy]
   before_action :set_calendar
 
-  # GET /calendars_holidays
-  def index
-    @calendars_holidays = CalendarsHoliday.all
-  end
-
-  # GET /calendars_holidays/1
-  def show
-  end
-
   # GET /calendars_holidays/new
   def new
-    @all_holidays = Holiday.order("holiday_date desc")
+    @all_holidays = Holiday.time_between(@calendar.effective_start_date, @calendar.effective_end_date).order("holiday_date desc")
     @calendar_holidays = @calendar.holidays.pluck(:holiday_id)
     @calendars_holiday = CalendarsHoliday.new
   end
 
-  # GET /calendars_holidays/1/edit
-  def edit
-  end
-
-   # POST /calendars_holidays
+  # POST /calendars_holidays
   def create
     existing_holiday_ids = @calendar.holidays.pluck(:holiday_id)
 
@@ -44,28 +31,6 @@ class CalendarsHolidaysController < ApplicationController
     
     respond_to do |format|
       format.html { redirect_to @calendar, notice: 'Holidays updated successfully.' }
-    end
-  end
-
-  # PATCH/PUT /calendars_holidays/1
-  def update
-    respond_to do |format|
-      if @calendars_holiday.update(calendars_holiday_params)
-        format.html { redirect_to @calendars_holiday, notice: 'Calendars holiday was successfully updated.' }
-        format.json { render :show, status: :ok, location: @calendars_holiday }
-      else
-        format.html { render :edit }
-        format.json { render json: @calendars_holiday.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /calendars_holidays/1
-  def destroy
-    @calendars_holiday.destroy
-    respond_to do |format|
-      format.html { redirect_to calendars_holidays_url, notice: 'Calendars holiday was successfully destroyed.' }
-      format.json { head :no_content }
     end
   end
 

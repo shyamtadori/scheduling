@@ -44,7 +44,7 @@
                         <%= check_box_tag "calendar_holidays[checkbox_holiday_ids][]", holiday['holiday_id'], @calendar_holidays.include?(holiday['holiday_id']), id: 'user_'+holiday['holiday_id'].to_s, class: "holiday_checkbox_js" %>
                       </td>
                       <td><%= holiday.name %></td>
-                      <td><%= holiday.descriprion%></td>
+                      <td><%= holiday.description%></td>
                       <td><%= date_format(holiday.holiday_date)%></td>
                     </tr>
                   <% end %>

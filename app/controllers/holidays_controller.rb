@@ -2,15 +2,6 @@ class HolidaysController < ApplicationController
   before_action :set_holiday, only: [:show, :edit, :update, :destroy]
   before_action :set_calendar, only: [:new, :create]
 
-  # GET /holidays
-  def index
-    @holidays = Holiday.all
-  end
-
-  # GET /holidays/1
-  def show
-  end
-
   # GET /holidays/new
   def new
     @holiday = Holiday.new
@@ -73,6 +64,6 @@ class HolidaysController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def holiday_params
-      params.require(:holiday).permit(:name, :descriprion, :holiday_date)
+      params.require(:holiday).permit(:name, :description, :holiday_date)
     end
 end
