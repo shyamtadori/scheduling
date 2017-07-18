@@ -1,10 +1,10 @@
 class RulesController < ApplicationController
   before_action :set_rule, only: [:show, :edit, :update, :destroy]
-
+  before_action :set_mission_type
   # GET /rules
   # GET /rules.json
   def index
-    @rules = Rule.all
+    @rules = @mission_type.rules
   end
 
   # GET /rules/1
@@ -14,7 +14,7 @@ class RulesController < ApplicationController
 
   # GET /rules/new
   def new
-    @rule = Rule.new
+    @unassociated_rules = Rule.joins('left outer join "MISSION_TYPE_RULES" on "MISSION_TYPE_RULES"."RULE_ID" = "RULES"."RULE_ID" and "MISSION_TYPE_RULES"."MISSION_TYPE_ID" = '+ @mission_type.id.to_s).where('"MISSION_TYPE_RULES"."RULE_ID" is null')
   end
 
   # GET /rules/1/edit
@@ -24,7 +24,7 @@ class RulesController < ApplicationController
   # POST /rules
   # POST /rules.json
   def create
-    @rule = Rule.new(rule_params)
+    @rule = @mission_type.rules.new(rule_params)
 
     respond_to do |format|
       if @rule.save
@@ -67,6 +67,9 @@ class RulesController < ApplicationController
       @rule = Rule.find(params[:id])
     end
 
+    def set_mission_type
+      @mission_type = MissionType.find(params[:mission_type_id])
+    end
     # Never trust parameters from the scary internet, only allow the white list through.
     def rule_params
       params.require(:rule).permit(:name, :description, :code_block, :created_by, :last_updated_by)

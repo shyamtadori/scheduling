@@ -10,6 +10,7 @@ class MissionTypesController < ApplicationController
   # GET /mission_types/1
   # GET /mission_types/1.json
   def show
+    @mission_type_rules = @mission_type.mission_type_rules.includes(:rule)
   end
 
   # GET /mission_types/new
@@ -28,8 +29,8 @@ class MissionTypesController < ApplicationController
 
     respond_to do |format|
       if @mission_type.save
-        format.html { redirect_to mission_types_path, notice: 'Mission type was successfully created.' }
-        format.json { render :show, status: :created, location: mission_types_path }
+        format.html { redirect_to @mission_type, notice: 'Mission type was successfully created.' }
+        format.json { render :show, status: :created, location: @mission_type }
       else
         format.html { render :new }
         format.json { render json: @mission_type.errors, status: :unprocessable_entity }
@@ -42,8 +43,8 @@ class MissionTypesController < ApplicationController
   def update
     respond_to do |format|
       if @mission_type.update(mission_type_params)
-        format.html { redirect_to mission_types_path, notice: 'Mission type was successfully updated.' }
-        format.json { render :show, status: :ok, location: mission_types_path }
+        format.html { redirect_to @mission_type, notice: 'Mission type was successfully updated.' }
+        format.json { render :show, status: :ok, location: @mission_type }
       else
         format.html { render :edit }
         format.json { render json: @mission_type.errors, status: :unprocessable_entity }
@@ -69,6 +70,6 @@ class MissionTypesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def mission_type_params
-      params.require(:mission_type).permit(:name, :description, :created_by, :last_updated_by)
+      params.require(:mission_type).permit(:name, :description, :created_by, :last_updated_by, mission_type_rules_attributes: [:mission_type_id, :rule_id], rules_attributes: [:name, :description])
     end
 end

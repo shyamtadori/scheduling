@@ -1,6 +1,6 @@
-<h1>Editing Rule</h1>
-
+<ol class="breadcrumb">
+  <li><%= link_to "Manage Mission Types", mission_types_path %></li>
+  <li><%= link_to @mission_type.name, @mission_type %></li>
+  <li class="active">Editing rule <%= link_to @rule.name, @rule %></li>
+</ol>
 <%= render 'form' %>
-
-<%= link_to 'Show', @rule %> |
-<%= link_to 'Back', rules_path %>

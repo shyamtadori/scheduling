@@ -1,37 +1,53 @@
-<%= form_for(@rule) do |f| %>
-  <% if @rule.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@rule.errors.count, "error") %> prohibited this rule from being saved:</h2>
-
-      <ul>
-      <% @rule.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+<%= form_for(@mission_type, html: {class: "form-horizontal"}) do |f| %>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-6">
+    <% if @unassociated_rules.present? %>
+      <div class="form-group">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            Add from Existing Rules
+          </div>
+          <div class="panel-body">
+            <table id='select_user_table' class='table table-striped datatable'>
+              <thead>
+                <tr>
+                  <th class='nosort'></th>
+                  <th>Rule</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%  @unassociated_rules.each do |rule| %>
+                  <tr>
+                    <td>
+                      <%= check_box_tag "mission_type_rules[checkbox_rule_ids][]", rule['rule_id'], false, id: 'rule_'+rule['rule_id'].to_s, class: "rule_checkbox" %>
+                    </td>
+                    <td><%= rule.name %></td>
+                    <td><%= rule.description%></td>              
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    <% end %>
     </div>
-  <% end %>
+  </div>
+  <div class="row">
+      <%= link_to_add_association 'Create New Rule', f, :rules, class: 'btn btn-primary' %>
+  </div>
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <%= f.submit ( f.object.new_record? ? "Create" : "Update") + ' rule', class:"btn btn-default float-right" %>
+        </div>
+      </div> 
+    </div>
+  </div>     
+     
+</div>
 
-  <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :description %><br>
-    <%= f.text_field :description %>
-  </div>
-  <div class="field">
-    <%= f.label :code_block %><br>
-    <%= f.text_field :code_block %>
-  </div>
-  <div class="field">
-    <%= f.label :created_by %><br>
-    <%= f.number_field :created_by %>
-  </div>
-  <div class="field">
-    <%= f.label :last_updated_by %><br>
-    <%= f.number_field :last_updated_by %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
 <% end %>

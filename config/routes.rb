@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   
   resources :mission_types do 
     resources :rules
+    resources :mission_type_rules
   end
   resources :calendar_hitch_dates
 

@@ -1,5 +1,7 @@
-<h1>New Rule</h1>
-
+<ol class="breadcrumb">
+  <li><%= link_to "Manage Mission Types", mission_types_path %></li>
+  <li><%= link_to @mission_type.name, @mission_type %></li>
+  <li class="active">Add Rule(s)</li>
+</ol>
 <%= render 'form' %>
 
-<%= link_to 'Back', rules_path %>

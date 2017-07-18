@@ -17,4 +17,7 @@ class MissionType < ActiveRecord::Base
 	def id
 		mission_type_id
 	end
+
+	accepts_nested_attributes_for :mission_type_rules, :allow_destroy => true, :reject_if => proc { |obj| obj['mission_type_id'].blank? or obj['rule_id'].blank?}
+	accepts_nested_attributes_for :rules, :allow_destroy => true, :reject_if => proc { |obj| obj['name'].blank? or obj['description'].blank? }
 end
