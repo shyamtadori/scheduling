@@ -10,71 +10,73 @@
       </ul>
     </div>
   <% end %>
-  <div class="row">
-    <div class="col-md-10">
-      <div class="form-group">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            Select Pilots
-          </div>
-          <div class="panel-body">
-            <% if @all_pilots.blank? %>
-              <h2>No Pilots available to assign</h2>
-            <% else %>
-              <table id='select_user_table' class='table table-striped datatable'>
-                <thead>
-                  <tr>
-                    <th class='nosort'>
-                      <input type="checkbox" id='select_all_cb' />Select All
-                    </th>
-                    <th>Full Name</th>
-                    <th>User Name</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% @all_pilots.each do |pilot| %>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-10">
+        <div class="form-group">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              Select Pilots
+            </div>
+            <div class="panel-body">
+              <% if @all_pilots.blank? %>
+                <h2>No Pilots available to assign</h2>
+              <% else %>
+                <table id='select_user_table' class='table table-striped datatable'>
+                  <thead>
                     <tr>
-                      <td>
-                        <%= check_box_tag "hitch_pilots[checkbox_user_ids][]", pilot['user_id'], @hitch_pilots.include?(pilot['user_id']), id: 'user_'+pilot['user_id'].to_s, class: "user_checkbox" %>
-                      </td>
-                      <td><%= pilot.full_name %></td>
-                      <td><%= pilot.user_name%></td>              
+                      <th class='nosort'>
+                        <input type="checkbox" id='select_all_cb' />Select All
+                      </th>
+                      <th>Full Name</th>
+                      <th>User Name</th>
                     </tr>
-                  <% end %>
-                </tbody>
-              </table>
-            <% end %>
+                  </thead>
+                  <tbody>
+                    <% @all_pilots.each do |pilot| %>
+                      <tr>
+                        <td>
+                          <%= check_box_tag "hitch_pilots[checkbox_user_ids][]", pilot['user_id'], @hitch_pilots.include?(pilot['user_id']), id: 'user_'+pilot['user_id'].to_s, class: "user_checkbox" %>
+                        </td>
+                        <td><%= pilot.full_name %></td>
+                        <td><%= pilot.user_name%></td>              
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              <% end %>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="form-group">
-          <%= f.label :effective_start_date, "Start Date", class: "col-sm-2 control-label" %>
-          <div class="col-sm-6">
-            <div class="input-group date">
-              <%= f.text_field :effective_start_date, value: @pilots_hitch.effective_start_date.try(:strftime, "%m-%d-%Y"), class: "form-control", id: 'effective_start_date'%>
-              <span class="input-group-addon">
-                <i class="fa fa-calendar" aria-hidden="true"></i>
-              </span>
+        <div class="form-group">
+            <%= f.label :effective_start_date, "Start Date", class: "col-sm-2 control-label" %>
+            <div class="col-sm-6">
+              <div class="input-group date">
+                <%= f.text_field :effective_start_date, value: @pilots_hitch.effective_start_date.try(:strftime, "%m-%d-%Y"), class: "form-control", id: 'effective_start_date'%>
+                <span class="input-group-addon">
+                  <i class="fa fa-calendar" aria-hidden="true"></i>
+                </span>
+              </div>
             </div>
-          </div>
-      </div>
-      <div class="form-group">
-          <%= f.label :effective_end_date, "End Date", class: "col-sm-2 control-label" %>
-          <div class="col-sm-6">
-            <div class="input-group date">
-              <%= f.text_field :effective_end_date, value: @pilots_hitch.effective_end_date.try(:strftime, "%m-%d-%Y"), class: "form-control", id: 'effective_end_date'%>
-              <span class="input-group-addon">
-                <i class="fa fa-calendar" aria-hidden="true"></i>
-              </span>
+        </div>
+        <div class="form-group">
+            <%= f.label :effective_end_date, "End Date", class: "col-sm-2 control-label" %>
+            <div class="col-sm-6">
+              <div class="input-group date">
+                <%= f.text_field :effective_end_date, value: @pilots_hitch.effective_end_date.try(:strftime, "%m-%d-%Y"), class: "form-control", id: 'effective_end_date'%>
+                <span class="input-group-addon">
+                  <i class="fa fa-calendar" aria-hidden="true"></i>
+                </span>
+              </div>
             </div>
-          </div>
+        </div>
       </div>
     </div>
+    <div class="actions" style='padding-bottom: 20px;'>
+      <%= f.submit "Save" , id: "submit-button"%>
+    </div>
   </div>
-
-  <div class="actions" style='padding-bottom: 20px;'>
-    <%= f.submit "Save" , id: "submit-button"%>
-  </div>
+  
 <% end %>
 
 <script>
