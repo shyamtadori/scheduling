@@ -56,6 +56,14 @@ group :development, :test do
   gem 'byebug'
 end
 
+group :test do
+  gem 'rspec-rails', '~> 3.0.0'
+  gem 'factory_girl_rails'
+  gem 'capybara'
+  gem 'database_cleaner'
+  gem 'faker', '= 1.2.0'
+end
+
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
@@ -65,4 +73,3 @@ group :development do
   
   gem 'rubocop', '~> 0.49.1', require: false
 end
-
