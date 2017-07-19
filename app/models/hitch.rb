@@ -6,10 +6,13 @@ class Hitch < ActiveRecord::Base
   include CreatorModifier
 
 	has_many :calendars_hitches
-	has_many :hitches, through: :calendars_hitches
   has_many :pilots_hitches
+  has_many :pilots, through: :pilots_hitches
+
+  accepts_nested_attributes_for :pilots_hitches
 
   validates_presence_of :name, :hour_start, :hour_end
+  validates_length_of :name, :maximum => 250
   validate :hour_end_is_after_hour_start
   validate :hitch_type_should_not_be_null
   validates_presence_of :days_on, :if => lambda { self.days_off && self.days_off > 0 }

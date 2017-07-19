@@ -53,17 +53,21 @@
     <div class="row expaneded">
       <div class="col-sm-12">
         <div class="row">
-          <div class="col-sm-6">
+          <div class="col-sm-4">
             <button type="button" data-url-path="#" class="btn btn-default filter_status" id="associated_hitch_status"><%= 'Active' %></button>
           </div>
-          <div class="col-sm-6">
+          <div class="col-sm-8">
             <%= link_to new_calendar_calendars_hitch_path(@calendar), class: 'btn btn-info float-right' do %>
               <i class="fa fa-plus-square" aria-hidden="true"></i>
-              Add Hitch
-            <% end %>
+                Add Hitch
+              <% end %>
+            <%= link_to new_calendar_calendars_holiday_path(@calendar), class: 'btn btn-info float-right', style: 'margin-right:10px;' do %>
+              <i class="fa fa-plus-square" aria-hidden="true"></i>
+                Add Holidays
+              <% end %>
           </div>    
         </div>
-      
+
       <% if @calendars_hitches.present? %>
         <table class='table table-striped datatable'>
           <thead>

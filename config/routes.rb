@@ -12,17 +12,23 @@ Rails.application.routes.draw do
       get 'add_mission_types'
     end
   end
+  resources :holidays
   resources :calendar_hitch_dates
 
-  resources :pilots_hitches
+  # resources :pilots_hitches
 
   resources :calendars do
     resources :calendars_hitches
     resources :hitches
+    resources :calendars_holidays
   end
 
   
-  resources :hitches
+  resources :hitches do
+    resources :pilots_hitches
+  end
+
+  resources :pilots_hitches
   
   devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.

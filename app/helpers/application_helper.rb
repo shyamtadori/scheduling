@@ -31,15 +31,15 @@ module ApplicationHelper
   end
 
   def date_format(date)
-    date.strftime("%m-%d-%Y")
+    date.strftime("%m-%d-%Y") rescue nil
   end
 
   def date_time_format(date)
-    date.strftime("%m-%d-%Y %H:%M")
+    date.strftime("%m-%d-%Y %H:%M") rescue nil
   end
 
   def time_format(date)
-    date.strftime("%H:%M")
+    date.strftime("%H:%M") rescue nil
   end
   
 end

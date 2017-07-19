@@ -9,7 +9,8 @@ class HitchesController < ApplicationController
 
   # GET /hitches/1
   def show
-    @pilots = nil
+    # @pilots = @hitch.pilots
+    @pilots_hitches = @hitch.pilots_hitches.includes(:pilot)
   end
 
   # GET /hitches/new

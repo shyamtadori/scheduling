@@ -1,5 +1,7 @@
-<h1>New Pilots Hitch</h1>
-
+<h1>Add Pilots to <%= @hitch.name %></h1>
+<ol class="breadcrumb">
+  <li><%= link_to "Manage Hitches", hitches_path %></li>
+  <li><%= link_to "Hitch #{@hitch.name}", @hitch %></li>
+  <li class="active">Adding Pilots</li>
+</ol>
 <%= render 'form' %>
-
-<%= link_to 'Back', pilots_hitches_path %>
