@@ -23,6 +23,12 @@ class Calendar < ActiveRecord::Base
     CalendarsHitch.where(:calendar_id => self.id).destroy_all
   end
 
+  after_save do
+    self.calendars_hitches.each do |calenders_hitch|
+      calenders_hitch.update(last_update_date: Time.now)
+    end
+  end
+
   def id
     calendar_id
   end

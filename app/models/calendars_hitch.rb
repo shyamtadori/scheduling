@@ -30,6 +30,8 @@ class CalendarsHitch < ActiveRecord::Base
   end
 
   after_save do
+    puts '&'*90
+    puts "in calendar_hitch after_save:::::"
     create_calendar_dates
   end
 
@@ -59,8 +61,8 @@ class CalendarsHitch < ActiveRecord::Base
 
     working_dates = hitch.pick_working_dates(all_dates_between, self.initial_days_on, self.initial_days_off)
     working_dates.each do |working_day|
-      new_working_dates << ActiveSupport::TimeZone['UTC'].parse(working_day.strftime("%Y-%m-%d %H:%M:%S"))
-      CalendarHitchDate.where(:work_date => working_day.strftime("%Y-%m-%d"), :cal_hitch_id => self.id).first_or_create
+      new_working_dates << ActiveSupport::TimeZone['UTC'].parse(working_day.strftime("%Y-%m-%d 00:00:00"))
+      CalendarHitchDate.where(:work_date => working_day.strftime("%Y-%m-%d 00:00:00"), :cal_hitch_id => self.id).first_or_create
     end
 
     puts '+'*88
@@ -71,7 +73,7 @@ class CalendarsHitch < ActiveRecord::Base
     puts '@'*80
     puts 'deleted_working_dates:::::'
     deleted_working_dates = existing_working_dates - new_working_dates
-    CalendarHitchDate.where("cal_hitch_id = ? and work_date in (?)", self.id, deleted_working_dates).destroy_all
+    CalendarHitchDate.where("cal_hitch_id = ? and work_date in (?)", self.id, deleted_working_dates).destroy_all if deleted_working_dates.length > 0
     puts '@'*88
   end
 

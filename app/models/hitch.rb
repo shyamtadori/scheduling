@@ -6,7 +6,6 @@ class Hitch < ActiveRecord::Base
   include CreatorModifier
 
 	has_many :calendars_hitches
-	has_many :hitches, through: :calendars_hitches
   has_many :pilots_hitches
 
   validates_presence_of :name, :hour_start, :hour_end
@@ -23,13 +22,18 @@ class Hitch < ActiveRecord::Base
   end
 
   before_update do
-    self.created_by = User.current.id
     self.last_updated_by = User.current.id
   end
 
   before_destroy do
   	# delete all calenders_hitch records
     CalendarsHitch.where(:hitch_id => self.id).destroy_all
+  end
+
+  after_save do
+    self.calendars_hitches.each do |calenders_hitch|
+      calenders_hitch.update(last_update_date: Time.now)
+    end
   end
 
   def id
