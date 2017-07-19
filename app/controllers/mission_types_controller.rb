@@ -1,5 +1,5 @@
 class MissionTypesController < ApplicationController
-  before_action :set_mission_type, only: [:show, :edit, :update, :destroy]
+  before_action :set_mission_type, only: [:show, :edit, :add_rules, :update, :destroy]
 
   # GET /mission_types
   # GET /mission_types.json
@@ -18,6 +18,10 @@ class MissionTypesController < ApplicationController
     @mission_type = MissionType.new
   end
 
+  # GET /mission_type/:id/rules/add_rules
+  def add_rules
+    @unassociated_rules = Rule.joins('left outer join "MISSION_TYPE_RULES" on "MISSION_TYPE_RULES"."RULE_ID" = "RULES"."RULE_ID" and "MISSION_TYPE_RULES"."MISSION_TYPE_ID" = '+ @mission_type.id.to_s).where('"MISSION_TYPE_RULES"."RULE_ID" is null').order('"RULES"."NAME"')
+  end
   # GET /mission_types/1/edit
   def edit
   end
@@ -41,6 +45,9 @@ class MissionTypesController < ApplicationController
   # PATCH/PUT /mission_types/1
   # PATCH/PUT /mission_types/1.json
   def update
+    if mission_type_params.key? 'rule_ids'
+      params[:mission_type][:rule_ids] = mission_type_params[:rule_ids] + @mission_type.rules.pluck(:rule_id).map(&:to_s)
+    end
     respond_to do |format|
       if @mission_type.update(mission_type_params)
         format.html { redirect_to @mission_type, notice: 'Mission type was successfully updated.' }
@@ -70,6 +77,6 @@ class MissionTypesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def mission_type_params
-      params.require(:mission_type).permit(:name, :description, :created_by, :last_updated_by, mission_type_rules_attributes: [:mission_type_id, :rule_id], rules_attributes: [:name, :description])
+      params.require(:mission_type).permit(:name, :description, :created_by, :last_updated_by, :rule_ids => [], mission_type_rules_attributes: [:mission_type_id, :rule_id], rules_attributes: [:name, :description])
     end
 end

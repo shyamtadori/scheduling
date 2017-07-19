@@ -14,6 +14,11 @@ class MissionType < ActiveRecord::Base
     self.last_updated_by = User.current.id
   end
 
+  before_destroy do
+  	# delete all calender hitch records
+    MissionTypeRule.where(:mission_type_id => self.id).destroy_all
+  end
+
 	def id
 		mission_type_id
 	end

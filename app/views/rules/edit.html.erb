@@ -1,6 +1,18 @@
 <ol class="breadcrumb">
-  <li><%= link_to "Manage Mission Types", mission_types_path %></li>
-  <li><%= link_to @mission_type.name, @mission_type %></li>
+  <li><%= link_to "Manage Rules", rules_path %></li>
   <li class="active">Editing rule <%= link_to @rule.name, @rule %></li>
 </ol>
-<%= render 'form' %>
+<%= form_for(@rule, html: {class: "form-horizontal", id: 'mission_type_rules_form'}) do |f| %>
+<div class="container-fluid">
+	<div class="row form-group">
+    <div class="col-md-6 col-lg-6">
+  		<%= render 'form', f: f %>
+  	</div>
+  </div>
+  <div class="row form-group">
+    <div class="col-md-6 col-lg-6">
+      <%= f.submit 'Create Rule', class:"btn btn-default float-right", id: 'submit-button'%>
+    </div>
+  </div>     
+</div>
+<% end %>

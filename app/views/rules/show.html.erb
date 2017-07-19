@@ -1,29 +1,112 @@
-<p id="notice"><%= notice %></p>
+<ol class="breadcrumb">
+  <li><%= link_to "Manage Rules", rules_path %></li>
+  <li class="active"><%= @rule.name%></li>
+</ol>
+<div class="row">
+  <div class="col-md-12">
+    <h2>Rule <%= @rule.name %></h2>
+    <hr>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-8">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-sm-8">Associated Mission Types</div>
+          <div class="col-sm-4 float-right">
+            <%= link_to add_mission_types_rule_path(@rule), class: 'btn btn-info float-right' do %>
+                  <i class="fa fa-plus-square" aria-hidden="true"></i>
+                  Add Mission Types
+                <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="row expaneded">
+          <div class="col-sm-12">
+            <div class="row">
+              <div class="col-sm-6">
+                <button type="button" data-url-path="#" class="btn btn-default filter_status" id="associated_pilot_status"><%= 'Active' %></button>
+              </div>
+              <div class="col-sm-6" id='rule_search_container'>
+              </div>    
+            </div>
+          
+          <% if @mission_type_rules.present? %>
+            <table class='table table-striped datatable'>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th></th>
+                </tr>
+              </thead>
 
-<p>
-  <strong>Name:</strong>
-  <%= @rule.name %>
-</p>
-
-<p>
-  <strong>Description:</strong>
-  <%= @rule.description %>
-</p>
-
-<p>
-  <strong>Code block:</strong>
-  <%= @rule.code_block %>
-</p>
-
-<p>
-  <strong>Created by:</strong>
-  <%= @rule.created_by %>
-</p>
-
-<p>
-  <strong>Last updated by:</strong>
-  <%= @rule.last_updated_by %>
-</p>
-
-<%= link_to 'Edit', edit_rule_path(@rule) %> |
-<%= link_to 'Back', rules_path %>
+              <tbody>
+                <% @mission_type_rules.each do |mission_type_rule| %>
+                  <tr>
+                    <td><%= mission_type_rule.mission_type.name %></td>
+                    <td><%= mission_type_rule.mission_type.description %></td>
+                    <td><%= link_to 'Remove Association', mission_type_mission_type_rule_path(mission_type_rule.mission_type_id, mission_type_rule.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          <% else %>
+            <h3>No Mission Type Currently Associated</h3>
+          <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="panel panel-default float-left width-100">
+      <div class="panel-heading float-left width-100">
+        Details
+        <%= link_to edit_rule_path(@rule), class: 'btn btn-default float-right' do %> 
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+            Edit
+          <% end %>
+      </div>
+        <!-- /.panel-heading -->
+      <div class="panel-body float-left width-100">
+        <div class="list-group">
+            <span class="list-group-item">
+              <i class="fa fa-braille fa-fw"></i> Name
+              <span class="pull-right text-muted small"><em><%= @rule.name %></em>
+              </span>
+            </span>
+            <span class="list-group-item">
+               <i class="fa fa-info fa-fw"></i> Description
+              <span class="pull-right text-muted small"><em><%= @rule.description %></em>
+              </span>
+            </span>
+            <span class="list-group-item">
+                <i class="fa fa-user fa-fw"></i> Create By
+                <span class="pull-right text-muted small"><em><%= @rule.created_user_name %></em>
+                </span>
+            </span>
+            <span class="list-group-item">
+                <i class="fa fa-calendar fa-fw"></i> Creation Date
+                <span class="pull-right text-muted small"><em><%= date_format(@rule.creation_date) %></em>
+                </span>
+            </span>
+            <span class="list-group-item">
+                <i class="fa fa-user fa-fw"></i> Last Updated By
+                <span class="pull-right text-muted small"><em><%= @rule.last_updated_user_name %></em>
+                </span>
+            </span>
+            <span class="list-group-item">
+                <i class="fa fa-calendar fa-fw"></i> Last Updated At
+                <span class="pull-right text-muted small"><em><%= date_format(@rule.last_update_date) %></em>
+                </span>
+            </span>
+        </div>
+        <!-- /.list-group -->
+      </div>
+      <!-- /.panel-body -->
+    </div>
+  </div>
+</div>
