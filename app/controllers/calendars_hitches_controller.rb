@@ -21,7 +21,6 @@ class CalendarsHitchesController < ApplicationController
       @end_date = @calendar.effective_end_date.to_datetime
       @work_days = @calendars_hitch.calendar_hitch_dates.pluck(:work_date).map(&:to_date)
     end
-    
   end
 
 
