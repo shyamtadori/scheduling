@@ -2,10 +2,12 @@
 require 'rails_helper'
 
 describe Calendar do
+	# let(:user) { User.find(1246) }
 	User.current = User.find(1246)
+	
 	it "has a valid factory" do
 		# expect(build(:calendar)).to be_valid
-		expect(build(:calendar, :cal2016)).to be_valid
+		expect(create(:calendar, :cal2016)).to be_valid
 	end
 
 	it "is invalid without a name" do
