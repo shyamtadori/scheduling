@@ -17,7 +17,6 @@ class PilotsHitch < ActiveRecord::Base
   end
 
   before_update do
-    self.created_by = User.current.id
     self.last_updated_by = User.current.id
   end
 

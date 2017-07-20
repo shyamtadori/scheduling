@@ -1,0 +1,7 @@
+<h1>Add Holidays to <%= @calendar.name %></h1>
+<ol class="breadcrumb">
+  <li><%= link_to "Manage Calendars", calendars_path %></li>
+  <li><%= link_to "Calendar #{@calendar.name}", @calendar %></li>
+  <li class="active">Adding Holidays Association </li>
+</ol>
+<%= render 'form' %>

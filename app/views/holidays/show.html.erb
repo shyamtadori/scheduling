@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @holiday.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @holiday.description %>
+</p>
+
+<p>
+  <strong>Holiday date:</strong>
+  <%= @holiday.holiday_date %>
+</p>
+
+<p>
+  <strong>Created by:</strong>
+  <%= @holiday.created_by %>
+</p>
+
+<p>
+  <strong>Creation date:</strong>
+  <%= @holiday.creation_date %>
+</p>
+
+<p>
+  <strong>Last updated by:</strong>
+  <%= @holiday.last_updated_by %>
+</p>
+
+<p>
+  <strong>Last updated date:</strong>
+  <%= @holiday.last_updated_date %>
+</p>
+
+<%= link_to 'Edit', edit_holiday_path(@holiday) %> |
+<%= link_to 'Back', holidays_path %>
