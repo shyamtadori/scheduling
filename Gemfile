@@ -62,6 +62,8 @@ group :test do
   gem 'capybara'
   gem 'database_cleaner'
   gem 'faker', '= 1.2.0'
+  gem 'rspec-collection_matchers'
+  gem 'shoulda-matchers', '~> 3.1'
 end
 
 group :development do

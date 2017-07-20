@@ -9,7 +9,7 @@ class CalendarsHitch < ActiveRecord::Base
   validates_presence_of :hitch
   validates_presence_of :calendar
   validates_absence_of :initial_days_off, :message => ' & initial_days_on can not allowed together', :if => lambda { self.initial_days_on && self.initial_days_on > 0 }
-  validates_absence_of :initial_days_on, :message => ' & initial_days_off can not allowed together', :if => lambda { self.initial_days_on && self.initial_days_off > 0 }
+  validates_absence_of :initial_days_on, :message => ' & initial_days_off can not allowed together', :if => lambda { self.initial_days_off && self.initial_days_off > 0 }
   validates_uniqueness_of :calendar_id, :scope => :hitch_id
 
 	before_create do
@@ -51,7 +51,7 @@ class CalendarsHitch < ActiveRecord::Base
 
     working_dates = hitch.pick_working_dates(all_dates_between, self.initial_days_on, self.initial_days_off)
     working_dates.each do |working_day|
-      puts working_day
+      # puts working_day
       CalendarHitchDate.new(:work_date => working_day, :cal_hitch_id => self.id).save
     end
   end

@@ -25,4 +25,6 @@ describe Calendar do
 	it "is invalid if start_date is after end_date" do
 		expect(build(:calendar, effective_start_date: '2017-12-31', effective_end_date: '2017-01-01')).to_not be_valid
 	end
+
+	# it { should validate_uniqueness_of(:name) 
 end

@@ -3,10 +3,12 @@ require 'rails_helper'
 
 describe Hitch do
 	# let(:user) { User.find(1246) }
-	User.current = User.find(1246)
+	before do
+		User.current = User.find(1246)
+	end
 
 	it "has a valid week-days factory" do
-		expect(build(:hitch, :weekdays_hitch)).to be_valid
+		expect(create(:hitch, :weekdays_hitch)).to be_valid
 	end
 
 	it "has a valid seven-days factory" do
