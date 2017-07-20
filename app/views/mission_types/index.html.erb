@@ -1,0 +1,49 @@
+<div class="row">
+  <div class="col-md-10">
+  <h1>Listing Mission Types 
+    <%= link_to new_mission_type_path, class: 'float-right btn btn-primary' do  %>
+      <i class="fa fa-plus" aria-hidden="true"></i>
+      New Mission Type
+    <% end %>
+  </h1>
+    <table class='table table-striped datatable'>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Created by</th>
+          <th>Creation date</th>
+          <th>Last updated by</th>
+          <th>Last update date</th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+       <% @mission_types.each do |mission_type| %>
+          <tr>
+            <td><%= mission_type.name %></td>
+            <td><%= mission_type.description %></td>
+            <td><%= mission_type.created_user_name %></td>
+            <td><%= date_time_format(mission_type.creation_date) %></td>
+            <td><%= mission_type.last_updated_user_name %></td>
+            <td><%= date_time_format(mission_type.last_update_date) %></td>
+            <td><%= link_to 'Show', mission_type %></td>
+            <td><%= link_to 'Edit', edit_mission_type_path(mission_type) %></td>
+            <td><%= link_to 'Destroy', mission_type, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    
+  </div>
+</div>
+
+<script>
+  $(function(){
+    $('.datatable').DataTable({
+      renderer: "bootstrap"
+    });
+  })
+</script>

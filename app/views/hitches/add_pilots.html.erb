@@ -1,0 +1,120 @@
+<ol class="breadcrumb">
+  <li><%= link_to "Manage hitches", hitches_path %></li>
+  <li><%= link_to @hitch.name, @hitch %></li>
+  <li class="active">Add Pilots</li>
+</ol>
+<%= form_for(@hitch, html: {class: "form-horizontal", id: 'hitch_pilots_form'}) do |f| %>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-6">
+    <% if @unassociated_pilots.present? %>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            Add from Existing Pilots
+          </div>
+          <div class="panel-body">
+            <table id='select_pilot_table' class='table table-striped datatable'>
+              <thead>
+                <tr>
+                  <th class='nosort'></th>
+                  <th>Last Name</th>
+                  <th>First Name</th>
+                  <th>User Name</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%  @unassociated_pilots.each do |pilot| %>
+                  <tr>
+                    <td>
+                    	<%= check_box_tag "hitch[checkbox_pilot_ids][]", pilot['user_id'], false, id: 'pilot_'+pilot['user_id'].to_s, class: "pilot_checkbox" %>
+                    </td>
+                    <td><%= pilot.last_name %></td>
+                    <td><%= pilot.first_name %></td>
+                    <td><%= pilot.user_name%></td>              
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      <div class="data-container"></div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Start Date</label>
+        <div class="col-sm-6">
+          <div class="input-group date">
+            <input class="form-control" id="effective_start_date" type="text" name="effective_start_date">
+            <span class="input-group-addon">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+            </span>
+          </div>
+        </div>
+    	</div>
+
+    	<div class="form-group">
+        <label class="col-sm-2 control-label">End Date</label>
+        <div class="col-sm-6">
+          <div class="input-group date">
+            <input class="form-control" id="effective_end_date" type="text" name="effective_end_date">
+            <span class="input-group-addon">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+            </span>
+          </div>
+        </div>
+    	</div>
+
+
+    <% end %>
+    </div>
+  </div>
+
+  <div class="row form-group">
+    <div class="col-md-6 col-lg-6">
+      <%= f.submit 'Add Pilot(s)', class:"btn btn-default float-right", id: 'submit-button'%>
+    </div>
+  </div>     
+     
+</div>
+  <% if @unassociated_pilots.present? %>
+    <script>
+	      $(document).ready(function(){
+	      	$("#effective_start_date").datetimepicker({
+		      format: 'MM/DD/YYYY'
+		    });
+		    $("#effective_end_date").datetimepicker({
+		      format: 'MM/DD/YYYY'
+		    });
+		    $("#effective_start_date").on("dp.change", function (e) {
+		        $('#effective_end_date').data("DateTimePicker").minDate(e.date);
+		    });
+		    $("#effective_end_date").on("dp.change", function (e) {
+		        $('#effective_start_date').data("DateTimePicker").maxDate(e.date);
+		    });
+
+        var pilot_table = $("#select_pilot_table").DataTable({
+          "order": [[1, "asc"]],
+          "columnDefs":[{
+            "targets": 0,
+            "orderable": false
+          }]
+        });
+
+        $("#submit-button").click(function(e) {
+          e.preventDefault();
+          //Loop through the TR records
+          pilot_table.$(".pilot_checkbox:checked").each(function(index, nRow){
+              //Add to form
+              var nHidden = document.createElement( 'input' );
+              nHidden.type = 'hidden';
+              nHidden.name = $(this).attr('name').replace(/checkbox_/g, '');
+              //Get value from each checkbox
+              nHidden.value = $(this).val();
+              $(".data-container").append( nHidden );
+          });
+
+          $("#hitch_pilots_form").submit();
+        });
+      });
+    </script>
+  <% end %>
+<% end %>

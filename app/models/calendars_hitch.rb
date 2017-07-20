@@ -51,7 +51,7 @@ class CalendarsHitch < ActiveRecord::Base
 
     working_dates = hitch.pick_working_dates(all_dates_between, self.initial_days_on, self.initial_days_off)
     working_dates.each do |working_day|
-      puts working_day
+      # puts working_day
       CalendarHitchDate.new(:work_date => working_day, :cal_hitch_id => self.id).save
     end
   end

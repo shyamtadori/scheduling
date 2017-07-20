@@ -60,5 +60,84 @@ $(document).ready(function(){
       } );
   } );
 });
-</script>
 
+$(function(){
+    var customer_table = $('#customers-datatable').DataTable({
+        "aaSorting": [],
+        responsive: true,
+        'scrollX': true,
+        scrollY:        '30vh',
+        scrollCollapse: true,
+        paging:         false
+    });
+    $("#customer-search-container").append($('#customers-datatable_filter'))
+    $('body').tooltip({
+      selector: '[data-toggle="tooltip"]'
+    })
+    $('#customers-datatable tbody').on( 'click', 'tr', function () {
+        $("#contracts-container").empty();
+        $("#jobs-container").empty();
+        if ( $(this).hasClass('active') ) {
+            $(this).removeClass('active');
+            window.location.hash = null
+        }
+        else {
+          customer_table.$('tr.active').removeClass('active');
+          $(this).addClass('active');
+          var url_path = "/customers/"+ $(this).data("customer-id") +"/contracts"
+          var filter_status = $('#customer_status').html();
+        }
+    });
+    if (window.location.hash) {
+      customer_id = window.location.hash.substr(1).split("&")[1]
+      $("#customer_"+customer_id).trigger('click');
+    }
+  });
+
+</script>
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <div class="row">
+      <div class="col-sm-6">Customers</div>
+      <div class="col-sm-6 float-right" id="customer-search-container"></div>
+    </div>
+  </div>
+  <div class="panel-body">
+  
+  <% if @customers.present? %>
+    <table class="datatable table table-hover talbe-condensed table-striped" id='customers-datatable'>
+      <thead>
+        <tr>
+          <th>Customer Name</th>
+          <th>Address</th>
+          <th>City</th>
+          <th>State</th>
+          <th>Country</th>
+          <th>AR Site Number</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @customers.each_with_index do |customer, index| %>
+          <tr data-customer-id="<%= customer.id %>" id='customer_<%= customer.id %>'>
+            <td>
+            <%= 
+              if (customer.alt_customer_name != customer.customer_name)
+                content_tag :span, customer.customer_name, data: {toggle: 'tooltip'},  title: customer.alt_customer_name, class: 'asterisk-after' 
+              else
+                customer.customer_name
+              end
+            %>
+            </td>
+            <td><%= customer.address %></td>
+            <td><%= customer.city %></td>
+            <td><%= customer.state %></td>
+            <td><%= customer.country %></td>
+            <td><%= customer.ar_site_number %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <h3>No Customers Found</h3>
+  <% end %>
+  </div>

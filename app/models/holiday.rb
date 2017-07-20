@@ -2,6 +2,8 @@ class Holiday < ActiveRecord::Base
 	self.primary_key = 'holiday_id'
   include CreatorModifier
 
+  default_scope { order(:holiday_date => :asc) }
+
   scope :time_between, ->(start_date, end_date) { where("holiday_date >= ? and holiday_date <= ?", start_date, end_date)}
 
 	has_many :calendars_holidays
@@ -10,6 +12,7 @@ class Holiday < ActiveRecord::Base
   validates_presence_of :name, :description, :holiday_date
   validates_length_of :name, :maximum => 250
   validates_length_of :description, :maximum => 1000
+  validates_uniqueness_of :holiday_date
 
   before_create do
     self.created_by = User.current.id

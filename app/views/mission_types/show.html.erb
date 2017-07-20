@@ -1,0 +1,112 @@
+<ol class="breadcrumb">
+  <li><%= link_to "Manage Mission Types", mission_types_path %></li>
+  <li class="active"><%= @mission_type.name%></li>
+</ol>
+<div class="row">
+  <div class="col-md-12">
+    <h2>Mission Type <%= @mission_type.name %></h2>
+    <hr>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-8">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-sm-8">Associated Rules</div>
+          <div class="col-sm-4 float-right">
+          	<%= link_to add_rules_mission_type_path(@mission_type), class: 'btn btn-info float-right' do %>
+                  <i class="fa fa-plus-square" aria-hidden="true"></i>
+                  Add Rules
+                <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="row expaneded">
+          <div class="col-sm-12">
+            <div class="row">
+              <div class="col-sm-6">
+                <button type="button" data-url-path="#" class="btn btn-default filter_status" id="associated_pilot_status"><%= 'Active' %></button>
+              </div>
+              <div class="col-sm-6" id='mission_type_search_container'>
+              </div>    
+            </div>
+          
+          <% if @mission_type_rules.present? %>
+            <table class='table table-striped datatable'>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th></th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @mission_type_rules.each do |mission_type_rule| %>
+                  <tr>
+                    <td><%= mission_type_rule.rule.name %></td>
+                    <td><%= mission_type_rule.rule.description %></td>
+                    <td><%= link_to 'Remove from Mission Type', mission_type_mission_type_rule_path(@mission_type, mission_type_rule.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          <% else %>
+            <h3>No Rules Currently Assigned</h3>
+          <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="panel panel-default float-left width-100">
+      <div class="panel-heading float-left width-100">
+        Details
+        <%= link_to edit_mission_type_path(@mission_type), class: 'btn btn-default float-right' do %> 
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+            Edit
+          <% end %>
+      </div>
+        <!-- /.panel-heading -->
+      <div class="panel-body float-left width-100">
+        <div class="list-group">
+            <span class="list-group-item">
+              <i class="fa fa-braille fa-fw"></i> Name
+              <span class="pull-right text-muted small"><em><%= @mission_type.name %></em>
+              </span>
+            </span>
+            <span class="list-group-item">
+            	 <i class="fa fa-info fa-fw"></i> Description
+              <span class="pull-right text-muted small"><em><%= @mission_type.description %></em>
+              </span>
+            </span>
+            <span class="list-group-item">
+                <i class="fa fa-user fa-fw"></i> Create By
+                <span class="pull-right text-muted small"><em><%= @mission_type.created_user_name %></em>
+                </span>
+            </span>
+            <span class="list-group-item">
+                <i class="fa fa-calendar fa-fw"></i> Creation Date
+                <span class="pull-right text-muted small"><em><%= date_format(@mission_type.creation_date) %></em>
+                </span>
+            </span>
+            <span class="list-group-item">
+                <i class="fa fa-user fa-fw"></i> Last Updated By
+                <span class="pull-right text-muted small"><em><%= @mission_type.last_updated_user_name %></em>
+                </span>
+            </span>
+            <span class="list-group-item">
+                <i class="fa fa-calendar fa-fw"></i> Last Updated At
+                <span class="pull-right text-muted small"><em><%= date_format(@mission_type.last_update_date) %></em>
+                </span>
+            </span>
+        </div>
+        <!-- /.list-group -->
+      </div>
+      <!-- /.panel-body -->
+    </div>
+  </div>
+</div>

@@ -1,6 +1,6 @@
 <%= form_for([@calendar, @calendars_holiday],  html: {class: "form-horizontal", id: "holidays_form"}) do |f| %>
   <% if @calendars_holiday.errors.any? %>
-    <div id="error_explanation">
+    <!-- <div id="error_explanation">
       <h2><%= pluralize(@calendars_holiday.errors.count, "error") %> prohibited this calendars_holiday from being saved:</h2>
 
       <ul>
@@ -8,9 +8,9 @@
         <li><%= message %></li>
       <% end %>
       </ul>
-    </div>
+    </div> -->
   <% end %>
-  <div class="row">
+ <!--  <div class="row">
     <div class="col-md-10">
       <div class="form-group">
         <div class="panel panel-default">
@@ -55,62 +55,62 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
-  <div class="actions" style='padding-bottom: 20px;'>
+  <!-- <div class="actions" style='padding-bottom: 20px;'>
     <%= f.submit "Save" , id: "submit-button"%>
-  </div>
+  </div> -->
 <% end %>
 
 
 <script>
-  $(function(){
-    // Select all check box
-    $('.row').on("click", "#select_all_cb", function(e){
-      var status = this.checked;
-      $('.holiday_checkbox_js').each(function(){
-        this.checked = status;
-      });
-    });
+  // $(function(){
+  //   // Select all check box
+  //   $('.row').on("click", "#select_all_cb", function(e){
+  //     var status = this.checked;
+  //     $('.holiday_checkbox_js').each(function(){
+  //       this.checked = status;
+  //     });
+  //   });
 
-    $('.holiday_checkbox_js').change(function(){ //".checkbox" change
-      //uncheck "select all", if one of the listed checkbox item is unchecked
-      if(this.checked === false){ //if this item is unchecked
-        $("#select_all_cb")[0].checked = false; //change "select all" checked status to false
-      }
+  //   $('.holiday_checkbox_js').change(function(){ //".checkbox" change
+  //     //uncheck "select all", if one of the listed checkbox item is unchecked
+  //     if(this.checked === false){ //if this item is unchecked
+  //       $("#select_all_cb")[0].checked = false; //change "select all" checked status to false
+  //     }
        
-      //check "select all" if all checkbox items are checked
-      if ($('.holiday_checkbox_js:checked').length == $('.holiday_checkbox_js').length ){
-        $("#select_all_cb")[0].checked = true; //change "select all" checked status to true
-      }
-    });
-  });
+  //     //check "select all" if all checkbox items are checked
+  //     if ($('.holiday_checkbox_js:checked').length == $('.holiday_checkbox_js').length ){
+  //       $("#select_all_cb")[0].checked = true; //change "select all" checked status to true
+  //     }
+  //   });
+  // });
 </script>
 
 <script>
-  $(document).ready(function(){
-    var holidays_table = $("#select_holidays_table").DataTable({
-      "order": [[3, "asc"]],
-      "columnDefs":[{
-        "targets": 0,
-        "orderable": false
-      }]
-    });
+  // $(document).ready(function(){
+  //   var holidays_table = $("#select_holidays_table").DataTable({
+  //     "order": [[3, "asc"]],
+  //     "columnDefs":[{
+  //       "targets": 0,
+  //       "orderable": false
+  //     }]
+  //   });
 
-    $("#submit-button").click(function(e) {
-      e.preventDefault();
-      //Loop through the TR records
-      holidays_table.$(".holiday_checkbox_js:checked").each(function(index, nRow){
-          //Add to form
-          var nHidden = document.createElement( 'input' );
-          nHidden.type = 'hidden';
-          nHidden.name = $(this).attr('name').replace(/checkbox_/g, '');
-          //Get value from each checkbox
-          nHidden.value = $(this).val();
-          $(".data-container").append( nHidden );
-      });
+  //   $("#submit-button").click(function(e) {
+  //     e.preventDefault();
+  //     //Loop through the TR records
+  //     holidays_table.$(".holiday_checkbox_js:checked").each(function(index, nRow){
+  //         //Add to form
+  //         var nHidden = document.createElement( 'input' );
+  //         nHidden.type = 'hidden';
+  //         nHidden.name = $(this).attr('name').replace(/checkbox_/g, '');
+  //         //Get value from each checkbox
+  //         nHidden.value = $(this).val();
+  //         $(".data-container").append( nHidden );
+  //     });
 
-      $("#holidays_form").submit();
-    });
-  });
+  //     $("#holidays_form").submit();
+  //   });
+  // });
 </script>

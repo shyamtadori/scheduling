@@ -1,11 +1,27 @@
 Rails.application.routes.draw do
   
+  resources :mission_types do 
+    member do 
+      get 'add_rules'
+    end
+    resources :rules 
+    resources :mission_type_rules
+  end
+
+  resources :rules do
+    member do 
+      get 'add_mission_types'
+    end
+  end
   resources :holidays
   resources :calendar_hitch_dates
 
   # resources :pilots_hitches
 
   resources :calendars do
+    member do
+      get 'add_holidays'
+    end
     resources :calendars_hitches
     resources :hitches
     resources :calendars_holidays
@@ -13,6 +29,9 @@ Rails.application.routes.draw do
 
   
   resources :hitches do
+    member do
+      get 'add_pilots'
+    end
     resources :pilots_hitches
   end
 

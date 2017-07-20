@@ -1,57 +1,39 @@
-<%= form_for(@holiday,  html: {class: "form-horizontal"}) do |f| %>
-  <% if @holiday.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@holiday.errors.count, "error") %> prohibited this holiday from being saved:</h2>
-
-      <ul>
-      <% @holiday.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-<div class="row">
-  <div class="col-md-6">
-    <input type="hidden" name="calendar" value='<%= @calendar.id%>'>
-    <div class="form-group">
-      <%= f.label :name, class: "col-sm-2 control-label" %>
-      <div class="col-sm-10">
-        <%= f.text_field :name, class: "form-control"%>
-      </div>
-    </div>
-    <div class="form-group">
-      <%= f.label :description, class: "col-sm-2 control-label" %>
-      <div class="col-sm-10">
-        <%= f.text_area :description, class: "form-control"%>
-      </div>
-    </div>
-    <div class="form-group">
-      <%= f.label :holiday_date, "Date", class: "col-sm-2 control-label" %>
-      <div class="col-sm-10">
-        <div class="input-group date">
-          <%= f.text_field :holiday_date, value: @holiday.holiday_date.try(:strftime, "%m-%d-%Y"), class: "form-control", id: 'holiday_date'%>
-          <span class="input-group-addon">
-            <i class="fa fa-calendar" aria-hidden="true"></i>
-          </span>
-        </div>  
-      </div>
-    </div>
+<div class="row form-group">
+  <div class="col-sm-2">
+    <%= f.label :name, class: " control-label" %>
+  </div>
+  <div class="col-sm-10">
+    <%= f.text_field :name, class: "form-control"%>
   </div>
 </div>
-<div class="row">
-  <div class="col-md-6 col-lg-6">
-    <div class="form-group">
-      <div class="col-sm-offset-2 col-sm-10">
-        <%= f.submit ( f.object.new_record? ? "Create" : "Update") + ' Holiday', class:"btn btn-default float-right" %>
-      </div>
-    </div> 
+<div class="row form-group">
+  <div class="col-sm-2">
+    <%= f.label :description, class: "control-label" %>
   </div>
-</div> 
-<% end %>
+  <div class="col-sm-10">
+    <%= f.text_area :description, class: "form-control"%>
+  </div>
+</div>
+<div class="row form-group">
+  <div class="col-sm-2">
+    <%= f.label :holiday_date, "Date", class: "control-label" %>
+  </div>
+  <div class="col-sm-10">
+    <div class="input-group date">
+      <%= f.text_field :holiday_date, class: "form-control", id: 'holiday_date'%>
+      <span class="input-group-addon">
+        <i class="fa fa-calendar" aria-hidden="true"></i>
+      </span>
+    </div>  
+  </div>
+</div>
+
 <script>
   $(function(){
     $("#holiday_date").datetimepicker({
-      format: 'MM/DD/YYYY'
+      format: 'YYYY/MM/DD',
+      minDate: moment("<%= @calendar.effective_start_date %>", "YYYY-MM-DD-"),
+      maxDate: moment("<%= @calendar.effective_end_date %>", "YYYY-MM-DD")
     });
   });
 </script>
