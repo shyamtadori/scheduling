@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     resources :rules 
     resources :mission_type_rules
   end
+
   resources :rules do
     member do 
       get 'add_mission_types'
@@ -25,6 +26,9 @@ Rails.application.routes.draw do
 
   
   resources :hitches do
+    member do
+      get 'add_pilots'
+    end
     resources :pilots_hitches
   end
 

@@ -35,6 +35,8 @@ class Hitch < ActiveRecord::Base
     CalendarsHitch.where(:hitch_id => self.id).destroy_all
   end
 
+  accepts_nested_attributes_for :pilots_hitches, :allow_destroy => true, :reject_if => proc { |obj| obj['hitch_id'].blank? or obj['user_id'].blank?}
+
   def id
     hitch_id
   end

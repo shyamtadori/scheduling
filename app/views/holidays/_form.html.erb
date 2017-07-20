@@ -51,7 +51,9 @@
 <script>
   $(function(){
     $("#holiday_date").datetimepicker({
-      format: 'MM/DD/YYYY'
+      format: 'MM/DD/YYYY',
+      minDate: moment("<%= @calendar.effective_start_date %>", "YYYY-MM-DD-"),
+      maxDate: moment("<%= @calendar.effective_end_date %>", "YYYY-MM-DD")
     });
   });
 </script>
