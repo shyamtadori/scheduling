@@ -14,10 +14,22 @@ FactoryGirl.define do
 		effective_end_date '2017-12-31'
 	end
 
+	trait :cal_jan_2017 do
+		name 'Calendar 2017'
+		effective_start_date '2017-01-01'
+		effective_end_date '2017-01-31'
+	end
+
 	trait :cal2016 do
 		name 'Calendar 2016'
 		effective_start_date '2016-01-01'
 		effective_end_date '2016-12-31'
+	end
+
+	trait :cal2015 do
+		name 'Calendar 2015'
+		effective_start_date '2015-01-01'
+		effective_end_date '2015-12-31'
 	end
 end
 
