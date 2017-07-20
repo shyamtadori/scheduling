@@ -1,0 +1,76 @@
+<ol class="breadcrumb">
+  <li><%= link_to "Manage Rules", rules_path %></li>
+  <li><%= link_to @rule.name, @rule %></li>
+  <li class="active">Add Mission Types</li>
+</ol>
+<%= form_for(@rule, html: {class: "form-horizontal", id: 'rule_mission_types_form'}) do |f| %>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-6">
+    <% if @unassociated_mission_types.present? %>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            Mission Types
+          </div>
+          <div class="panel-body">
+            <table id='select_mission_type_table' class='table table-striped datatable'>
+              <thead>
+                <tr>
+                  <th class='nosort'></th>
+                  <th>Mission Type</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%  @unassociated_mission_types.each do |mission_type| %>
+                  <tr>
+                    <td>
+                      <%= check_box_tag "rule[checkbox_mission_type_ids][]", mission_type['mission_type_id'], false, id: 'mission_type_'+ mission_type['mission_type_id'].to_s, class: "mission_type_checkbox" %>
+                    </td>
+                    <td><%= mission_type.name %></td>
+                    <td><%= mission_type.description%></td>              
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      <div class="data-container"></div>
+    <% end %>
+    </div>
+  </div>
+  <div class="row form-group">
+    <div class="col-md-6 col-lg-6">
+      <%= f.submit 'Add Mission Type(s)', class:"btn btn-default float-right", id: 'submit-button'%>
+    </div>
+  </div>     
+     
+</div>
+    <script>
+      $(document).ready(function(){
+        var mission_type_table = $("#select_mission_type_table").DataTable({
+          "order": [[1, "asc"]],
+          "columnDefs":[{
+            "targets": 0,
+            "orderable": false
+          }]
+        });
+
+        $("#submit-button").click(function(e) {
+          e.preventDefault();
+          //Loop through the TR records
+          mission_type_table.$(".mission_type_checkbox:checked").each(function(index, nRow){
+              //Add to form
+              var nHidden = document.createElement( 'input' );
+              nHidden.type = 'hidden';
+              nHidden.name = $(this).attr('name').replace(/checkbox_/g, '');
+              //Get value from each checkbox
+              nHidden.value = $(this).val();
+              $(".data-container").append( nHidden );
+          });
+
+          $("#rule_mission_types_form").submit();
+        });
+      });
+    </script>
+<% end %>

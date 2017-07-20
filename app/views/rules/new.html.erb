@@ -1,0 +1,18 @@
+<ol class="breadcrumb">
+  <li><%= link_to "Manage Rules", rules_path %></li>
+  <li class="active">Add Rule(s)</li>
+</ol>
+<%= form_for(@rule, html: {class: "form-horizontal", id: 'mission_type_rules_form'}) do |f| %>
+<div class="container-fluid">
+	<div class="row form-group">
+    <div class="col-md-6 col-lg-6">
+  		<%= render 'form', f: f %>
+  	</div>
+  </div>
+  <div class="row form-group">
+    <div class="col-md-6 col-lg-6">
+      <%= f.submit 'Create Rule', class:"btn btn-default float-right", id: 'submit-button'%>
+    </div>
+  </div>     
+</div>
+<% end %>

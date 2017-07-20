@@ -35,7 +35,7 @@
   <div class="col-md-4">
     <p class='secondary'>
       <strong>Last updated by:</strong>
-      <%= @calendar.last_upated_user_name %><br>
+      <%= @calendar.last_updated_user_name %><br>
       <strong>Last update date:</strong>
       <%= date_format(@calendar.last_update_date) %>
     </p>
@@ -109,7 +109,7 @@
                 <td><%= time_format(calendars_hitch.hitch.hour_start) %></td>
                 <td><%= time_format(calendars_hitch.hitch.hour_end) %></td>
                 <td><%= calendars_hitch.hitch.created_user_name %></td>
-                <td><%= calendars_hitch.hitch.last_upated_user_name %></td>
+                <td><%= calendars_hitch.hitch.last_updated_user_name %></td>
                 <td><%= date_time_format(calendars_hitch.hitch.creation_date) %></td>
                 <td><%= date_time_format(calendars_hitch.hitch.last_update_date) %></td>
                 <td><%= link_to 'View Calendar', calendar_calendars_hitch_path(@calendar, calendars_hitch) %></td>

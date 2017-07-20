@@ -1,5 +1,17 @@
 Rails.application.routes.draw do
   
+  resources :mission_types do 
+    member do 
+      get 'add_rules'
+    end
+    resources :rules 
+    resources :mission_type_rules
+  end
+  resources :rules do
+    member do 
+      get 'add_mission_types'
+    end
+  end
   resources :holidays
   resources :calendar_hitch_dates
 

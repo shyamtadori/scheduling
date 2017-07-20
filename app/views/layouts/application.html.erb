@@ -151,6 +151,26 @@
                     <%end%>
                   </li>
                 <!-- END: Calendars management -->
+                <!-- BEGIN: Mission_types management -->
+                  <li class="mission_types_nav">
+                    <%= link_to mission_types_path do %>
+                      <span class="nav-icon">
+                        <i class="fa fa-fw fa-edit"></i>
+                      </span>
+                      <span class="nav-title">Mission Types</span>
+                    <%end%>
+                  </li>
+                <!-- END: Mission_types management -->
+                <!-- BEGIN: Mission_types management -->
+                  <li class="mission_types_nav">
+                    <%= link_to rules_path do %>
+                      <span class="nav-icon">
+                        <i class="fa fa-fw fa-edit"></i>
+                      </span>
+                      <span class="nav-title">Rules</span>
+                    <%end%>
+                  </li>
+                <!-- END: Mission_types management -->
               </ul>
               <!-- END: nav-content -->
             </nav>
@@ -194,16 +214,14 @@
   <!-- END: .app -->
   <script>
     $(function() {
-      if (location.pathname.split("/").length >=1){
-
-        $('nav a[href^="' + location.pathname + '"]').addClass('active').parent().parent().parent().addClass('active').find('ul.collapse[aria-expanded="false"]').attr('aria-expanded', 'true').addClass('in').parent().find('a[href="javascript:;"]').attr('aria-expanded', 'true');
+      location_array = location.pathname.split("/")
+      if ((location_array[1].length > 0) && $('nav a[href^="' + location.pathname + '"]').length > 0){
+              $('nav a[href^="' + location.pathname + '"]').addClass('active').parent().parent().parent().addClass('active').find('ul.collapse[aria-expanded="false"]').attr('aria-expanded', 'true').addClass('in').parent().find('a[href="javascript:;"]').attr('aria-expanded', 'true');
       }
-      else{
-        if ($('.'+location.pathname.split("/")[1] + '_nav').length != -1)
-        {
-          $('.'+location.pathname.split("/")[1] + '_nav').addClass('active').find('ul.collapse[aria-expanded="false"]').attr('aria-expanded', 'true').addClass('in').parent().find('a[href="javascript:;"]').attr('aria-expanded', 'true');  
-        }
+      else if ((location_array[1].length > 0) && ($('nav a[href^="/' + location_array[1] + '"]').length > 0)) {
+        $('nav a[href^="/' + location_array[1] + '"]').addClass('active').parent().parent().parent().addClass('active').find('ul.collapse[aria-expanded="false"]').attr('aria-expanded', 'true').addClass('in').parent().find('a[href="javascript:;"]').attr('aria-expanded', 'true');
       }
+    
 
       $("body").bind('change_size', function(){
         e = setTimeout(setMaxWidth, 300);
