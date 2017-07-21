@@ -19,6 +19,9 @@ Rails.application.routes.draw do
   # resources :pilots_hitches
 
   resources :calendars do
+    member do
+      get 'add_holidays'
+    end
     resources :calendars_hitches
     resources :hitches
     resources :calendars_holidays
