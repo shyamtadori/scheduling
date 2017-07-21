@@ -1,6 +1,6 @@
 class CalendarsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_calendar, only: [:show, :add_holidays, :edit, :update, :destroy]
+  before_action :set_calendar, only: [:show, :add_holidays, :edit, :update, :holidays_update, :destroy]
 
 
   # GET /calendars
@@ -57,12 +57,24 @@ class CalendarsController < ApplicationController
     end
   end
 
+  def holidays_update
+    if calendar_params.key? 'holiday_ids'
+      is_holiday_update = true
+      params[:calendar][:holiday_ids] = calendar_params[:holiday_ids] + @calendar.holidays.pluck(:holiday_id).map(&:to_s)
+    end
+    respond_to do |format|
+      if @calendar.update(calendar_params)# @calendar.save
+        format.html { redirect_to @calendar, notice:  "Holidays updated successfully."}
+        format.json { render :show, status: :ok, location: @calendar }
+      else
+        format.html { render :add_holidays }
+      end
+    end
+  end
+
   # PATCH/PUT /calendars/1
   # PATCH/PUT /calendars/1.json
   def update
-    if calendar_params.key? 'holiday_ids'
-      params[:calendar][:holiday_ids] = calendar_params[:holiday_ids] + @calendar.holidays.pluck(:holiday_id).map(&:to_s)
-    end
     if params[:calendar].has_key?(:effective_start_date)
       params[:calendar][:effective_start_date] = Date.strptime(params[:calendar][:effective_start_date], "%m/%d/%Y") rescue nil
     end
@@ -71,11 +83,10 @@ class CalendarsController < ApplicationController
     end
     respond_to do |format|
       if @calendar.update(calendar_params)# @calendar.save
-        format.html { redirect_to @calendar, notice: 'Calendar was successfully updated.' }
+        format.html { redirect_to @calendar, notice: "Calendar was successfully updated."}
         format.json { render :show, status: :ok, location: @calendar }
       else
         format.html { render :edit }
-        format.json { render json: @calendar.errors, status: :unprocessable_entity }
       end
     end
   end

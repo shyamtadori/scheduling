@@ -4,6 +4,7 @@
   <li class="active">Add Pilots</li>
 </ol>
 <%= form_for(@hitch, html: {class: "form-horizontal", id: 'hitch_pilots_form'}) do |f| %>
+<input type="hidden" name="hitch['dummy']" value="">
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-6">

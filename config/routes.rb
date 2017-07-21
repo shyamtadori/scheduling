@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   resources :calendars do
     member do
       get 'add_holidays'
+      patch 'holidays_update'
     end
     resources :calendars_hitches
     resources :hitches
