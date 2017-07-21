@@ -61,10 +61,7 @@
               <i class="fa fa-plus-square" aria-hidden="true"></i>
                 Add Hitch
               <% end %>
-            <%= link_to add_holidays_calendar_path(@calendar), class: 'btn btn-info float-right', style: 'margin-right:10px;' do %>
-              <i class="fa fa-plus-square" aria-hidden="true"></i>
-                Add Holidays
-              <% end %>
+            
           </div>    
         </div>
 
@@ -126,3 +123,5 @@
     </div>
   </div>
 </div>
+
+<%= render('holidays_list') %>

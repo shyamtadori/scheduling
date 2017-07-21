@@ -33,16 +33,23 @@ class CalendarsHolidaysController < ApplicationController
   #     format.html { redirect_to @calendar, notice: 'Holidays updated successfully.' }
   #   end
   # end
+  def destroy
+    @calendars_holiday.destroy
+    respond_to do |format|
+      format.html { redirect_to @calendar, notice: 'Holiday was successfully unassociated.' }
+      format.json { head :no_content }
+    end
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    # def set_calendars_holiday
-    #   @calendars_holiday = CalendarsHoliday.find(params[:id])
-    # end
+    def set_calendars_holiday
+      @calendars_holiday = CalendarsHoliday.find(params[:id])
+    end
 
-    # def set_calendar
-    #   @calendar = Calendar.find(params[:calendar_id])
-    # end
+    def set_calendar
+      @calendar = Calendar.find(params[:calendar_id])
+    end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def calendars_holiday_params

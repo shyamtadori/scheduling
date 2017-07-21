@@ -13,6 +13,7 @@ class CalendarsController < ApplicationController
   # GET /calendars/1.json
   def show
     @calendars_hitches = @calendar.calendars_hitches.includes(:hitch)
+    @calendar_holidays = @calendar.calendars_holidays.includes(:holiday)
   end
 
   # GET /calendars/new

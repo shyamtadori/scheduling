@@ -1,0 +1,57 @@
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <div class="row">
+      <div class="col-sm-8">Associated Holidays</div>
+      <div class="col-sm-4 float-right" id="holiday-search-container"></div>
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="row expaneded">
+      <div class="col-sm-12">
+        <%= link_to add_holidays_calendar_path(@calendar), class: 'btn btn-info float-right' do %>
+          <i class="fa fa-plus-square" aria-hidden="true"></i>
+            Add Holidays
+        <% end %>
+      </div>
+
+      <% if @calendar_holidays.present? %>
+        <table class='table table-striped datatable'>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Holiday date</th>
+              <th>Created by</th>
+              <th>Last updated by</th>
+              <th>Creation date</th>
+              <th>Last updated date</th>
+              <th></th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @calendar_holidays.each do |calendar_holiday| %>
+              <% holiday = calendar_holiday.holiday %>
+              <tr>
+                <td><%= holiday.name %></td>
+                <td><%= holiday.description %></td>
+                <td>
+                  <%= date_time_format(holiday.holiday_date) %>
+                </td>
+                <td><%= holiday.created_user_name %></td>
+                <td><%= holiday.last_updated_user_name %></td>
+                <td><%= date_time_format(holiday.creation_date) %></td>
+                <td><%= date_time_format(holiday.last_update_date) %></td>
+                <td><%= link_to 'Remove from Calendar', calendar_calendars_holiday_path(@calendar,calendar_holiday.id), method: :delete, data: { confirm: 'Are you sure?' } %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% else %>
+        <h3 style='padding-left: 20px;'>No holidays found</h3>
+      <% end %>
+      </div>
+    </div>
+  </div>
+</div>

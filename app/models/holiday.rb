@@ -10,6 +10,7 @@ class Holiday < ActiveRecord::Base
   validates_presence_of :name, :description, :holiday_date
   validates_length_of :name, :maximum => 250
   validates_length_of :description, :maximum => 1000
+  validates_uniqueness_of :holiday_date
 
   before_create do
     self.created_by = User.current.id

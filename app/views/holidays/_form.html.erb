@@ -1,4 +1,4 @@
-<!-- <div class="row form-group">
+<div class="row form-group">
   <div class="col-sm-2">
     <%= f.label :name, class: " control-label" %>
   </div>
@@ -26,14 +26,14 @@
       </span>
     </div>  
   </div>
-</div> -->
+</div>
 
 <script>
-  // $(function(){
-  //   $("#holiday_date").datetimepicker({
-  //     format: 'YYYY/MM/DD',
-  //     minDate: moment("<%= @calendar.effective_start_date %>", "YYYY-MM-DD-"),
-  //     maxDate: moment("<%= @calendar.effective_end_date %>", "YYYY-MM-DD")
-  //   });
-  // });
+  $(function(){
+    $("#holiday_date").datetimepicker({
+      format: 'YYYY/MM/DD',
+      minDate: moment("<%= @calendar.effective_start_date %>", "YYYY-MM-DD-"),
+      maxDate: moment("<%= @calendar.effective_end_date %>", "YYYY-MM-DD")
+    });
+  });
 </script>
