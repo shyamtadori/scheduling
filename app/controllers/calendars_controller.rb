@@ -57,6 +57,7 @@ class CalendarsController < ApplicationController
     end
   end
 
+  # PATCH /calendars/1/holidays_update
   def holidays_update
     if calendar_params.key? 'holiday_ids'
       is_holiday_update = true

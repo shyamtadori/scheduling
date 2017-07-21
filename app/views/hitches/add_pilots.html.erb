@@ -3,7 +3,7 @@
   <li><%= link_to @hitch.name, @hitch %></li>
   <li class="active">Add Pilots</li>
 </ol>
-<%= form_for(@hitch, html: {class: "form-horizontal", id: 'hitch_pilots_form'}) do |f| %>
+<%= form_for(@hitch, :url => url_for(:action => 'pilots_update', :method => 'patch'), html: {class: "form-horizontal", id: 'hitch_pilots_form'}) do |f| %>
 <input type="hidden" name="hitch['dummy']" value="">
 <div class="container-fluid">
   <div class="row">
