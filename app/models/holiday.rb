@@ -2,6 +2,8 @@ class Holiday < ActiveRecord::Base
 	self.primary_key = 'holiday_id'
   include CreatorModifier
 
+  default_scope { order(:holiday_date => :asc) }
+
   scope :time_between, ->(start_date, end_date) { where("holiday_date >= ? and holiday_date <= ?", start_date, end_date)}
 
 	has_many :calendars_holidays
