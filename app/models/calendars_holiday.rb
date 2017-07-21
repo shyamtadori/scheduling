@@ -14,9 +14,9 @@ class CalendarsHoliday < ActiveRecord::Base
     self.last_updated_by = User.current.id
   end
 
-  after_destroy do
-    if CalendarsHoliday.where(:holiday_id => self.holiday_id).count == 0
-      Holiday.find(self.holiday_id).delete
-    end
-  end
+  # after_destroy do
+  #   if CalendarsHoliday.where(:holiday_id => self.holiday_id).count == 0
+  #     Holiday.find(self.holiday_id).delete
+  #   end
+  # end
 end
