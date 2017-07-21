@@ -12,10 +12,9 @@
           <i class="fa fa-plus-square" aria-hidden="true"></i>
             Add Holidays
         <% end %>
-      </div>
 
       <% if @calendar_holidays.present? %>
-        <table class='table table-striped datatable'>
+        <table class='table table-striped datatable' id='holidays_table'>
           <thead>
             <tr>
               <th>Name</th>
@@ -36,7 +35,7 @@
                 <td><%= holiday.name %></td>
                 <td><%= holiday.description %></td>
                 <td>
-                  <%= date_time_format(holiday.holiday_date) %>
+                  <%= date_format(holiday.holiday_date) %>
                 </td>
                 <td><%= holiday.created_user_name %></td>
                 <td><%= holiday.last_updated_user_name %></td>
@@ -55,3 +54,17 @@
     </div>
   </div>
 </div>
+
+<script>
+  $(function(){
+    $('#holidays_table').DataTable({
+      "bFilter": false,
+      "bPaginate": false,
+      "order": [[2, "asc"]],
+      "columnDefs":[{
+        "targets": 7,
+        "orderable": false
+      }]
+    });
+  });
+</script>
