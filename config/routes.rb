@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   
+  resources :schedules
   resources :mission_types do 
     member do 
       get 'add_rules'
@@ -21,6 +22,7 @@ Rails.application.routes.draw do
   resources :calendars do
     member do
       get 'add_holidays'
+      patch 'holidays_update'
     end
     resources :calendars_hitches
     resources :hitches
@@ -31,6 +33,7 @@ Rails.application.routes.draw do
   resources :hitches do
     member do
       get 'add_pilots'
+      patch 'pilots_update'
     end
     resources :pilots_hitches
   end

@@ -1,0 +1,54 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Schedule date:</strong>
+  <%= @schedule.schedule_date %>
+</p>
+
+<p>
+  <strong>Location idx:</strong>
+  <%= @schedule.location_idx %>
+</p>
+
+<p>
+  <strong>Job idx:</strong>
+  <%= @schedule.job_idx %>
+</p>
+
+<p>
+  <strong>Model idx:</strong>
+  <%= @schedule.model_idx %>
+</p>
+
+<p>
+  <strong>Mission:</strong>
+  <%= @schedule.mission_id %>
+</p>
+
+<p>
+  <strong>Asset idx:</strong>
+  <%= @schedule.asset_idx %>
+</p>
+
+<p>
+  <strong>Pic:</strong>
+  <%= @schedule.pic_id %>
+</p>
+
+<p>
+  <strong>Sic:</strong>
+  <%= @schedule.sic_id %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @schedule.user_id %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @schedule.status %>
+</p>
+
+<%= link_to 'Edit', edit_schedule_path(@schedule) %> |
+<%= link_to 'Back', schedules_path %>
