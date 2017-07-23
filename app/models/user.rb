@@ -13,10 +13,13 @@ class User < ActiveRecord::Base
   # :username, :first_name, :job_description, :last_name, :status, :created_by
   # :hr_group, :organization, :updated_by, :in_avatier, :pilot, :amt
 
+  PILOT_TYPE = 'pilot'
+  AMT_TYPE = 'AMT'
   
   TIME_ZONE_OPTIONS = ActiveSupport::TimeZone::MAPPING.select{ |k , v| ["Central Time (US & Canada)","Alaska", "UTC", "Eastern Time (US & Canada)", "Pacific Time (US & Canada)", "Brasilia"].include?(k)  }.to_a.each{ |a| a.reverse!}
   
   has_many :pilots_hitches, class_name: "PilotsHitch", foreign_key: "user_id"
+  has_many :hitches, through: :pilots_hitches
   
   scope :pilot, -> { where(pilot: true) }
 
@@ -29,7 +32,7 @@ class User < ActiveRecord::Base
   end
 
   def readonly?
-    true
+    false
   end
 
   def encrypted_password=(a)
@@ -46,6 +49,16 @@ class User < ActiveRecord::Base
 
   def full_name
     (last_name || "") + ', ' + (first_name || "")
+  end
+
+  def type
+    if pilot
+      PILOT_TYPE
+    elsif amt
+      AMT_TYPE
+    else
+      "N/A"
+    end
   end
 
   def id
