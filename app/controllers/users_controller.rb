@@ -28,6 +28,7 @@ class UsersController < ApplicationController
       params[:effective_start_date] = selected_start_date
       params[:effective_end_date] = selected_start_date
     end
+
     respond_to do |format|
       if @user.update(user_params)
         @user.pilots_hitches.where(effective_start_date: nil, effective_end_date: nil)
