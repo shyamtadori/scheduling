@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   
+  resources :schedules
   resources :mission_types do 
     member do 
       get 'add_rules'
