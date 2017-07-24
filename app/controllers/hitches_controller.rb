@@ -21,7 +21,8 @@ class HitchesController < ApplicationController
 
   # GET /hitches/:id/add_pilots
   def add_pilots
-    @unassociated_pilots = User.joins('left outer join "PILOTS_HITCHES" on "PILOTS_HITCHES"."USER_ID" = "TRN_USERS"."USER_ID" and "PILOTS_HITCHES"."HITCH_ID" = '+ @hitch.id.to_s).where('"PILOTS_HITCHES"."HITCH_ID" is null').order('"TRN_USERS"."FIRST_NAME"')
+    # @unassociated_pilots = User.joins('left outer join "PILOTS_HITCHES" on "PILOTS_HITCHES"."USER_ID" = "TRN_USERS"."USER_ID" and "PILOTS_HITCHES"."HITCH_ID" = '+ @hitch.id.to_s).where('"PILOTS_HITCHES"."HITCH_ID" is null').order('"TRN_USERS"."FIRST_NAME"')
+    @unassociated_pilots = User.joins('left outer join "PILOTS_HITCHES" on "PILOTS_HITCHES"."USER_ID" = "TRN_USERS"."USER_ID" and "PILOTS_HITCHES"."HITCH_ID" = '+ @hitch.id.to_s).where('"PILOTS_HITCHES"."HITCH_ID" is null and "TRN_USERS"."PILOT" = 1').order('"TRN_USERS"."FIRST_NAME"')
   end
 
   # GET /hitches/1/edit

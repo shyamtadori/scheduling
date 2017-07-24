@@ -8,6 +8,7 @@
       <th>Pilot</th>
       <th>Job description</th>
       <th>Status</th>
+      <th></th>
     </tr>
   </thead>
   <tfoot class="search_header">
@@ -29,6 +30,7 @@
       <td><%= user.pilot %></td>
       <td><%= user.job_description %></td>
       <td><%= user.status %></td>
+      <td><%= link_to 'Show', user %></td>
     </tr>
   <% end %>
   </tbody>
@@ -44,9 +46,13 @@ $(document).ready(function(){
   } );
 
   var user_table = $("#user_table").DataTable({
-    "order": [[0, "asc"]]
-
+    "order": [[0, "asc"]],
+    "columnDefs":[{
+      "targets": 6,
+      "orderable": false
+    }]
   });
+
 
   user_table.columns().every( function () {
       var that = this;

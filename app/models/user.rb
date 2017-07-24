@@ -17,6 +17,7 @@ class User < ActiveRecord::Base
   TIME_ZONE_OPTIONS = ActiveSupport::TimeZone::MAPPING.select{ |k , v| ["Central Time (US & Canada)","Alaska", "UTC", "Eastern Time (US & Canada)", "Pacific Time (US & Canada)", "Brasilia"].include?(k)  }.to_a.each{ |a| a.reverse!}
   
   has_many :pilots_hitches, class_name: "PilotsHitch", foreign_key: "user_id"
+  has_many :hitches, through: :pilots_hitches
   
   scope :pilot, -> { where(pilot: true) }
 
@@ -46,6 +47,16 @@ class User < ActiveRecord::Base
 
   def full_name
     (last_name || "") + ', ' + (first_name || "")
+  end
+
+  def type
+    if pilot
+      "Pilot"
+    elsif amt
+      "AMT"
+    else
+      "N/A"
+    end
   end
 
   def id

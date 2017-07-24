@@ -1,0 +1,135 @@
+<ol class="breadcrumb">
+  <li><%= link_to "Manage Users", users_path %></li>
+  <li><%= link_to @user.username, @user %></li>
+  <li class="active">Add Hitches</li>
+</ol>
+<%= form_for(@user, html: {class: "form-horizontal", id: 'pilot_hitches_form'}) do |f| %>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-6">
+    <% if @unassociated_hitches.present? %>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            Add from Existing Hitches
+          </div>
+          <div class="panel-body">
+            <table id='select_hitch_table' class='table table-striped datatable'>
+              <thead>
+                <tr>
+                  <th  class='nosort'></th>
+                  <th>Name</th>
+                  <th>Days on/off</th>
+                  <th>Week Days</th>
+                  <th>Hour start</th>
+                  <th>Hour end</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%  @unassociated_hitches.each do |hitch| %>
+                  <tr>
+                    <td>
+                    	<%= check_box_tag "pilot[checkbox_hitch_ids][]", hitch['id'], false, id: 'hitch_'+hitch['id'].to_s, class: "hitch_checkbox" %>
+                    </td>
+                    <td><%= hitch.name %></td>
+                    <td><%= hitch.days_on || 'N' %>/<%= hitch.days_off || 'A'%></td>
+                    <td class="no-wrap">
+                      <% if hitch.work_type == 'days_on_off' %>
+                        N/A
+                      <% else %>
+                        <span class='label label-<%= hitch.mon ? "primary" : "default" %>'>Mon</span>
+                        <span class='label label-<%= hitch.tue ? "primary" : "default" %>'>Tue</span>
+                        <span class='label label-<%= hitch.wed ? "primary" : "default" %>'>Wed</span>
+                        <span class='label label-<%= hitch.thu ? "primary" : "default" %>'>Thu</span>
+                        <span class='label label-<%= hitch.fri ? "primary" : "default" %>'>Fri</span>
+                        <span class='label label-<%= hitch.sat ? "primary" : "default" %>'>Sat</span>
+                        <span class='label label-<%= hitch.sun ? "primary" : "default" %>'>Sun</span>
+                      <% end %>
+                    </td>
+                    <td><%= time_format(hitch.hour_start) %></td>
+                    <td><%= time_format(hitch.hour_end) %></td>             
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      <div class="data-container"></div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Start Date</label>
+        <div class="col-sm-6">
+          <div class="input-group date">
+            <input class="form-control" id="effective_start_date" type="text" name="effective_start_date">
+            <span class="input-group-addon">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+            </span>
+          </div>
+        </div>
+    	</div>
+
+    	<div class="form-group">
+        <label class="col-sm-2 control-label">End Date</label>
+        <div class="col-sm-6">
+          <div class="input-group date">
+            <input class="form-control" id="effective_end_date" type="text" name="effective_end_date">
+            <span class="input-group-addon">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+            </span>
+          </div>
+        </div>
+    	</div>
+
+    <% end %>
+    </div>
+  </div>
+
+  <div class="row form-group">
+    <div class="col-md-6 col-lg-6">
+      <%= f.submit 'Add Hitches', class:"btn btn-default float-right", id: 'submit-button'%>
+    </div>
+  </div>     
+     
+</div>
+  <% if @unassociated_hitches.present? %>
+    <script>
+	      $(document).ready(function(){
+	      	$("#effective_start_date").datetimepicker({
+		      format: 'MM/DD/YYYY'
+		    });
+		    $("#effective_end_date").datetimepicker({
+		      format: 'MM/DD/YYYY'
+		    });
+		    $("#effective_start_date").on("dp.change", function (e) {
+		        $('#effective_end_date').data("DateTimePicker").minDate(e.date);
+		    });
+		    $("#effective_end_date").on("dp.change", function (e) {
+		        $('#effective_start_date').data("DateTimePicker").maxDate(e.date);
+		    });
+
+        var hitch_table = $("#select_hitch_table").DataTable({
+          "order": [[1, "asc"]],
+          "columnDefs":[{
+            "targets": 0,
+            "orderable": false
+          }]
+        });
+
+        $("#submit-button").click(function(e) {
+          e.preventDefault();
+          //Loop through the TR records
+          hitch_table.$(".hitch_checkbox:checked").each(function(index, nRow){
+              //Add to form
+              var nHidden = document.createElement( 'input' );
+              nHidden.type = 'hidden';
+              nHidden.name = $(this).attr('name').replace(/checkbox_/g, '');
+              //Get value from each checkbox
+              nHidden.value = $(this).val();
+              $(".data-container").append( nHidden );
+          });
+
+          $("#pilot_hitches_form").submit();
+        });
+      });
+    </script>
+  <% end %>
+<% end %>
