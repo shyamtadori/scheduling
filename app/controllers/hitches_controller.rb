@@ -1,6 +1,6 @@
 class HitchesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_hitch, only: [:show, :add_pilots, :edit, :update, :destroy]
+  before_action :set_hitch, only: [:show, :add_pilots, :edit, :update, :pilots_update, :destroy]
 
   # GET /hitches
   def index
@@ -44,10 +44,9 @@ class HitchesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /hitches/1
-  def update
+  # PATCH /hitches/1/pilots_update
+  def pilots_update
     if hitch_params.key? 'pilot_ids'
-      is_adding_pilots = true
       params[:hitch][:pilot_ids] = hitch_params[:pilot_ids] + @hitch.pilots.pluck(:user_id).map(&:to_s)
       if valid_date?(params[:effective_start_date]) && valid_date?(params[:effective_end_date])
         selected_start_date = params[:effective_start_date]
@@ -61,12 +60,23 @@ class HitchesController < ApplicationController
     end
     respond_to do |format|
       if @hitch.update(hitch_params)
-        if is_adding_pilots
-          @hitch.pilots_hitches.where(effective_start_date: nil, effective_end_date: nil)
+        @hitch.pilots_hitches.where(effective_start_date: nil, effective_end_date: nil)
                          .update_all(:effective_start_date => Date.strptime(selected_start_date, "%m/%d/%Y"),
                                      :effective_end_date => Date.strptime(selected_end_date, "%m/%d/%Y"))
-        end
+        
+        format.html { redirect_to @hitch, notice: 'Pilots added successfully.' }
+        format.json { render :show, status: :ok, location: @hitch }
+      else
+        format.html { render :edit }
+        format.json { render json: @hitch.errors, status: :unprocessable_entity }
+      end
+    end
+  end
 
+  # PATCH/PUT /hitches/1
+  def update
+    respond_to do |format|
+      if @hitch.update(hitch_params)
         format.html { redirect_to @hitch, notice: 'Hitch was successfully updated.' }
         format.json { render :show, status: :ok, location: @hitch }
       else
