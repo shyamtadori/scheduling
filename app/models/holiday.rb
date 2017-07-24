@@ -14,6 +14,10 @@ class Holiday < ActiveRecord::Base
   validates_length_of :description, :maximum => 1000
   validates_uniqueness_of :holiday_date
 
+  # before_validation do
+  #   self.holiday_date = Date.strptime(holiday_date, "%m/%d/%Y") rescue Date.today if holiday_date
+  # end
+
   before_create do
     self.created_by = User.current.id
     self.last_updated_by = User.current.id

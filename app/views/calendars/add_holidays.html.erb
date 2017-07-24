@@ -3,7 +3,8 @@
   <li><%= link_to @calendar.name, @calendar %></li>
   <li class="active">Add Holidays</li>
 </ol>
-<%= form_for(@calendar, html: {class: "form-horizontal", id: 'calendar_holidays_form'}) do |f| %>
+<%= form_for(@calendar, :url => url_for(:action => 'holidays_update', :method => 'patch'), html: {class: "form-horizontal", id: 'calendar_holidays_form'}) do |f| %>
+  <input type="hidden" name="calendar['dummy']" value="">
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-6">
