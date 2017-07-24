@@ -39,74 +39,76 @@
   </div>
 </div>
 
-<div class="panel panel-primary">
-  <div class="panel-heading">
-    <div class="row">
-      <div class="col-sm-8">Associated Hitches</div>
-      <div class="col-sm-4 float-right" id="hitch-search-container"></div>
+<%if(@user.type == User::PILOT_TYPE)%>
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <div class="row">
+        <div class="col-sm-8">Associated Hitches</div>
+        <div class="col-sm-4 float-right" id="hitch-search-container"></div>
+      </div>
     </div>
-  </div>
-  <div class="panel-body">
-    <div class="row expaneded">
-      <div class="col-sm-12">
-        <%= link_to add_hitches_user_path(@user), class: 'btn btn-info float-right' do %>
-          <i class="fa fa-plus-square" aria-hidden="true"></i>
-          Add Hitch
-        <% end %>
+    <div class="panel-body">
+      <div class="row expaneded">
+        <div class="col-sm-12">
+          <%= link_to add_hitches_user_path(@user), class: 'btn btn-info float-right' do %>
+            <i class="fa fa-plus-square" aria-hidden="true"></i>
+            Add Hitch
+          <% end %>
 
-      <% if @associated_hitches.present? %>
-        <table class='table table-striped datatable'>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Days on/off</th>
-              <th>Week Days</th>
-              <th>Hour start</th>
-              <th>Hour end</th>
-              <th>Created by</th>
-              <th>Last updated by</th>
-              <th>Creation date</th>
-              <th>Last update date</th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-            </tr>
-          </thead>
-
-          <tbody>
-            <% @associated_hitches.each do |pilots_hitch| %>
+        <% if @associated_hitches.present? %>
+          <table class='table table-striped datatable'>
+            <thead>
               <tr>
-                <td><%= pilots_hitch.hitch.name %></td>
-                <td><%= pilots_hitch.hitch.days_on || 'N' %>/<%= pilots_hitch.hitch.days_off || 'A'%></td>
-                <td class="no-wrap">
-                  <% if pilots_hitch.hitch.work_type == 'days_on_off' %>
-                    N/A
-                  <% else %>
-                    <span class='label label-<%= pilots_hitch.hitch.mon ? "primary" : "default" %>'>Mon</span>
-                    <span class='label label-<%= pilots_hitch.hitch.tue ? "primary" : "default" %>'>Tue</span>
-                    <span class='label label-<%= pilots_hitch.hitch.wed ? "primary" : "default" %>'>Wed</span>
-                    <span class='label label-<%= pilots_hitch.hitch.thu ? "primary" : "default" %>'>Thu</span>
-                    <span class='label label-<%= pilots_hitch.hitch.fri ? "primary" : "default" %>'>Fri</span>
-                    <span class='label label-<%= pilots_hitch.hitch.sat ? "primary" : "default" %>'>Sat</span>
-                    <span class='label label-<%= pilots_hitch.hitch.sun ? "primary" : "default" %>'>Sun</span>
-                  <% end %>
-                </td>
-                <td><%= time_format(pilots_hitch.hitch.hour_start) %></td>
-                <td><%= time_format(pilots_hitch.hitch.hour_end) %></td>
-                <td><%= pilots_hitch.hitch.created_user_name %></td>
-                <td><%= pilots_hitch.hitch.last_updated_user_name %></td>
-                <td><%= date_time_format(pilots_hitch.hitch.creation_date) %></td>
-                <td><%= date_time_format(pilots_hitch.hitch.last_update_date) %></td>
-                <td><%= link_to 'Remove from pilot', hitch_pilots_hitch_path(pilots_hitch.hitch, pilots_hitch, :is_from_pilot => true), method: :delete, data: { confirm: 'Are you sure?' } %>
+                <th>Name</th>
+                <th>Days on/off</th>
+                <th>Week Days</th>
+                <th>Hour start</th>
+                <th>Hour end</th>
+                <th>Created by</th>
+                <th>Last updated by</th>
+                <th>Creation date</th>
+                <th>Last update date</th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
               </tr>
-            <% end %>
-          </tbody>
-        </table>
-      <% else %>
-        <h3>No hitches found</h3>
-      <% end %>
+            </thead>
+
+            <tbody>
+              <% @associated_hitches.each do |pilots_hitch| %>
+                <tr>
+                  <td><%= pilots_hitch.hitch.name %></td>
+                  <td><%= pilots_hitch.hitch.days_on || 'N' %>/<%= pilots_hitch.hitch.days_off || 'A'%></td>
+                  <td class="no-wrap">
+                    <% if pilots_hitch.hitch.work_type == 'days_on_off' %>
+                      N/A
+                    <% else %>
+                      <span class='label label-<%= pilots_hitch.hitch.mon ? "primary" : "default" %>'>Mon</span>
+                      <span class='label label-<%= pilots_hitch.hitch.tue ? "primary" : "default" %>'>Tue</span>
+                      <span class='label label-<%= pilots_hitch.hitch.wed ? "primary" : "default" %>'>Wed</span>
+                      <span class='label label-<%= pilots_hitch.hitch.thu ? "primary" : "default" %>'>Thu</span>
+                      <span class='label label-<%= pilots_hitch.hitch.fri ? "primary" : "default" %>'>Fri</span>
+                      <span class='label label-<%= pilots_hitch.hitch.sat ? "primary" : "default" %>'>Sat</span>
+                      <span class='label label-<%= pilots_hitch.hitch.sun ? "primary" : "default" %>'>Sun</span>
+                    <% end %>
+                  </td>
+                  <td><%= time_format(pilots_hitch.hitch.hour_start) %></td>
+                  <td><%= time_format(pilots_hitch.hitch.hour_end) %></td>
+                  <td><%= pilots_hitch.hitch.created_user_name %></td>
+                  <td><%= pilots_hitch.hitch.last_updated_user_name %></td>
+                  <td><%= date_time_format(pilots_hitch.hitch.creation_date) %></td>
+                  <td><%= date_time_format(pilots_hitch.hitch.last_update_date) %></td>
+                  <td><%= link_to 'Remove from pilot', hitch_pilots_hitch_path(pilots_hitch.hitch, pilots_hitch, :is_from_pilot => true), method: :delete, data: { confirm: 'Are you sure?' } %>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% else %>
+          <h3>No hitches found</h3>
+        <% end %>
+        </div>
       </div>
     </div>
   </div>
-</div>
+<%end%>

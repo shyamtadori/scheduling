@@ -3,7 +3,7 @@
   <li><%= link_to @user.username, @user %></li>
   <li class="active">Add Hitches</li>
 </ol>
-<%= form_for(@user, html: {class: "form-horizontal", id: 'pilot_hitches_form'}) do |f| %>
+<%= form_for(@user, :url => url_for(:action => 'hitches_update', :method => 'patch'), html: {class: "form-horizontal", id: 'pilot_hitches_form'}) do |f| %>
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-6">
@@ -28,7 +28,7 @@
                 <%  @unassociated_hitches.each do |hitch| %>
                   <tr>
                     <td>
-                    	<%= check_box_tag "pilot[checkbox_hitch_ids][]", hitch['id'], false, id: 'hitch_'+hitch['id'].to_s, class: "hitch_checkbox" %>
+                    	<%= check_box_tag "user[checkbox_hitch_ids][]", hitch['id'], false, id: 'hitch_'+hitch['id'].to_s, class: "hitch_checkbox" %>
                     </td>
                     <td><%= hitch.name %></td>
                     <td><%= hitch.days_on || 'N' %>/<%= hitch.days_off || 'A'%></td>
@@ -78,16 +78,19 @@
           </div>
         </div>
     	</div>
-
     <% end %>
     </div>
   </div>
 
-  <div class="row form-group">
-    <div class="col-md-6 col-lg-6">
-      <%= f.submit 'Add Hitches', class:"btn btn-default float-right", id: 'submit-button'%>
+  <% if @unassociated_hitches.present? %>
+    <div class="row form-group">
+      <div class="col-md-6 col-lg-6">
+        <%= f.submit 'Add Hitches', class:"btn btn-default float-right", id: 'submit-button'%>
+      </div>
     </div>
-  </div>     
+  <%else%>
+    <p>No Hitches Found For Association.</p>
+  <%end%>
      
 </div>
   <% if @unassociated_hitches.present? %>

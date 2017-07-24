@@ -50,6 +50,7 @@ Rails.application.routes.draw do
   resources :users do
     member do
       get 'add_hitches'
+      patch 'hitches_update'
     end
   end
   # Example of regular route:

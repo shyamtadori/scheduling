@@ -13,6 +13,8 @@ class User < ActiveRecord::Base
   # :username, :first_name, :job_description, :last_name, :status, :created_by
   # :hr_group, :organization, :updated_by, :in_avatier, :pilot, :amt
 
+  PILOT_TYPE = 'pilot'
+  AMT_TYPE = 'AMT'
   
   TIME_ZONE_OPTIONS = ActiveSupport::TimeZone::MAPPING.select{ |k , v| ["Central Time (US & Canada)","Alaska", "UTC", "Eastern Time (US & Canada)", "Pacific Time (US & Canada)", "Brasilia"].include?(k)  }.to_a.each{ |a| a.reverse!}
   
@@ -30,7 +32,7 @@ class User < ActiveRecord::Base
   end
 
   def readonly?
-    true
+    false
   end
 
   def encrypted_password=(a)
@@ -51,9 +53,9 @@ class User < ActiveRecord::Base
 
   def type
     if pilot
-      "Pilot"
+      PILOT_TYPE
     elsif amt
-      "AMT"
+      AMT_TYPE
     else
       "N/A"
     end
