@@ -48,21 +48,23 @@ class HitchesController < ApplicationController
   def pilots_update
     if hitch_params.key? 'pilot_ids'
       params[:hitch][:pilot_ids] = hitch_params[:pilot_ids] + @hitch.pilots.pluck(:user_id).map(&:to_s)
-      if valid_date?(params[:effective_start_date]) && valid_date?(params[:effective_end_date])
+      if valid_date?(params[:effective_start_date]) 
         selected_start_date = params[:effective_start_date]
-        selected_end_date = params[:effective_end_date]
       else
         selected_start_date = Date.today.strftime("%m/%d/%Y")
-        selected_end_date = (Date.today + 1.month).strftime("%m/%d/%Y")
       end
+      selected_end_date = nil
+      if valid_date?(params[:effective_end_date])
+        selected_end_date = params[:effective_end_date]
+      end  
       params[:effective_start_date] = selected_start_date
-      params[:effective_end_date] = selected_start_date
+      params[:effective_end_date] = selected_end_date
     end
     respond_to do |format|
       if @hitch.update(hitch_params)
         @hitch.pilots_hitches.where(effective_start_date: nil, effective_end_date: nil)
                          .update_all(:effective_start_date => Date.strptime(selected_start_date, "%m/%d/%Y"),
-                                     :effective_end_date => Date.strptime(selected_end_date, "%m/%d/%Y"))
+                                     :effective_end_date => (Date.strptime(selected_end_date, "%m/%d/%Y") rescue nil))
         
         format.html { redirect_to @hitch, notice: 'Pilots added successfully.' }
         format.json { render :show, status: :ok, location: @hitch }

@@ -35,7 +35,11 @@ Rails.application.routes.draw do
       get 'add_pilots'
       patch 'pilots_update'
     end
-    resources :pilots_hitches
+    resources :pilots_hitches do 
+      member do
+        get 'switch'
+      end
+    end
   end
 
   resources :pilots_hitches

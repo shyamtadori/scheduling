@@ -41,6 +41,7 @@
                   <th>Start Date</th>
                   <th>End Date</th>
                   <th></th>
+                  <th></th>
                 </tr>
               </thead>
 
@@ -53,6 +54,8 @@
                     </td>
                     <td><%= date_format(pilots_hitch.effective_end_date) %>
                     </td>
+                    <td><%= link_to 'Switch Hitches', switch_hitch_pilots_hitch_path(@hitch, pilots_hitch) %></td>
+                    <td><%= link_to 'Edit', edit_hitch_pilots_hitch_path(@hitch, pilots_hitch) %></td>
                     <td><%= link_to 'Remove from hitch', hitch_pilots_hitch_path(@hitch, pilots_hitch), method: :delete, data: { confirm: 'Are you sure?' } %></td>
                   </tr>
                 <% end %>

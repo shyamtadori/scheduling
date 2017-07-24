@@ -20,6 +20,10 @@ class PilotsHitch < ActiveRecord::Base
     self.last_updated_by = User.current.id
   end
 
+  def new_hitch_id
+    
+  end
+  
   private
   def end_date_is_after_start_date
     return if effective_end_date.blank? || effective_start_date.blank?
