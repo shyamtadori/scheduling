@@ -15,6 +15,8 @@ class Job < ActiveRecord::Base
 	belongs_to :aircraft_model, class_name: 'AircraftModel', foreign_key: 'ac_model_idx'
 	has_many :contract_rates, class_name: 'ContractRate', foreign_key: 'job_idx'
 
+	scope :active, lambda{|date=DateTime.now| where('? BETWEEN "TBMS_CH_JOB"."EFFECTIVE_START_DATE" AND "TBMS_CH_JOB"."EFFECTIVE_END_DATE" AND "TBMS_CH_JOB"."CONTRACT_IDX" IN (?)', date.beginning_of_day, Contract.active.map{|c| c.contract_idx})}
+
 	validate :validation_tour
 
 	def id
@@ -24,6 +26,8 @@ class Job < ActiveRecord::Base
 	def name
 		job_name		
 	end
+		
+
 
 	def validation_tour
 		valid_dates = true

@@ -16,6 +16,9 @@ class Contract < ActiveRecord::Base
 
 	validate :validation_tour
 
+	scope :active, lambda{|date=DateTime.now| where(' ? between "TBMS_CONTRACTS"."EFFECTIVE_START_DATE" AND "TBMS_CONTRACTS"."EFFECTIVE_END_DATE" AND"TBMS_CONTRACTS"."CUSTOMER_IDX" IN (SELECT a.customer_idx FROM SG_CUSTOMERS a WHERE a.processed_flag != ' + "'R')", date.beginning_of_month)}
+
+
 	def id
 		contract_idx.to_i
 	end
