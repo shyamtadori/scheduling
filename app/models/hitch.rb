@@ -20,7 +20,8 @@ class Hitch < ActiveRecord::Base
   validates_numericality_of :days_on, :only_integer => true, :greater_than => 0, :if => lambda { self.days_on && self.days_on == 0 }
   validates_numericality_of :days_off, :only_integer => true, :greater_than => 0, :if => lambda { self.days_off && self.days_off == 0 }
 
-  validates_uniqueness_of :name, :case_sensitive => false
+  validates_uniqueness_of :name, :case_sensitive => false, 
+                          :message => "already used"
 
 	before_create do
     self.created_by = User.current.id

@@ -22,8 +22,6 @@ gem 'font-awesome-sass'
 
 gem 'fullcalendar-rails'
 
-gem 'cocoon'
-
 gem 'momentjs-rails', '>= 2.9.0'
 
 gem 'bootstrap3-datetimepicker-rails', '~> 4.17.47'
@@ -42,6 +40,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use Unicorn as the app server
 # gem 'unicorn'
 gem 'devise'
+
+gem 'cocoon'
 
 gem 'ruby-oci8'
 
