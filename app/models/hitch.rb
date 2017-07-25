@@ -7,8 +7,12 @@ class Hitch < ActiveRecord::Base
 
 	has_many :calendars_hitches
   has_many :pilots_hitches
+  has_many :pilots, through: :pilots_hitches
+
+  accepts_nested_attributes_for :pilots_hitches
 
   validates_presence_of :name, :hour_start, :hour_end
+  validates_length_of :name, :maximum => 250
   validate :hour_end_is_after_hour_start
   validate :hitch_type_should_not_be_null
   validates_presence_of :days_on, :if => lambda { self.days_off && self.days_off > 0 }
@@ -35,6 +39,8 @@ class Hitch < ActiveRecord::Base
       calenders_hitch.update(last_update_date: Time.now)
     end
   end
+
+  accepts_nested_attributes_for :pilots_hitches, :allow_destroy => true, :reject_if => proc { |obj| obj['hitch_id'].blank? or obj['user_id'].blank?}
 
   def id
     hitch_id

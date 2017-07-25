@@ -3,5 +3,6 @@ class UsersController < ApplicationController
 
   def index
     @users = User.where("status <> 'INACTIVE'").order(:last_name)
+    @customers = Customer.active
   end
 end

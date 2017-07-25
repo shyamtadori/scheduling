@@ -27,6 +27,7 @@
 //= require fullcalendar
 //= require bootstrap-datetimepicker
 //= require select2
+//= require cocoon
 //= require_tree .
 
 function isHidden(el) {

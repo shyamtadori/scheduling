@@ -1,0 +1,78 @@
+<%= form_for(@mission_type, html: {class: "form-horizontal"}) do |f| %>
+  <% if @mission_type.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@mission_type.errors.count, "error") %> prohibited this mission_type from being saved:</h2>
+
+      <ul>
+      <% @mission_type.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+<div class="row">
+  <div class="col-md-6">
+    <div class="form-group">
+      <%= f.label :name, class: "col-sm-2 control-label" %>
+      <div class="col-sm-10">
+        <%= f.text_field :name, class: "form-control"%>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :description, class: "col-sm-2 control-label" %>
+      <div class="col-sm-10">
+        <%= f.text_area :description, class: "form-control"%>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :effective_start_date, "Start Date", class: "col-sm-2 control-label" %>
+      <div class="col-sm-10">
+        <div class="input-group date">
+          <%= f.text_field :effective_start_date, value: @mission_type.effective_start_date.try(:strftime, "%m-%d-%Y"), class: "form-control", id: 'effective_start_date'%>
+          <span class="input-group-addon">
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+          </span>
+        </div>  
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :effective_end_date, "End Date", class: "col-sm-2 control-label" %>
+      <div class="col-sm-10">
+        <div class="input-group date">
+          <%= f.text_field :effective_end_date, value: @mission_type.effective_end_date.try(:strftime, "%m-%d-%Y"), class: "form-control", id: 'effective_end_date'%>
+          <span class="input-group-addon">
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+          </span>
+        </div>  
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6 col-lg-6">
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <%= f.submit ( f.object.new_record? ? "Create" : "Update") + ' Mission Type', class:"btn btn-default float-right" %>
+      </div>
+    </div> 
+  </div>
+</div> 
+<% end %>
+<script>
+  $(function(){
+    $("#effective_start_date").datetimepicker({
+      format: 'MM/DD/YYYY'
+    });
+    $("#effective_end_date").datetimepicker({
+      format: 'MM/DD/YYYY'
+    });
+    $("#effective_start_date").on("dp.change", function (e) {
+        $('#effective_end_date').data("DateTimePicker").minDate(e.date);
+    });
+    $("#effective_end_date").on("dp.change", function (e) {
+        $('#effective_start_date').data("DateTimePicker").maxDate(e.date);
+    });
+
+  });
+</script> 
+ 

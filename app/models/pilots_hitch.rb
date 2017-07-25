@@ -3,13 +3,13 @@ class PilotsHitch < ActiveRecord::Base
 	include CreatorModifier
 	
 	belongs_to :hitch
-	belongs_to :pilot, class_name: "User", foreign_key: "employee_id"
+	belongs_to :pilot, class_name: "User", foreign_key: "user_id"
 
 	validates_presence_of :hitch
 	validates_presence_of :pilot
 
-	validates_presence_of :effective_start_date, :effective_end_date
-  validate :end_date_is_after_start_date
+	# validates_presence_of :effective_start_date, :effective_end_date
+  # validate :end_date_is_after_start_date
 
   before_create do
     self.created_by = User.current.id
@@ -17,7 +17,6 @@ class PilotsHitch < ActiveRecord::Base
   end
 
   before_update do
-    self.created_by = User.current.id
     self.last_updated_by = User.current.id
   end
 

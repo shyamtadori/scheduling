@@ -1,0 +1,116 @@
+<%= form_for([@calendar, @calendars_holiday],  html: {class: "form-horizontal", id: "holidays_form"}) do |f| %>
+  <% if @calendars_holiday.errors.any? %>
+    <!-- <div id="error_explanation">
+      <h2><%= pluralize(@calendars_holiday.errors.count, "error") %> prohibited this calendars_holiday from being saved:</h2>
+
+      <ul>
+      <% @calendars_holiday.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div> -->
+  <% end %>
+ <!--  <div class="row">
+    <div class="col-md-10">
+      <div class="form-group">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            Select Holidays
+
+            <%= link_to new_holiday_path(:calendar => @calendar.id), class: 'btn btn-info btn-sm float-right' do %>
+              <i class="fa fa-plus-square" aria-hidden="true"></i>
+                Add New Holiday
+            <% end %>
+          </div>
+          <div class="panel-body">
+            <% if @all_holidays.blank? %>
+              <h2>No Holidays available to add</h2>
+            <% else %>
+              <table id='select_holidays_table' class='table table-striped datatable'>
+                <thead>
+                  <tr>
+                    <th class='nosort'>
+                      <input type="checkbox" id='select_all_cb' />Select All
+                    </th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @all_holidays.each do |holiday| %>
+                    <tr>
+                      <td>
+                        <%= check_box_tag "calendar_holidays[checkbox_holiday_ids][]", holiday['holiday_id'], @calendar_holidays.include?(holiday['holiday_id']), id: 'user_'+holiday['holiday_id'].to_s, class: "holiday_checkbox_js" %>
+                      </td>
+                      <td><%= holiday.name %></td>
+                      <td><%= holiday.description%></td>
+                      <td><%= date_format(holiday.holiday_date)%></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  <!-- <div class="actions" style='padding-bottom: 20px;'>
+    <%= f.submit "Save" , id: "submit-button"%>
+  </div> -->
+<% end %>
+
+
+<script>
+  // $(function(){
+  //   // Select all check box
+  //   $('.row').on("click", "#select_all_cb", function(e){
+  //     var status = this.checked;
+  //     $('.holiday_checkbox_js').each(function(){
+  //       this.checked = status;
+  //     });
+  //   });
+
+  //   $('.holiday_checkbox_js').change(function(){ //".checkbox" change
+  //     //uncheck "select all", if one of the listed checkbox item is unchecked
+  //     if(this.checked === false){ //if this item is unchecked
+  //       $("#select_all_cb")[0].checked = false; //change "select all" checked status to false
+  //     }
+       
+  //     //check "select all" if all checkbox items are checked
+  //     if ($('.holiday_checkbox_js:checked').length == $('.holiday_checkbox_js').length ){
+  //       $("#select_all_cb")[0].checked = true; //change "select all" checked status to true
+  //     }
+  //   });
+  // });
+</script>
+
+<script>
+  // $(document).ready(function(){
+  //   var holidays_table = $("#select_holidays_table").DataTable({
+  //     "order": [[3, "asc"]],
+  //     "columnDefs":[{
+  //       "targets": 0,
+  //       "orderable": false
+  //     }]
+  //   });
+
+  //   $("#submit-button").click(function(e) {
+  //     e.preventDefault();
+  //     //Loop through the TR records
+  //     holidays_table.$(".holiday_checkbox_js:checked").each(function(index, nRow){
+  //         //Add to form
+  //         var nHidden = document.createElement( 'input' );
+  //         nHidden.type = 'hidden';
+  //         nHidden.name = $(this).attr('name').replace(/checkbox_/g, '');
+  //         //Get value from each checkbox
+  //         nHidden.value = $(this).val();
+  //         $(".data-container").append( nHidden );
+  //     });
+
+  //     $("#holidays_form").submit();
+  //   });
+  // });
+</script>

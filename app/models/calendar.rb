@@ -5,7 +5,11 @@ class Calendar < ActiveRecord::Base
 	has_many :calendars_hitches
 	has_many :hitches, through: :calendars_hitches
 
+  has_many :calendars_holidays
+  has_many :holidays, through: :calendars_holidays
+
   validates_presence_of :name, :effective_start_date, :effective_end_date
+  validates_length_of :name, :maximum => 250
   validate :end_date_is_after_start_date
 
 	before_create do
@@ -28,6 +32,9 @@ class Calendar < ActiveRecord::Base
       calenders_hitch.update(last_update_date: Time.now)
     end
   end
+
+  accepts_nested_attributes_for :calendars_holidays, :allow_destroy => true, :reject_if => proc { |obj| obj['calendar_id'].blank? or obj['holiday_id'].blank?}
+  accepts_nested_attributes_for :holidays, :allow_destroy => true, :reject_if => proc { |obj| obj['name'].blank? or obj['description'].blank? or obj['holiday_date'].blank?}
 
   def id
     calendar_id

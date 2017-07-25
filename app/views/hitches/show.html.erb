@@ -25,29 +25,35 @@
                 <button type="button" data-url-path="#" class="btn btn-default filter_status" id="associated_pilot_status"><%= 'Active' %></button>
               </div>
               <div class="col-sm-6">
-                <%= link_to '#', class: 'btn btn-info float-right' do %>
+                <%= link_to add_pilots_hitch_path(@hitch), class: 'btn btn-info float-right' do %>
                   <i class="fa fa-plus-square" aria-hidden="true"></i>
                   Add Pilots
                 <% end %>
               </div>    
             </div>
           
-          <% if @pilots.present? %>
+          <% if @pilots_hitches.present? %>
             <table class='table table-striped datatable'>
               <thead>
                 <tr>
                   <th>Last Name</th>
                   <th>First Name</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
                   <th></th>
                 </tr>
               </thead>
 
               <tbody>
-                <% @pilots.each do |pilot| %>
+                <% @pilots_hitches.each do |pilots_hitch| %>
                   <tr>
-                    <td><%= pilot.last_name %></td>
-                    <td><%= pilot.first_name %></td>
-                    <td>Remove from hitch</td>
+                    <td><%= pilots_hitch.pilot.last_name %></td>
+                    <td><%= pilots_hitch.pilot.first_name %></td>
+                    <td><%= date_format(pilots_hitch.effective_start_date) %>
+                    </td>
+                    <td><%= date_format(pilots_hitch.effective_end_date) %>
+                    </td>
+                    <td><%= link_to 'Remove from hitch', hitch_pilots_hitch_path(@hitch, pilots_hitch), method: :delete, data: { confirm: 'Are you sure?' } %></td>
                   </tr>
                 <% end %>
               </tbody>
@@ -119,7 +125,7 @@
             </span>
             <span class="list-group-item">
                 <i class="fa fa-user fa-fw"></i> Last Updated By
-                <span class="pull-right text-muted small"><em><%= @hitch.last_upated_user_name %></em>
+                <span class="pull-right text-muted small"><em><%= @hitch.last_updated_user_name %></em>
                 </span>
             </span>
             <span class="list-group-item">

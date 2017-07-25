@@ -1,0 +1,88 @@
+<ol class="breadcrumb">
+  <li><%= link_to "Manage Calendars", calendars_path %></li>
+  <li><%= link_to @calendar.name, @calendar %></li>
+  <li class="active">Add Holidays</li>
+</ol>
+<%= form_for(@calendar, :url => url_for(:action => 'holidays_update', :method => 'patch'), html: {class: "form-horizontal", id: 'calendar_holidays_form'}) do |f| %>
+  <input type="hidden" name="calendar['dummy']" value="">
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-6">
+    <% if @unassociated_holidays.present? %>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            Add from Existing Holidays
+          </div>
+          <div class="panel-body">
+            <table id='select_holiday_table' class='table table-striped datatable'>
+              <thead>
+                <tr>
+                  <th class='nosort'></th>
+                 <th>Name</th>
+                 <th>Description</th>
+                 <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%  @unassociated_holidays.each do |holiday| %>
+                  <tr>
+                    <td>
+                       <%= check_box_tag "calendar[checkbox_holiday_ids][]", holiday['holiday_id'], false, id: 'holiday_'+holiday['holiday_id'].to_s, class: "holiday_checkbox_js" %>
+                    </td>
+                    <td><%= holiday.name %></td>
+                    <td><%= holiday.description%></td>
+                    <td><%= date_format(holiday.holiday_date)%></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      <div class="data-container"></div>
+    <% end %>
+    </div>
+  </div>
+  <div class="new_holidays_container">
+  </div>
+  <div class="row form-group">
+    <div class="col-md-6">
+      <%= link_to_add_association 'Create New Holiday', f, :holidays,'data-association-insertion-method' => 'append', 'data-association-insertion-node' => '.new_holidays_container', class: 'btn btn-primary width-100' %>
+    </div>
+  </div>
+  <div class="row form-group">
+    <div class="col-md-6 col-lg-6">
+      <%= f.submit 'Add Holiday(s)', class:"btn btn-default float-right", id: 'submit-button'%>
+    </div>
+  </div>     
+     
+</div>
+  <% if @unassociated_holidays.present? %>
+    <script>
+      $(document).ready(function(){
+        var holiday_table = $("#select_holiday_table").DataTable({
+          "order": [[3, "asc"]],
+          "columnDefs":[{
+            "targets": 0,
+            "orderable": false
+          }]
+        });
+
+        $("#submit-button").click(function(e) {
+          e.preventDefault();
+          //Loop through the TR records
+          holiday_table.$(".holiday_checkbox_js:checked").each(function(index, nRow){
+              //Add to form
+              var nHidden = document.createElement( 'input' );
+              nHidden.type = 'hidden';
+              nHidden.name = $(this).attr('name').replace(/checkbox_/g, '');
+              //Get value from each checkbox
+              nHidden.value = $(this).val();
+              $(".data-container").append( nHidden );
+          });
+
+          $("#calendar_holidays_form").submit();
+        });
+      });
+    </script>
+  <% end %>
+<% end %>

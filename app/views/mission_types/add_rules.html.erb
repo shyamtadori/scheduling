@@ -1,0 +1,85 @@
+<ol class="breadcrumb">
+  <li><%= link_to "Manage Mission Types", mission_types_path %></li>
+  <li><%= link_to @mission_type.name, @mission_type %></li>
+  <li class="active">Add Rules</li>
+</ol>
+<%= form_for(@mission_type, html: {class: "form-horizontal", id: 'mission_type_rules_form'}) do |f| %>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-6">
+    <% if @unassociated_rules.present? %>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            Add from Existing Rules
+          </div>
+          <div class="panel-body">
+            <table id='select_rule_table' class='table table-striped datatable'>
+              <thead>
+                <tr>
+                  <th class='nosort'></th>
+                  <th>Rule</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%  @unassociated_rules.each do |rule| %>
+                  <tr>
+                    <td>
+                      <%= check_box_tag "mission_type[checkbox_rule_ids][]", rule['rule_id'], false, id: 'rule_'+rule['rule_id'].to_s, class: "rule_checkbox" %>
+                    </td>
+                    <td><%= rule.name %></td>
+                    <td><%= rule.description%></td>              
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      <div class="data-container"></div>
+    <% end %>
+    </div>
+  </div>
+  <div class="new_rules_container">
+  </div>
+  <div class="row form-group">
+    <div class="col-md-6">
+      <%= link_to_add_association 'Create New Rule', f, :rules,'data-association-insertion-method' => 'append', 'data-association-insertion-node' => '.new_rules_container', class: 'btn btn-primary width-100' %>
+    </div>
+  </div>
+  <div class="row form-group">
+    <div class="col-md-6 col-lg-6">
+      <%= f.submit 'Add Rule(s)', class:"btn btn-default float-right", id: 'submit-button'%>
+    </div>
+  </div>     
+     
+</div>
+  <% if @unassociated_rules.present? %>
+    <script>
+      $(document).ready(function(){
+        var rule_table = $("#select_rule_table").DataTable({
+          "order": [[1, "asc"]],
+          "columnDefs":[{
+            "targets": 0,
+            "orderable": false
+          }]
+        });
+
+        $("#submit-button").click(function(e) {
+          e.preventDefault();
+          //Loop through the TR records
+          rule_table.$(".rule_checkbox:checked").each(function(index, nRow){
+              //Add to form
+              var nHidden = document.createElement( 'input' );
+              nHidden.type = 'hidden';
+              nHidden.name = $(this).attr('name').replace(/checkbox_/g, '');
+              //Get value from each checkbox
+              nHidden.value = $(this).val();
+              $(".data-container").append( nHidden );
+          });
+
+          $("#mission_type_rules_form").submit();
+        });
+      });
+    </script>
+  <% end %>
+<% end %>
