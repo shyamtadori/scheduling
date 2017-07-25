@@ -613,10 +613,9 @@ textarea.md-text-area {
 .alternative-white:nth-child(even){
   background: #fff;
 }
-.holiday:after{
+.holiday:before{
   font-family: FontAwesome;
   content: "\f0f3";
   display: inline-block;
-  padding-right: 3px;
-  vertical-align: middle;
+  float: right;
 }
