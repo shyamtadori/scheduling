@@ -9,6 +9,28 @@ class UsersController < ApplicationController
 
   def show
   	@associated_hitches = @user.pilots_hitches.includes(:hitch)
+
+    existing_calendar_hitch_ids = @user.calendars_hitches.pluck(:cal_hitch_id).map(&:to_s)
+  	@work_days = CalendarHitchDate.where('CAL_HITCH_ID IN (?)',existing_calendar_hitch_ids).group('WORK_DATE').pluck(:WORK_DATE).map(&:to_date)
+    user_working_dates = @user.calendar_hitch_dates.includes(:calendars_hitch => :hitch).order("work_date asc")
+
+  	@days_hash = {}
+    user_working_dates.each do |record|
+  		if @days_hash[record.work_date.to_date]
+  			@days_hash[record.work_date.to_date] += [record.calendars_hitch.hitch.name] 
+  		else
+  			@days_hash[record.work_date.to_date] = [record.calendars_hitch.hitch.name] 
+  		end
+  	end
+
+  	# calendar_ids = @user.calendars.pluck(:calendar_id).map(&:to_s)
+    # @start_date = Calendar.where('CALENDAR_ID in (?)',calendar_ids).minimum('effective_start_date').to_datetime
+    # @end_date = Calendar.where('CALENDAR_ID in (?)',calendar_ids).maximum('effective_end_date').to_datetime
+    today = Date.today
+    @start_date = today.beginning_of_year
+    @end_date = today.end_of_year
+    
+    @holidays = @user.holidays.pluck(:holiday_date).map(&:to_date)
   end
 
   def add_hitches
@@ -28,6 +50,7 @@ class UsersController < ApplicationController
       params[:effective_start_date] = selected_start_date
       params[:effective_end_date] = selected_start_date
     end
+
     respond_to do |format|
       if @user.update(user_params)
         @user.pilots_hitches.where(effective_start_date: nil, effective_end_date: nil)

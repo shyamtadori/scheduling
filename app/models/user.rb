@@ -20,6 +20,11 @@ class User < ActiveRecord::Base
   
   has_many :pilots_hitches, class_name: "PilotsHitch", foreign_key: "user_id"
   has_many :hitches, through: :pilots_hitches
+  has_many :calendars_hitches, through: :hitches
+  has_many :calendars, through: :calendars_hitches
+  has_many :calendars_holidays, through: :calendars
+  has_many :holidays, through: :calendars_holidays
+  has_many :calendar_hitch_dates, through: :calendars_hitches
   
   scope :pilot, -> { where(pilot: true) }
 
@@ -72,7 +77,27 @@ class User < ActiveRecord::Base
   def self.current
     Thread.current[:user]
   end
+
   def self.current=(user)
     Thread.current[:user] = user
   end
+
+  # def conflicting_dates
+  #   calendar_hitch_ids = calendars_hitches.pluck(:cal_hitch_id).map(&:to_s)
+  #   CalendarHitchDate.where("CAL_HITCH_ID IN (?)", calendar_hitch_ids)
+  #                    .select("COUNT(calendar_hitch_dates.work_date), calendar_hitch_dates.work_date")
+  #                    .having('count(*)>1').group(:work_date).pluck(:work_date).map(&:to_date)
+  # end
+
+  # def validate_hitch_assignment(new_hitch_ids)
+  #   existing_calendar_hitch_ids = self.calendars_hitches.pluck(:cal_hitch_id).map(&:to_s)
+  #   existing_work_dates = CalendarHitchDate.where('CAL_HITCH_ID IN (?)',existing_calendar_hitch_ids).group('WORK_DATE').pluck(:WORK_DATE)
+
+  #   new_calendar_hitch_ids = CalendarsHitch.where("hitch_id in (?)",new_hitch_ids).pluck(:cal_hitch_id).map(&:to_s)
+  #   conflicting_work_dates = CalendarHitchDate.where('CAL_HITCH_ID IN (?) AND WORK_DATE IN (?)', new_calendar_hitch_ids, existing_work_dates).pluck(:WORK_DATE)
+  #   puts '&'*90
+  #   puts conflicting_work_dates
+  #   puts '&'*90
+  #   errors.add(:hitches, "Conflict in working dates") if !conflicting_work_dates.empty?
+  # end
 end

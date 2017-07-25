@@ -26,13 +26,18 @@ class Hitch < ActiveRecord::Base
   end
 
   before_update do
-    self.created_by = User.current.id
     self.last_updated_by = User.current.id
   end
 
   before_destroy do
   	# delete all calenders_hitch records
     CalendarsHitch.where(:hitch_id => self.id).destroy_all
+  end
+
+  after_save do
+    self.calendars_hitches.each do |calenders_hitch|
+      calenders_hitch.update(last_update_date: Time.now)
+    end
   end
 
   accepts_nested_attributes_for :pilots_hitches, :allow_destroy => true, :reject_if => proc { |obj| obj['hitch_id'].blank? or obj['user_id'].blank?}
