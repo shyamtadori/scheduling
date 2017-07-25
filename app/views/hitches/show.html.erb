@@ -54,8 +54,8 @@
                     </td>
                     <td><%= date_format(pilots_hitch.effective_end_date) %>
                     </td>
-                    <td><%= link_to 'Switch Hitches', switch_hitch_pilots_hitch_path(@hitch, pilots_hitch) %></td>
-                    <td><%= link_to 'Edit', edit_hitch_pilots_hitch_path(@hitch, pilots_hitch) %></td>
+                    <td><%= link_to 'Switch Hitches', switch_hitch_pilots_hitch_path(@hitch, pilots_hitch), class: "modal-link", data: {action: 'switch', pilot_hitch_id: pilots_hitch.id} %></td>
+                    <td><%= link_to 'Edit', edit_hitch_pilots_hitch_path(@hitch, pilots_hitch) , class: "modal-link", data: {action: 'edit', pilot_hitch_id: pilots_hitch.id}%></td>
                     <td><%= link_to 'Remove from hitch', hitch_pilots_hitch_path(@hitch, pilots_hitch), method: :delete, data: { confirm: 'Are you sure?' } %></td>
                   </tr>
                 <% end %>
@@ -143,3 +143,18 @@
     </div>
   </div>
 </div>
+<div class="modal fade pilot_hitch_edit" tabindex="-1" role="dialog" aria-labelledby="pilot_hitch_edit_modal" id='edit_modal'>
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      
+    </div>
+  </div>
+</div>
+<script>
+  $(function(){
+    $('.modal-link').on('click', function(e){
+      e.preventDefault();
+      $('#edit_modal').modal('show').find('.modal-content').load($(this).attr('href'));
+    })
+  });
+</script>
