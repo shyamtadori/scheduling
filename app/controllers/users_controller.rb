@@ -12,11 +12,10 @@ class UsersController < ApplicationController
 
     existing_calendar_hitch_ids = @user.calendars_hitches.pluck(:cal_hitch_id).map(&:to_s)
   	@work_days = CalendarHitchDate.where('CAL_HITCH_ID IN (?)',existing_calendar_hitch_ids).group('WORK_DATE').pluck(:WORK_DATE).map(&:to_date)
-
-  	@full_data = @user.calendar_hitch_dates.includes(:calendars_hitch => :hitch).order("work_date asc")
+    user_working_dates = @user.calendar_hitch_dates.includes(:calendars_hitch => :hitch).order("work_date asc")
 
   	@days_hash = {}
-  	@full_data.each do |record|
+    user_working_dates.each do |record|
   		if @days_hash[record.work_date.to_date]
   			@days_hash[record.work_date.to_date] += [record.calendars_hitch.hitch.name] 
   		else
@@ -24,9 +23,14 @@ class UsersController < ApplicationController
   		end
   	end
 
-  	calendar_ids = @user.calendars.pluck(:calendar_id).map(&:to_s)
-    @end_date = Calendar.where('CALENDAR_ID in (?)',calendar_ids).maximum('effective_start_date').to_datetime
-    @start_date = Calendar.where('CALENDAR_ID in (?)',calendar_ids).minimum('effective_end_date').to_datetime
+  	# calendar_ids = @user.calendars.pluck(:calendar_id).map(&:to_s)
+    # @start_date = Calendar.where('CALENDAR_ID in (?)',calendar_ids).minimum('effective_start_date').to_datetime
+    # @end_date = Calendar.where('CALENDAR_ID in (?)',calendar_ids).maximum('effective_end_date').to_datetime
+    today = Date.today
+    @start_date = today.beginning_of_year
+    @end_date = today.end_of_year
+    
+    @holidays = @user.holidays.pluck(:holiday_date).map(&:to_date)
   end
 
   def add_hitches

@@ -22,6 +22,8 @@ class User < ActiveRecord::Base
   has_many :hitches, through: :pilots_hitches
   has_many :calendars_hitches, through: :hitches
   has_many :calendars, through: :calendars_hitches
+  has_many :calendars_holidays, through: :calendars
+  has_many :holidays, through: :calendars_holidays
   has_many :calendar_hitch_dates, through: :calendars_hitches
   
   scope :pilot, -> { where(pilot: true) }
