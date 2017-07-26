@@ -1,0 +1,13 @@
+<% @jobs.each do |job| %>
+  <tr>
+    <th>
+      <%= job.job_name %>
+    </th>
+
+    <% 1.upto(no_of_days) do |number|%>
+      <td id='<%=job.job_idx%>_<%=number%>' data-job='<%=job.job_idx%>' data-date='<%=number%>'>
+        <%=job.job_idx%>_<%=number%>
+      </td>
+    <%end%>
+  </tr>
+<%end%>

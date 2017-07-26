@@ -1,0 +1,12 @@
+<% (@start_date..@end_date).each do |day| %>
+  <th>
+    <div>
+      <span>
+        <%= day.strftime('%a') %> 
+      </span>
+      <span class="new-line">
+        <%= day.strftime('%e') %>
+      </span>
+    </div>
+  </th>
+<%end%>
