@@ -12,7 +12,8 @@ class Calendar < ActiveRecord::Base
   validates_length_of :name, :maximum => 250
   validate :end_date_is_after_start_date
 
-  validates_uniqueness_of :name, :case_sensitive => false
+  validates_uniqueness_of :name, :case_sensitive => false,
+                          :message => "already used"
 
 	before_create do
     self.created_by = User.current.id
