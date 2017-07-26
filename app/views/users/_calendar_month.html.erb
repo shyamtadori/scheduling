@@ -1,11 +1,11 @@
 <% (@start_date..@end_date).select {|d| d.day == 1}.each do |month| %>
 	<div class="well well-sm work-month alternative-white">
 		<div class="row">
-			<div class="col-md-1">
+			<div class="col-md-1 calendar-month-div">
 				<h3 class="center-text"><%= month.strftime('%B') %></h3>
 			</div>
 			<div class="col-md-11">
-				<table class="table table-bordered table-condensed">
+				<table class="table table-bordered table-condensed calendar-table">
 					<thead>
 						<tr>
 						<% (month.beginning_of_month..month.end_of_month).each do |day| %>
@@ -68,9 +68,3 @@
 */
 });
 </script>
-
-<!-- <style type="text/css">
-	th:hover{
-		background-color: green
-	}	
-</style> -->
