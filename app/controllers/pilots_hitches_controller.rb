@@ -1,6 +1,7 @@
 class PilotsHitchesController < ApplicationController
   before_action :set_pilots_hitch, only: [:show, :destroy]
   before_action :set_hitch
+  # before_action :set_pilot, only: [:destroy]
 
   # GET /pilots_hitches/1
   def show
@@ -53,7 +54,12 @@ class PilotsHitchesController < ApplicationController
 
   def destroy
     @pilots_hitch.destroy
-    redirect_to @hitch, notice: 'Pilot removed successfully.' 
+    if params[:is_from_pilot]
+      @pilot = @pilots_hitch.pilot
+      redirect_to @pilot, notice: 'Hitch removed successfully.' 
+    else
+      redirect_to @hitch, notice: 'Pilot removed successfully.' 
+    end
   end
 
   private
