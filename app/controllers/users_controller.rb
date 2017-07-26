@@ -66,6 +66,13 @@ class UsersController < ApplicationController
     end
   end
 
+  def available_pilots
+    puts params[:job_id]
+    puts params[:date]
+    @schedule = Schedule.new
+    @users = User.all
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user

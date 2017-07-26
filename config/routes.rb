@@ -52,6 +52,9 @@ Rails.application.routes.draw do
   root 'users#index'
 
   resources :users do
+    collection do
+      get 'available_pilots'
+    end
     member do
       get 'add_hitches'
       patch 'hitches_update'

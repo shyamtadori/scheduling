@@ -11,46 +11,12 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :schedule_date %><br>
-    <%= f.datetime_select :schedule_date %>
-  </div>
-  <div class="field">
-    <%= f.label :location_idx %><br>
-    <%= f.number_field :location_idx %>
-  </div>
-  <div class="field">
-    <%= f.label :job_idx %><br>
-    <%= f.number_field :job_idx %>
-  </div>
-  <div class="field">
-    <%= f.label :model_idx %><br>
-    <%= f.number_field :model_idx %>
-  </div>
-  <div class="field">
-    <%= f.label :mission_id %><br>
-    <%= f.number_field :mission_id %>
-  </div>
-  <div class="field">
-    <%= f.label :asset_idx %><br>
-    <%= f.number_field :asset_idx %>
-  </div>
-  <div class="field">
-    <%= f.label :pic_id %><br>
-    <%= f.number_field :pic_id %>
-  </div>
-  <div class="field">
-    <%= f.label :sic_id %><br>
-    <%= f.number_field :sic_id %>
-  </div>
-  <div class="field">
-    <%= f.label :user_id %><br>
-    <%= f.number_field :user_id %>
-  </div>
-  <div class="field">
-    <%= f.label :status %><br>
-    <%= f.text_field :status %>
-  </div>
+  Choose Pilot :
+  <%= f.collection_select :user_id, @users, :id, :username, include_blank: false %>
+  
+    <%= f.hidden_field :schedule_date %>  
+    <%= f.hidden_field :job_idx %>
+  
   <div class="actions">
     <%= f.submit %>
   </div>
