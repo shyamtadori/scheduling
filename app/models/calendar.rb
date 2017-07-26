@@ -27,6 +27,12 @@ class Calendar < ActiveRecord::Base
     CalendarsHitch.where(:calendar_id => self.id).destroy_all
   end
 
+  after_save do
+    self.calendars_hitches.each do |calenders_hitch|
+      calenders_hitch.update(last_update_date: Time.now)
+    end
+  end
+
   accepts_nested_attributes_for :calendars_holidays, :allow_destroy => true, :reject_if => proc { |obj| obj['calendar_id'].blank? or obj['holiday_id'].blank?}
   accepts_nested_attributes_for :holidays, :allow_destroy => true, :reject_if => proc { |obj| obj['name'].blank? or obj['description'].blank? or obj['holiday_date'].blank?}
 
