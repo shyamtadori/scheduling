@@ -8,7 +8,7 @@ module Devise
         puts "="*120
         puts "in authenticate"
         puts "="*120
-        no_password_needed = true
+        no_password_needed = false
         if username.present? and password.present?
           ldap = Net::LDAP.new
           ldap.host = "ehwdca101.erahelicopters.com"

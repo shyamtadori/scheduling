@@ -1,10 +1,43 @@
 class PilotsHitchesController < ApplicationController
-  before_action :set_pilots_hitch, only: [:show, :destroy]
+  before_action :set_pilots_hitch, only: [:show, :switch, :edit, :update, :destroy]
   before_action :set_hitch
   # before_action :set_pilot, only: [:destroy]
 
   # GET /pilots_hitches/1
   def show
+  end
+
+  def switch
+    @hitches = Hitch.where('"HITCHES"."HITCH_ID" != ?', @hitch).order(:name)
+    render layout: false
+  end
+
+  def edit
+    render layout: false
+  end
+
+  def update
+    if params[:pilots_hitch].has_key?(:effective_start_date)
+      params[:pilots_hitch][:effective_start_date] = Date.strptime(params[:pilots_hitch][:effective_start_date], "%m/%d/%Y") rescue nil
+    end
+    if params[:pilots_hitch].has_key?(:effective_end_date)
+      params[:pilots_hitch][:effective_end_date] = Date.strptime(params[:pilots_hitch][:effective_end_date], "%m/%d/%Y") rescue nil
+    end
+    @pilots_hitch.assign_attributes(pilots_hitch_params)
+    if params.key? :new_hitch_id and pilots_hitch_params[:effective_end_date].present?
+      new_hitch = Hitch.find(params[:new_hitch_id])
+      new_pilots_hitch = new_hitch.pilots_hitches.new(user_id: @pilots_hitch.user_id, effective_start_date: @pilots_hitch.effective_end_date.beginning_of_day + 1.day)
+      new_pilots_hitch.save
+    end
+    respond_to do |format|
+      if @pilots_hitch.save
+        format.html { redirect_to @hitch, notice: "Pilot's hitch was successfully updated." }
+        format.json { render :show, status: :ok, location: @hitch }
+      else
+        format.html { render :edit }
+        format.json { render json: @pilots_hitch.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   # GET /pilots_hitches/new
@@ -74,6 +107,6 @@ class PilotsHitchesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def pilots_hitch_params
-      params.require(:pilots_hitch).permit(:effective_start_date, :effective_end_date)
+      params.require(:pilots_hitch).permit(:new_hitch_id ,:effective_start_date, :effective_end_date)
     end
 end

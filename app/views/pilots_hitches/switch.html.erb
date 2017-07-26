@@ -1,0 +1,104 @@
+<div class="modal-header"> 
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">×</span>
+  </button> 
+  <h4 class="modal-title" id="myLargeModalLabel">Switch Hitch for <%= @pilots_hitch.pilot.full_name %></h4> 
+</div>
+<div class="model-body">
+  <%= form_for([@hitch, @pilots_hitch],  html: {class: "form-horizontal", id: "pilots_form"}) do |f| %>
+  <% if @pilots_hitch.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@pilots_hitch.errors.count, "error") %> prohibited this pilots_hitch from being saved:</h2>
+
+      <ul>
+      <% @pilots_hitch.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="container-fluid margin-top-14">
+    <div class="row form-group">
+      <div class="col-sm-6">
+        <%= f.label :effective_end_date, "End Date", class: "sr-only" %>
+        <div class="input-group date">
+          <div class="input-group-addon">End Date</div>
+          <%= f.text_field :effective_end_date, value: @pilots_hitch.effective_end_date.try(:strftime, "%m-%d-%Y"), class: "form-control", id: 'effective_end_date'%>
+          <span class="input-group-addon">
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+          </span>
+        </div>
+      </div>
+    </div>
+ 
+    <div class="row form-group">
+      <div class="col-md-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            Select to New Hitch
+          </div>
+          <div class="panel-body">
+            <% if @hitches.blank? %>
+              <h2>No Pilots available to assign</h2>
+            <% else %>
+              <table class='table table-striped datatable'>
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Days on/off</th>
+                    <th>Week Days</th>
+                    <th>Hour start</th>
+                    <th>Hour end</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @hitches.each do |hitch| %>
+                    <tr>
+                      <td><%= radio_button_tag :new_hitch_id, hitch.id, data: { hitch_type: hitch.work_type} %></td>
+                      <td><%= hitch.name %></td>
+                      <td><%= hitch.days_on || 'N' %>/<%= hitch.days_off || 'A'%></td>
+                      <td class="no-wrap">
+                        <% if hitch.work_type == 'days_on_off' %>
+                          N/A
+                        <% else %>
+                          <span class='label label-<%= hitch.mon ? "primary" : "default" %>'>Mon</span>
+                          <span class='label label-<%= hitch.tue ? "primary" : "default" %>'>Tue</span>
+                          <span class='label label-<%= hitch.wed ? "primary" : "default" %>'>Wed</span>
+                          <span class='label label-<%= hitch.thu ? "primary" : "default" %>'>Thu</span>
+                          <span class='label label-<%= hitch.fri ? "primary" : "default" %>'>Fri</span>
+                          <span class='label label-<%= hitch.sat ? "primary" : "default" %>'>Sat</span>
+                          <span class='label label-<%= hitch.sun ? "primary" : "default" %>'>Sun</span>
+                        <% end %>
+                      </td>
+                      <td><%= time_format(hitch.hour_start) %></td>
+                      <td><%= time_format(hitch.hour_end) %></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-xs-12 text-center">
+        <%= f.submit 'Save Switch Hitch', class:"btn btn-default " %>
+      </div>
+    </div> 
+  </div>
+</div>
+
+
+  
+<% end %>
+
+<script>
+  $(function(){
+    $("#effective_end_date").datetimepicker({
+      format: 'MM/DD/YYYY',
+      minDate: '<%= date_format(@pilots_hitch.effective_start_date) %>'
+    });
+  });
+</script>
