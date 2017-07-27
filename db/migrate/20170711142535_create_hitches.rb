@@ -2,6 +2,7 @@ class CreateHitches < ActiveRecord::Migration
   def change
     create_table :hitches, id: false  do |t|
       t.primary_key :hitch_id
+      t.integer :org_unit
       t.string :name
       t.integer :days_on, :limit => 2
       t.integer :days_off, :limit => 2

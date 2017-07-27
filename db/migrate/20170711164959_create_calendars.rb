@@ -2,6 +2,7 @@ class CreateCalendars < ActiveRecord::Migration
   def change
     create_table :calendars, id: false   do |t|
       t.primary_key :calendar_id
+      t.integer :org_unit
       t.string :name
       t.datetime :effective_start_date
       t.datetime :effective_end_date
