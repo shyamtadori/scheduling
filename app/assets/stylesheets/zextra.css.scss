@@ -642,3 +642,10 @@ textarea.md-text-area {
   right: 4px;
   top: 4px;
 }
+.monthly_schedule > thead > tr > th,
+.monthly_schedule > tbody > tr > th{
+   border: 0.5px solid #000; //fca // eec
+}
+.monthly_schedule {
+   border: 1px solid #000; //fca // eec
+}

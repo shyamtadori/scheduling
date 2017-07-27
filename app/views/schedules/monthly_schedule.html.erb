@@ -20,6 +20,7 @@
       bSort: false,
       fixedColumns: true
     });
+    //don't want to show number of records footer
     $('#monthly_schedule_info').html('');
     $("#monthly_schedule").on("click", "td", function() {
       var job_id = $(this).attr("data-job");
@@ -33,13 +34,21 @@
         beforeSend: function() {
           $('.modal-title').text('Choose Pilot for Job: ' + job_name + ', Date: ' + date);
           $('#choose-pilot-modal').modal('show').find('.modal-body').html('Loading...');
-        }
+        },
+        error: function() {
+          $('#choose-pilot-modal').modal('show').find('.modal-body').html('Error while loading pilots. Please refresh the page.');
+        },
         // success: function(resp) {
         //   $('#choose-pilot-modal').modal('show').find('.modal-body').html('Available Users : '+resp.users.length);
         // }
       });
    });
   });
+
+  window.onload = function() {
+    var tables = $.fn.dataTable.tables(true);
+    $( tables ).DataTable().columns.adjust();
+  };
 </script>
 
 

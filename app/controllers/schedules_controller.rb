@@ -9,6 +9,29 @@ class SchedulesController < ApplicationController
     @month = params[:month]
     @year = params[:year]
     @jobs = Job.limit(100)
+
+    selected_month_schedules = Schedule.where("schedule_date >= ? and schedule_date <= ?",@start_date,@end_date).includes(:user)
+
+    puts selected_month_schedules.length
+    puts '@'*99
+    @allotted_pilots = {}
+    selected_month_schedules.each do |schedule|
+      # puts schedule.schedule_id
+      # puts schedule.job_idx
+      @allotted_pilots["#{}"]
+      puts schedule.user.username
+      iter_date = schedule.schedule_date.day
+      hash_key = "#{iter_date}_#{schedule.job_idx}"
+      if @allotted_pilots[hash_key]
+        @allotted_pilots[hash_key] += [schedule.user.username] 
+      else
+        @allotted_pilots[hash_key] = [schedule.user.username] 
+      end
+      puts @allotted_pilots[hash_key]
+    end
+    puts '@'*99
+    
+    # @comment.as_json(:only=>[:id,:reply_text,:discussion_board_id],:include=>{:user=>{:only=>[:id,:name,:profile_photo_file_name,:role_id]}})
   end
 
   # POST /schedules
