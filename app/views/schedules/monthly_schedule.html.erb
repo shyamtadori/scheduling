@@ -1,0 +1,56 @@
+
+<table class="table table-bordered monthly_schedule" id='monthly_schedule'>
+  <thead>
+    <tr>
+      <th><%= @start_date.strftime('%B') %> <br> Jobs </th>
+      <%= render('month_dates')%>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render('jobs', :no_of_days => @no_of_days)%>
+  </tbody>
+</table>
+
+
+<script>
+  $(document).ready(function() {
+    $("#monthly_schedule").on("click", "td", function() {
+      var job_id = $(this).attr("data-job");
+      var job_name = $(this).attr("data-jobname");
+      var date = $(this).attr("data-date");
+      params_data = {job_id: job_id, date: date};
+      $.ajax({
+        type: "GET",
+        url: "/users/available_pilots.js",
+        data: params_data,
+        beforeSend: function() {
+          $('.modal-title').text('Choose Pilot for Job: ' + job_name + ', Date: ' + date);
+          $('#choose-pilot-modal').modal('show').find('.modal-body').html('Loading...');
+        }
+        // success: function(resp) {
+        //   $('#choose-pilot-modal').modal('show').find('.modal-body').html('Available Users : '+resp.users.length);
+        // }
+      });
+   });
+  });
+</script>
+
+
+<!-- Modal -->
+<div class="modal fade" id="choose-pilot-modal" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body" id='form-div'>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   
-  resources :schedules
+  resources :schedules do
+    collection do
+      get '/:month/:year' => :monthly_schedule
+    end
+  end
   resources :mission_types do 
     member do 
       get 'add_rules'

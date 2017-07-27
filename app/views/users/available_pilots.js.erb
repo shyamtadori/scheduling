@@ -1,2 +1,5 @@
-
-$("#form-div").html("<%= escape_javascript(render('schedules/form')) %>");
+<%if(@available_pilots.length > 0)%>
+	$("#form-div").html("<%= escape_javascript(render('schedules/form')) %>");
+<%else%>
+	$("#form-div").html("<h3>Pilots Not Available For This job On This Date.</h3>")
+<%end%>
