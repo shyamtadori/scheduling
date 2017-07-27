@@ -1,4 +1,4 @@
-<%= form_for(@schedule) do |f| %>
+<%= form_for(@schedule, html: {class: "form-horizontal", id: "day_schedule_form"}) do |f| %>
   <% if @schedule.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@schedule.errors.count, "error") %> prohibited this schedule from being saved:</h2>
@@ -10,48 +10,29 @@
       </ul>
     </div>
   <% end %>
-
-  <div class="field">
-    <%= f.label :schedule_date %><br>
-    <%= f.datetime_select :schedule_date %>
-  </div>
-  <div class="field">
-    <%= f.label :location_idx %><br>
-    <%= f.number_field :location_idx %>
-  </div>
-  <div class="field">
-    <%= f.label :job_idx %><br>
-    <%= f.number_field :job_idx %>
-  </div>
-  <div class="field">
-    <%= f.label :model_idx %><br>
-    <%= f.number_field :model_idx %>
-  </div>
-  <div class="field">
-    <%= f.label :mission_id %><br>
-    <%= f.number_field :mission_id %>
-  </div>
-  <div class="field">
-    <%= f.label :asset_idx %><br>
-    <%= f.number_field :asset_idx %>
-  </div>
-  <div class="field">
-    <%= f.label :pic_id %><br>
-    <%= f.number_field :pic_id %>
-  </div>
-  <div class="field">
-    <%= f.label :sic_id %><br>
-    <%= f.number_field :sic_id %>
-  </div>
-  <div class="field">
-    <%= f.label :user_id %><br>
-    <%= f.number_field :user_id %>
-  </div>
-  <div class="field">
-    <%= f.label :status %><br>
-    <%= f.text_field :status %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
+  <div class="container-fluid margin-top-14">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group" style='padding-bottom: 45px; padding-left: 250px;'>
+          <%= f.label :user_id, "Choose Pilot", class: "control-label" %>
+          <%= f.collection_select :user_id, @available_pilots, :id, :username, {include_blank: false }, {class: "modelDropDown form-group", style: "width:30%;"} %>
+          <%= f.hidden_field :schedule_date %>
+          <%= f.hidden_field :job_idx %>
+        </div>
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-xs-12 text-center">
+        <%= f.submit " Save ", class:"btn btn-default " %>
+      </div>
+    </div>
   </div>
 <% end %>
+
+<script>
+  $(document).ready(function() {
+    $('#schedule_user_id').select2({
+      width: 'resolve'
+    });
+  });
+</script>

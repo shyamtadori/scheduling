@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   
-  resources :schedules
+  resources :schedules do
+    collection do
+      get '/:month/:year' => :monthly_schedule
+    end
+  end
   resources :mission_types do 
     member do 
       get 'add_rules'
@@ -52,6 +56,9 @@ Rails.application.routes.draw do
   root 'users#index'
 
   resources :users do
+    collection do
+      get 'available_pilots'
+    end
     member do
       get 'add_hitches'
       patch 'hitches_update'

@@ -66,6 +66,14 @@ class UsersController < ApplicationController
     end
   end
 
+  def available_pilots
+    puts "job_id: #{params[:job_id]}, date: #{params[:date]}"
+    @schedule = Schedule.new(job_idx: params[:job_id], schedule_date: params[:date])
+    available_pilot_ids = User.get_pilots_available_on(params[:date])
+    @available_pilots = User.where('user_id in (?)',available_pilot_ids)
+    puts @available_pilots.length
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user

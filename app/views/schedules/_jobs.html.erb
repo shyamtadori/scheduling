@@ -1,0 +1,16 @@
+<% @jobs.each do |job| %>
+  <tr>
+    <th>
+      <%= job.job_name %>
+    </th>
+
+    <% 1.upto(no_of_days) do |number|%>
+      <td id='<%=job.job_idx%>_<%=number%>' data-job='<%=job.job_idx%>' data-jobname='<%=job.name%>' data-date='<%=@year%>-<%=@month%>-<%=number%>'>
+        <%if(@allotted_pilots["#{number}_#{job.job_idx}"])%>
+          <%= @allotted_pilots["#{number}_#{job.job_idx}"].join(", ")%>
+        <%else%>
+        <%end%>
+      </td>
+    <%end%>
+  </tr>
+<%end%>

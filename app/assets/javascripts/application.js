@@ -28,6 +28,7 @@
 //= require bootstrap-datetimepicker
 //= require select2
 //= require cocoon
+//= require dataTables.fixedColumns.min.js
 //= require_tree .
 
 function isHidden(el) {
