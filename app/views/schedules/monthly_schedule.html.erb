@@ -1,8 +1,7 @@
-
-<table class="table table-bordered monthly_schedule" id='monthly_schedule'>
+<table class="table table-striped table-bordered monthly_schedule" id='monthly_schedule'>
   <thead>
     <tr>
-      <th><%= @start_date.strftime('%B') %> <br> Jobs </th>
+      <th><%= @start_date.strftime('%B') %> - <%= @start_date.strftime('%Y') %> > <br> Jobs <i class="fa fa-fw fa-arrow-down"></i></th>
       <%= render('month_dates')%>
     </tr>
   </thead>
@@ -14,6 +13,14 @@
 
 <script>
   $(document).ready(function() {
+    $('#monthly_schedule').DataTable({
+      scrollX: true,
+      scrollY: $(window).height()- 195,
+      paging: false,
+      bSort: false,
+      fixedColumns: true
+    });
+    $('#monthly_schedule_info').html('');
     $("#monthly_schedule").on("click", "td", function() {
       var job_id = $(this).attr("data-job");
       var job_name = $(this).attr("data-jobname");

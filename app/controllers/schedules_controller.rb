@@ -8,7 +8,7 @@ class SchedulesController < ApplicationController
     @no_of_days = (@end_date - @start_date).to_i + 1
     @month = params[:month]
     @year = params[:year]
-    @jobs = Job.limit(10)
+    @jobs = Job.limit(100)
   end
 
   # POST /schedules

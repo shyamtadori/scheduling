@@ -7,7 +7,6 @@
     <% 1.upto(no_of_days) do |number|%>
       <td id='<%=job.job_idx%>_<%=number%>' data-job='<%=job.job_idx%>' data-jobname='<%=job.name%>' data-date='<%=@year%>-<%=@month%>-<%=number%>'>
         <%=job.job_idx%>_<%=number%>
-        <%= "Shyamsunder" if(number%2 == 0)%>
       </td>
     <%end%>
   </tr>
