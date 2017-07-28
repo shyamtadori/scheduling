@@ -82,6 +82,15 @@ class User < ActiveRecord::Base
     Thread.current[:user] = user
   end
 
+  def self.get_pilots_available_on(schedule_date)
+    calendar_hitch_ids = CalendarHitchDate.where(work_date: schedule_date).pluck(:cal_hitch_id).map(&:to_s)
+    hitch_ids = CalendarsHitch.where("cal_hitch_id in (?)",calendar_hitch_ids).pluck(:hitch_id).map(&:to_s)
+    all_available_pilot_ids = PilotsHitch.where('hitch_id in (?) and effective_start_date <= ? and (effective_end_date >= ? or effective_end_date is null)', hitch_ids, schedule_date, schedule_date).pluck(:user_id)
+    pilot_ids_working_on_this_date = Schedule.where(schedule_date: schedule_date).pluck(:user_id)
+    available_pilot_ids = all_available_pilot_ids - pilot_ids_working_on_this_date
+    return User.where('user_id in (?)',available_pilot_ids)
+  end
+
   # def conflicting_dates
   #   calendar_hitch_ids = calendars_hitches.pluck(:cal_hitch_id).map(&:to_s)
   #   CalendarHitchDate.where("CAL_HITCH_ID IN (?)", calendar_hitch_ids)

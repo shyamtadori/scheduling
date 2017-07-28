@@ -66,6 +66,11 @@ class UsersController < ApplicationController
     end
   end
 
+  def available_pilots
+    @schedule = Schedule.new(job_idx: params[:job_id], schedule_date: params[:date])
+    @available_pilots = User.get_pilots_available_on(params[:date])
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
