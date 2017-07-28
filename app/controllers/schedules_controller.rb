@@ -1,6 +1,12 @@
 class SchedulesController < ApplicationController
   before_action :set_schedule, only: [:show, :edit, :update, :destroy]
 
+  def index
+    month = Date.today.month
+    year = Date.today.year
+    redirect_to "/schedules/#{month}/#{year}"
+  end
+
   # GET /schedules/:month/:year
   def monthly_schedule
     @start_date = "#{params[:year]}-#{params[:month]}-01".to_date
@@ -12,14 +18,9 @@ class SchedulesController < ApplicationController
 
     selected_month_schedules = Schedule.where("schedule_date >= ? and schedule_date <= ?",@start_date,@end_date).includes(:user)
 
-    puts selected_month_schedules.length
-    puts '@'*99
     @allotted_pilots = {}
     selected_month_schedules.each do |schedule|
-      # puts schedule.schedule_id
-      # puts schedule.job_idx
       @allotted_pilots["#{}"]
-      puts schedule.user.username
       iter_date = schedule.schedule_date.day
       hash_key = "#{iter_date}_#{schedule.job_idx}"
       if @allotted_pilots[hash_key]
@@ -27,16 +28,12 @@ class SchedulesController < ApplicationController
       else
         @allotted_pilots[hash_key] = [schedule.user.username] 
       end
-      puts @allotted_pilots[hash_key]
-    end
-    puts '@'*99
-    
+    end    
     # @comment.as_json(:only=>[:id,:reply_text,:discussion_board_id],:include=>{:user=>{:only=>[:id,:name,:profile_photo_file_name,:role_id]}})
   end
 
   # POST /schedules
   def create
-    puts '::::::::::::::::::::::::::::::::::::::::::::::::::;CREATE'
     @schedule = Schedule.new(schedule_params)
 
     job = Job.find(@schedule.job_idx)
@@ -45,7 +42,7 @@ class SchedulesController < ApplicationController
       if @schedule.save
         format.html { redirect_to "/schedules/#{@schedule.schedule_date.month}/#{@schedule.schedule_date.year}", notice: 'Schedule was successfully updated.' }
       else
-        format.html { render :new }
+        format.html { render :new } # needs to change
       end
     end
   end

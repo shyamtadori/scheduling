@@ -624,7 +624,7 @@ textarea.md-text-area {
   overflow: hidden;
 }
 .modelDropDown.select2-container .select2-choice{
-  height: 39px;
+  height: 45px;
   padding: 5px 18px 0px 18px;
   border:1px solid #dddddd;
   background: #FFFFFF;
@@ -648,4 +648,7 @@ textarea.md-text-area {
 }
 .monthly_schedule {
    border: 1px solid #000; //fca // eec
+}
+#monthly_schedule_wrapper > .row > .col-sm-6{
+  float: right;
 }
