@@ -88,7 +88,7 @@ class User < ActiveRecord::Base
     all_available_pilot_ids = PilotsHitch.where('hitch_id in (?) and effective_start_date <= ? and effective_end_date >= ?', hitch_ids, schedule_date, schedule_date).pluck(:user_id)
     pilot_ids_working_on_this_date = Schedule.where(schedule_date: schedule_date).pluck(:user_id)
     available_pilot_ids = all_available_pilot_ids - pilot_ids_working_on_this_date
-    available_pilot_ids
+    return User.where('user_id in (?)',available_pilot_ids)
   end
 
   # def conflicting_dates
