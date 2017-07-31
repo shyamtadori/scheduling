@@ -105,6 +105,6 @@ class HitchesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def hitch_params
-      params.require(:hitch).permit(:name, :days_on, :days_off, :mon, :tue, :wed, :thu, :fri, :sat, :sun, :hour_start, :hour_end, :pilot_ids => [], pilots_hitches_attributes: [:hitch_id, :user_id, :effective_start_date, :effective_end_date])
+      params.require(:hitch).permit(:org_unit, :name, :days_on, :days_off, :mon, :tue, :wed, :thu, :fri, :sat, :sun, :hour_start, :hour_end, :pilot_ids => [], pilots_hitches_attributes: [:hitch_id, :user_id, :effective_start_date, :effective_end_date])
     end
 end

@@ -110,6 +110,6 @@ class CalendarsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def calendar_params
-      params.require(:calendar).permit(:name, :effective_start_date, :effective_end_date, :holiday_ids => [], calendars_holidays_attributes: [:calendar_id, :holiday_id], holidays_attributes: [:name, :description, :holiday_date])
+      params.require(:calendar).permit(:org_unit, :name, :effective_start_date, :effective_end_date, :holiday_ids => [], calendars_holidays_attributes: [:calendar_id, :holiday_id], holidays_attributes: [:name, :description, :holiday_date])
     end
 end
