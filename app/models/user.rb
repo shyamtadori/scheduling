@@ -85,10 +85,37 @@ class User < ActiveRecord::Base
   def self.get_pilots_available_on(schedule_date)
     calendar_hitch_ids = CalendarHitchDate.where(work_date: schedule_date).pluck(:cal_hitch_id).map(&:to_s)
     hitch_ids = CalendarsHitch.where("cal_hitch_id in (?)",calendar_hitch_ids).pluck(:hitch_id).map(&:to_s)
+    puts '@@@@@@@@@@@@@@@@@@@@@@'
+    puts hitch_ids
+    puts '@@@@@@@@@@@@@@@@@@@@@@'
     all_available_pilot_ids = PilotsHitch.where('hitch_id in (?) and effective_start_date <= ? and (effective_end_date >= ? or effective_end_date is null)', hitch_ids, schedule_date, schedule_date).pluck(:user_id)
     pilot_ids_working_on_this_date = Schedule.where(schedule_date: schedule_date).pluck(:user_id)
     available_pilot_ids = all_available_pilot_ids - pilot_ids_working_on_this_date
     return User.where('user_id in (?)',available_pilot_ids)
+  end
+
+  def all_working_dates_of_pilot
+    all_working_dates = []
+    pilots_hitches.each do |pilot_hitch|
+      cal_hitch_ids = CalendarsHitch.where(:hitch_id => pilot_hitch.hitch_id).pluck(:cal_hitch_id)
+      start_date = pilot_hitch.effective_start_date
+      end_date = pilot_hitch.effective_end_date
+      if end_date
+        working_dates = CalendarHitchDate.where('CAL_HITCH_ID IN (?) AND WORK_DATE >= ? AND WORK_DATE <= ?',cal_hitch_ids, start_date, end_date).group('WORK_DATE').pluck(:WORK_DATE).map(&:to_date)
+      else
+        working_dates = CalendarHitchDate.where('CAL_HITCH_ID IN (?) AND WORK_DATE >= ?',cal_hitch_ids, start_date).group('WORK_DATE').pluck(:WORK_DATE).map(&:to_date)
+      end
+      all_working_dates += working_dates
+    end
+    return all_working_dates
+  end
+
+  def self.get_pilot_available_dates(start_date, end_date, user_id)
+    pilot = User.find(user_id)
+    pilot_all_working_dates = pilot.all_working_dates_of_pilot
+    pilot_working_dates_between = ((start_date..end_date).map(&:to_date)) & pilot_all_working_dates
+    pilot_scheduled_dates = Schedule.where("schedule_date >= ? and schedule_date <= ? and user_id = ?", start_date, end_date, user_id).pluck(:schedule_date).map(&:to_date)
+    return (pilot_working_dates_between - pilot_scheduled_dates)
   end
 
   # def conflicting_dates

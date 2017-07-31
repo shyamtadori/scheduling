@@ -8,19 +8,19 @@ class UsersController < ApplicationController
   end
 
   def show
-  	@associated_hitches = @user.pilots_hitches.includes(:hitch)
-
-    existing_calendar_hitch_ids = @user.calendars_hitches.pluck(:cal_hitch_id).map(&:to_s)
-  	@work_days = CalendarHitchDate.where('CAL_HITCH_ID IN (?)',existing_calendar_hitch_ids).group('WORK_DATE').pluck(:WORK_DATE).map(&:to_date)
+    @associated_hitches = @user.pilots_hitches.includes(:hitch)
+    @work_days = @user.all_working_dates_of_pilot
     user_working_dates = @user.calendar_hitch_dates.includes(:calendars_hitch => :hitch).order("work_date asc")
 
   	@days_hash = {}
     user_working_dates.each do |record|
-  		if @days_hash[record.work_date.to_date]
-  			@days_hash[record.work_date.to_date] += [record.calendars_hitch.hitch.name] 
-  		else
-  			@days_hash[record.work_date.to_date] = [record.calendars_hitch.hitch.name] 
-  		end
+      if @work_days.include? record.work_date.to_date
+        if @days_hash[record.work_date.to_date]
+          @days_hash[record.work_date.to_date] += [record.calendars_hitch.hitch.name] 
+        else
+          @days_hash[record.work_date.to_date] = [record.calendars_hitch.hitch.name] 
+        end
+      end
   	end
 
   	# calendar_ids = @user.calendars.pluck(:calendar_id).map(&:to_s)

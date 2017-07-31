@@ -20,16 +20,20 @@ class SchedulesController < ApplicationController
 
   # POST /schedules
   def create
-    @schedule = Schedule.new(schedule_params)
+    start_date = Date.strptime(params[:schedule][:schedule_date])
+    if params[:schedule_up_to] && valid_date?(params[:schedule_up_to])
+      job = Job.find(params[:schedule][:job_idx])
+      end_date = Date.strptime(params[:schedule_up_to], "%m/%d/%Y")
+      errors = Schedule.create_schedules(start_date, end_date, job, params[:schedule][:user_id])
+    else
+      @schedule = Schedule.new(schedule_params)
+      errors = @schedule.errors.full_messages if !@schedule.save
+    end
 
-    job = Job.find(@schedule.job_idx)
-
-    respond_to do |format|
-      if @schedule.save
-        format.html { redirect_to "/schedules/#{@schedule.schedule_date.month}/#{@schedule.schedule_date.year}", notice: 'Schedule was successfully updated.' }
-      else
-        format.html { render :new } # needs to change
-      end
+    if !errors
+      redirect_to "/schedules/#{start_date.month}/#{start_date.year}", notice: 'Schedule was successfully updated.'
+    else
+      render :status => 412, :json => {:errors => errors}
     end
   end
 

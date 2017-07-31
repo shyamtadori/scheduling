@@ -11,8 +11,7 @@ class Customer < ActiveRecord::Base
 		customer_idx.to_i
 	end
 
-	
-	scope :active, {where('"'+Customer.table_name.upcase+'"."PROCESSED_FLAG" != ' + "'R'").order(:customer_name)}
+	scope :active, -> { where('"'+Customer.table_name.upcase+'"."PROCESSED_FLAG" != ' + "'R'").order(:customer_name) }
 	
 
 	def self.active_with_job

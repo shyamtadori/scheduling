@@ -13,16 +13,31 @@
   <div class="container-fluid margin-top-14">
     <div class="row">
       <div class="col-md-12">
-        <div class="form-group" style='padding-bottom: 45px; padding-left: 250px;'>
-          <%= f.label :user_id, "Choose Pilot", class: "control-label" %>
-          <%= f.collection_select :user_id, @available_pilots, :id, :username, {include_blank: false }, {class: "modelDropDown form-group", style: "width:30%;"} %>
-          <%= f.hidden_field :schedule_date %>
-          <%= f.hidden_field :job_idx %>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Choose Pilot</label>
+          <div class="col-sm-6">
+            <%= f.collection_select :user_id, @available_pilots, :id, :username, {include_blank: false }, {class: "modelDropDown form-group", style: "width:30%;"} %>
+          </div>
         </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">
+            Schedule up to <i>(optional)</i>
+          </label>
+          <div class="col-sm-3">
+            <div class="input-group date">
+              <input class="form-control" id="schedule_up_to" type="text" name="schedule_up_to" onkeydown="return false">
+              <span class="input-group-addon">
+                <i class="fa fa-calendar" aria-hidden="true" id='schedule_up_to_selector_icon'></i>
+              </span>
+            </div>
+          </div>
+        </div>
+        <%= f.hidden_field :schedule_date %>
+        <%= f.hidden_field :job_idx %>
       </div>
     </div>
-    <div class="row form-group">
-      <div class="col-xs-12 text-center">
+    <div class="form-group">
+      <div class="col-xs-12">
         <%= f.submit " Save ", class:"btn btn-default " %>
       </div>
     </div>
@@ -33,6 +48,15 @@
   $(document).ready(function() {
     $('#schedule_user_id').select2({
       width: 'resolve'
+    });
+    $("#schedule_up_to").datetimepicker({
+      format: 'MM/DD/YYYY',
+      minDate: moment("<%= @schedule.schedule_date %>", "YYYY-MM-DD-"),
+      maxDate: moment("<%= @schedule.schedule_date.end_of_month %>", "YYYY-MM-DD")
+    });
+    $('#schedule_up_to_selector_icon').click(function(e){
+      e.preventDefault();
+      $('#schedule_up_to').focus();
     });
   });
 </script>

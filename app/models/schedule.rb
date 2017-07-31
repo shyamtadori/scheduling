@@ -17,4 +17,12 @@ class Schedule < ActiveRecord::Base
     end
     return allotted_pilots_hash
 	end
+
+  def self.create_schedules(start_date, end_date, job, user_id)
+    available_dates = User.get_pilot_available_dates(start_date, end_date, user_id)
+    available_dates.each do |available_date|
+      Schedule.create(schedule_date: available_date, job_idx: job.id, user_id: user_id)
+    end
+    return nil
+  end
 end
