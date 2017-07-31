@@ -25,6 +25,7 @@ class User < ActiveRecord::Base
   has_many :calendars_holidays, through: :calendars
   has_many :holidays, through: :calendars_holidays
   has_many :calendar_hitch_dates, through: :calendars_hitches
+  has_many :schedules
   
   scope :pilot, -> { where(pilot: true) }
 
@@ -74,6 +75,38 @@ class User < ActiveRecord::Base
     self[:employee_id].to_i  
   end
 
+  def days_hash_with_hitch_names(work_days)
+    user_working_dates = calendar_hitch_dates.includes(:calendars_hitch => :hitch).order("work_date asc")
+
+    days_hash = {}
+    user_working_dates.each do |record|
+      if work_days.include? record.work_date.to_date
+        if days_hash[record.work_date.to_date]
+          days_hash[record.work_date.to_date] += [record.calendars_hitch.hitch.name]
+        else
+          days_hash[record.work_date.to_date] = [record.calendars_hitch.hitch.name]
+        end
+      end
+    end
+    return days_hash
+  end
+
+  def days_hash_with_job_names(work_days)
+    user_schedules = schedules.includes(:job)
+    # user_schedules = user_schedules1.as_json(:only => [:schedule_id,:schedule_date,:job_idx],:include => {:job => {:only => [:job_idx,:job_name]}})
+    days_hash = {}
+    user_schedules.each do |record|
+      if work_days.include? record.schedule_date.to_date
+        if days_hash[record.schedule_date.to_date]
+          days_hash[record.schedule_date.to_date] += [record.job.job_name]
+        else
+          days_hash[record.schedule_date.to_date] = [record.job.job_name]
+        end
+      end
+    end
+    return days_hash
+  end
+
   def self.current
     Thread.current[:user]
   end
@@ -85,9 +118,7 @@ class User < ActiveRecord::Base
   def self.get_pilots_available_on(schedule_date)
     calendar_hitch_ids = CalendarHitchDate.where(work_date: schedule_date).pluck(:cal_hitch_id).map(&:to_s)
     hitch_ids = CalendarsHitch.where("cal_hitch_id in (?)",calendar_hitch_ids).pluck(:hitch_id).map(&:to_s)
-    puts '@@@@@@@@@@@@@@@@@@@@@@'
-    puts hitch_ids
-    puts '@@@@@@@@@@@@@@@@@@@@@@'
+
     all_available_pilot_ids = PilotsHitch.where('hitch_id in (?) and effective_start_date <= ? and (effective_end_date >= ? or effective_end_date is null)', hitch_ids, schedule_date, schedule_date).pluck(:user_id)
     pilot_ids_working_on_this_date = Schedule.where(schedule_date: schedule_date).pluck(:user_id)
     available_pilot_ids = all_available_pilot_ids - pilot_ids_working_on_this_date

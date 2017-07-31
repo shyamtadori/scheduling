@@ -10,18 +10,7 @@ class UsersController < ApplicationController
   def show
     @associated_hitches = @user.pilots_hitches.includes(:hitch)
     @work_days = @user.all_working_dates_of_pilot
-    user_working_dates = @user.calendar_hitch_dates.includes(:calendars_hitch => :hitch).order("work_date asc")
-
-  	@days_hash = {}
-    user_working_dates.each do |record|
-      if @work_days.include? record.work_date.to_date
-        if @days_hash[record.work_date.to_date]
-          @days_hash[record.work_date.to_date] += [record.calendars_hitch.hitch.name] 
-        else
-          @days_hash[record.work_date.to_date] = [record.calendars_hitch.hitch.name] 
-        end
-      end
-  	end
+    @days_hash = @user.days_hash_with_hitch_names(@work_days)
 
   	# calendar_ids = @user.calendars.pluck(:calendar_id).map(&:to_s)
     # @start_date = Calendar.where('CALENDAR_ID in (?)',calendar_ids).minimum('effective_start_date').to_datetime
@@ -29,8 +18,10 @@ class UsersController < ApplicationController
     today = Date.today
     @start_date = today.beginning_of_year
     @end_date = today.end_of_year
-    
     @holidays = @user.holidays.pluck(:holiday_date).map(&:to_date)
+
+    @user_schedules = @user.days_hash_with_job_names(@work_days)
+    @scheduled_dates = @user.schedules.pluck(:schedule_date).map(&:to_date)
   end
 
   def add_hitches

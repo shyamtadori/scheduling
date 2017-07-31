@@ -13,10 +13,15 @@
 							<th class="center-text 
 								<%= 
 									if @work_days.include? day.to_date
-										if @div_title && @div_title.length > 1
-											'conflicting-day'
+										if @scheduled_dates.include? day.to_date
+											@div_title = @user_schedules[day.to_date]
+											'job-day'
 										else
-											'work-day'
+											if @div_title && @div_title.length > 1
+												'conflicting-day'
+											else
+												'work-day'
+											end
 										end
 									else
 									 'white-bg'
