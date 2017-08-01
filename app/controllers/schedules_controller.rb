@@ -28,7 +28,7 @@ class SchedulesController < ApplicationController
     if params[:schedule_up_to] && valid_date?(params[:schedule_up_to])
       job = Job.find(params[:schedule][:job_idx])
       end_date = Date.strptime(params[:schedule_up_to], "%m/%d/%Y")
-      errors = Schedule.create_schedules(start_date, end_date, job, params[:schedule][:user_id])
+      errors = Schedule.create_schedules(start_date, end_date, job, params[:schedule][:user_id], params[:schedule_on_hitch], params[:schedule_on_free])
     else
       @schedule = Schedule.new(schedule_params)
       errors = @schedule.errors.full_messages if !@schedule.save
@@ -80,9 +80,6 @@ class SchedulesController < ApplicationController
     def set_base
       base_id = (params[:base_id]) || nil
       @base = Location.find_by_location_idx_and_org_unit(params[:base_id],@organization.org_unit) if base_id
-      # if !@base
-      #   @base = @organization.bases
-      # end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

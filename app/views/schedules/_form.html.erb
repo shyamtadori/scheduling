@@ -19,16 +19,30 @@
             <%= f.collection_select :user_id, @available_pilots, :id, :username, {include_blank: false }, {class: "modelDropDown form-group", style: "width:30%;"} %>
           </div>
         </div>
-        <div class="form-group">
-          <label class="col-sm-2 control-label">
-            Schedule up to <i>(optional)</i>
-          </label>
-          <div class="col-sm-3">
-            <div class="input-group date">
-              <input class="form-control" id="schedule_up_to" type="text" name="schedule_up_to" onkeydown="return false">
-              <span class="input-group-addon">
-                <i class="fa fa-calendar" aria-hidden="true" id='schedule_up_to_selector_icon'></i>
-              </span>
+
+        <div class="checkbox schedule-form-checkbox-padding">
+          <label><input type="checkbox" name="schedule_multiple_dates" id="schedule_multiple_dates" value="true">Scheule Multiple Dates</label>
+        </div>
+        <div id='multiple_dates_div' style="display: none;">
+          <div class="form-group">
+            <label class="col-sm-2 control-label">
+              Schedule up to
+            </label>
+            <div class="col-sm-3">
+              <div class="input-group date">
+                <input class="form-control" id="schedule_up_to" type="text" name="schedule_up_to" onkeydown="return false">
+                <span class="input-group-addon">
+                  <i class="fa fa-calendar" aria-hidden="true" id='schedule_up_to_selector_icon'></i>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="schedule-form-checkbox-padding">
+            <div class="checkbox">
+              <label><%= check_box_tag 'schedule_on_hitch', true, true %>Only schedule when on hitch</label>
+            </div>
+            <div class="checkbox">
+              <label><%= check_box_tag 'schedule_on_free', true, true %> Do not schedule on days this pilot is already working</label>
             </div>
           </div>
         </div>
@@ -39,7 +53,7 @@
       </div>
     </div>
     <div class="form-group">
-      <div class="col-xs-12">
+      <div class="col-xs-12 schedule-form-checkbox-padding">
         <%= f.submit " Save ", class:"btn btn-default " %>
       </div>
     </div>
@@ -61,5 +75,10 @@
       $('#schedule_up_to').focus();
     });
     $('#schedule_up_to').val('');
+
+    $('#schedule_multiple_dates').change(function (e) {
+      if($(this).prop("checked") === true) $('#multiple_dates_div').show('slow');
+      else $('#multiple_dates_div').hide('slow');
+    });
   });
 </script>
