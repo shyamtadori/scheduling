@@ -13,6 +13,7 @@ class Location < ActiveRecord::Base
 	#attr_accessible :company_phone, :bsee_title, :helideck_shape_idx
 
 	has_many :jobs, class_name: 'Job', foreign_key: :location_idx
+	default_scope {order('location_name asc')}
 	scope :bases, -> { where('"SG_LOCATIONS"."LOCATION_TYPE_IDX" IN (5,6)')}
 
 	def id

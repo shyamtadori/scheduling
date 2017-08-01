@@ -11,7 +11,8 @@ class Organization < ActiveRecord::Base
   has_many :locations, class_name: "Location", foreign_key: "org_unit"
   has_many :bases, -> { bases }, class_name: "Location", foreign_key: "org_unit"
 
- 
+  default_scope {order('company asc')}
+
   # This is a SQL materialized view,
   # so there is no need to try to edit its records ever.
   # Doing otherwise, will result in an exception being thrown

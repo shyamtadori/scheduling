@@ -1,31 +1,24 @@
-<div class="row form-group">
-  <div class="col-sm-2">
-    <%= select_tag(:org_unit, options_for_select( Organization.all.map{|o| [o.company, o.org_unit.to_i]},:selected => @organization.id),{class: "form-control"})%>
-  </div>
-  <div class="col-sm-2">
-    <%= select_tag(:base, options_for_select( @organization.bases.map{|b| [b.location_name, b.location_idx.to_i]},:selected => (@base.id if @base)),{class: "form-control"})%>
-  </div>
-  <div class="col-sm-2">
-    <div class="input-group date" id='scheduling_month_dp'>
-      <input class="form-control" id="scheduling_month_selector" type="text" name="scheduling_month" value="<%=@month%>-<%=@year%>" onkeydown="return false">
-      <span class="input-group-addon">
-        <i class="fa fa-calendar" id='scheduling_month_selector_icon' aria-hidden="true"></i>
-      </span>
-    </div>  
-  </div>
-</div>
+<%= render("scheduling_filters")%>
 
-<table class="table table-striped table-bordered monthly_schedule" id='monthly_schedule'>
-  <thead>
-    <tr>
-      <th><%= @start_date.strftime('%B') %> - <%= @start_date.strftime('%Y') %> > <br> Jobs <i class="fa fa-fw fa-arrow-down"></i></th>
-      <%= render('month_dates')%>
-    </tr>
-  </thead>
-  <tbody>
-    <%= render('jobs', :no_of_days => @no_of_days)%>
-  </tbody>
-</table>
+<%if(@base)%>
+  <%if(@jobs && @jobs.length > 0)%>
+    <table class="table table-striped table-bordered monthly_schedule" id='monthly_schedule'>
+      <thead>
+        <tr>
+          <th><%= @start_date.strftime('%B') %> - <%= @start_date.strftime('%Y') %> > <br> Jobs <i class="fa fa-fw fa-arrow-down"></i></th>
+          <%= render('month_dates')%>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render('jobs', :no_of_days => @no_of_days)%>
+      </tbody>
+    </table>
+  <%else%>
+    <h1>No Jobs Found For <%= @organization.company%> - <%= @base.location_name%></h1>
+  <%end%>
+<%else%>
+  <h2>No Base Found <%= @organization.company%></h2>
+<%end%>
 
 <!-- Modal -->
 <div class="modal fade" id="choose-pilot-modal" role="dialog">
@@ -50,7 +43,8 @@
   $(document).ready(function() {
     $('#monthly_schedule').DataTable({
       scrollX: true,
-      scrollY: $(window).height()- 195,
+      scrollY: $(window).height()- 220,
+      scrollCollapse: true,
       paging: false,
       bSort: false,
       fixedColumns: true
@@ -61,7 +55,9 @@
       var job_id = $(this).attr("data-job");
       var job_name = $(this).attr("data-jobname");
       var date = $(this).attr("data-date");
-      params_data = {job_id: job_id, date: date};
+      var selected_org_unit = $('#org_unit_selector').val();
+      var selected_base = $('#base_selector').val();
+      params_data = {job_id: job_id, date: date, org_unit: selected_org_unit, base_id: selected_base};
       $.ajax({
         type: "GET",
         url: "/users/available_pilots.js",
@@ -96,16 +92,40 @@
       $('#scheduling_month_selector').focus();
     });
     $('#scheduling_month_selector').on('dp.change', function(e){
-      var selected_month_and_year = e.date.format(e.date._f);
-      var selected_month = selected_month_and_year.split("-")[0];
-      var selected_year = selected_month_and_year.split("-")[1];
-      console.log(selected_month);
-      console.log(selected_year);
-      change_schedule_view(selected_month, selected_year);
+      change_schedule_view();
+    });
+
+    $("#org_unit_selector").change(function () {
+      $( "#base_selector_div" ).remove();
+      $( "#scheduling_month_selector_div" ).remove();
+      change_schedule_view();
+    });
+
+    $("#base_selector").change(function () {
+      change_schedule_view();
     });
   });
 
-  var change_schedule_view = function(selected_month, selected_year) {
-    window.location.href = '/schedules/'+selected_month+'/'+selected_year;
+  var change_schedule_view = function() {
+    var selected_org_unit = $('#org_unit_selector').val();
+    if (is_element_present('base_selector')) {
+      var selected_base = $('#base_selector').val();
+      var selected_month_and_year = $('#scheduling_month_selector').val();
+      var selected_month = selected_month_and_year.split("-")[0];
+      var selected_year = selected_month_and_year.split("-")[1];
+      window.location.href = '/schedules/'+selected_month+'/'+selected_year+'?org_unit='+selected_org_unit+'&base_id='+selected_base;
+    } else {
+      window.location.href = '/schedules?org_unit='+selected_org_unit;
+    }
+  };
+
+  var is_element_present = function(element_id) {
+    if ($('#'+element_id).length) {
+      alert(element_id);
+      alert(true);
+      return true;
+    } else {
+      return false;
+    }
   };
 </script>

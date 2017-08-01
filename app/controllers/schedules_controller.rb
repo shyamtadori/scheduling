@@ -1,12 +1,12 @@
 class SchedulesController < ApplicationController
   before_action :set_schedule, only: [:show, :edit, :update, :destroy]
-  before_action :set_organization, only: [:monthly_schedule]
-  before_action :set_base, only: [:monthly_schedule]
+  before_action :set_organization, only: [:index, :monthly_schedule]
+  before_action :set_base, only: [:index, :monthly_schedule]
 
   def index
     month = Date.today.month
     year = Date.today.year
-    redirect_to "/schedules/#{month}/#{year}"
+    redirect_to "/schedules/#{month}/#{year}?org_unit=#{params[:org_unit]}"
   end
 
   # GET /schedules/:month/:year
@@ -16,13 +16,16 @@ class SchedulesController < ApplicationController
     @no_of_days = (@end_date - @start_date).to_i + 1
     @month = params[:month]
     @year = params[:year]
-    @jobs = Job.limit(100)
+    @jobs = @base.jobs.active if @base
+    # @jobs = Job.limit(100)
     @allotted_pilots = Schedule.allotted_pilots(@start_date, @end_date)
   end
 
   # POST /schedules
   def create
     start_date = Date.strptime(params[:schedule][:schedule_date])
+    org_unit = params[:org_unit]
+    base_id = params[:base_id]
     if params[:schedule_up_to] && valid_date?(params[:schedule_up_to])
       job = Job.find(params[:schedule][:job_idx])
       end_date = Date.strptime(params[:schedule_up_to], "%m/%d/%Y")
@@ -33,7 +36,7 @@ class SchedulesController < ApplicationController
     end
 
     if !errors
-      redirect_to "/schedules/#{start_date.month}/#{start_date.year}", notice: 'Schedule was successfully updated.'
+      redirect_to "/schedules/#{start_date.month}/#{start_date.year}?org_unit=#{org_unit}&base_id=#{base_id}", notice: 'Schedule was successfully updated.'
     else
       render :status => 412, :json => {:errors => errors}
     end
