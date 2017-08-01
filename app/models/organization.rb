@@ -10,6 +10,7 @@ class Organization < ActiveRecord::Base
   has_many :calendars, class_name: "User", foreign_key: "org_unit"
   has_many :locations, class_name: "Location", foreign_key: "org_unit"
   has_many :bases, -> { bases }, class_name: "Location", foreign_key: "org_unit"
+  has_many :jobs, through: :locations
 
   default_scope {order('company asc')}
 

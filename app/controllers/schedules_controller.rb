@@ -16,8 +16,7 @@ class SchedulesController < ApplicationController
     @no_of_days = (@end_date - @start_date).to_i + 1
     @month = params[:month]
     @year = params[:year]
-    @jobs = @base.jobs.active if @base
-    # @jobs = Job.limit(100)
+    @jobs = (@base.jobs.active if @base) || @organization.jobs.active
     @allotted_pilots = Schedule.allotted_pilots(@start_date, @end_date)
   end
 
@@ -81,9 +80,9 @@ class SchedulesController < ApplicationController
     def set_base
       base_id = (params[:base_id]) || nil
       @base = Location.find_by_location_idx_and_org_unit(params[:base_id],@organization.org_unit) if base_id
-      if !@base
-        @base = @organization.bases.first
-      end
+      # if !@base
+      #   @base = @organization.bases
+      # end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

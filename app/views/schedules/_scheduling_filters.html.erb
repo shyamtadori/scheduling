@@ -5,19 +5,18 @@
       <%= select_tag(:org_unit, options_for_select( Organization.all.map{|o| [o.company, o.org_unit.to_i]},:selected => @organization.id),{class: "form-control", id: "org_unit_selector"})%>
     </div>
   </div>
-  <%if(@base)%>
-    <div class="col-sm-3" id='base_selector_div'>
-      <label> Base </label>
-      <%= select_tag(:base, options_for_select( @organization.bases.map{|b| [b.location_name, b.location_idx.to_i]},:selected => (@base.id if @base)),{class: "form-control", id: "base_selector", include_blank: false})%>
-    </div>
-    <div class="col-sm-3" id='scheduling_month_selector_div'>
-      <label> Month </label>
-      <div class="input-group date" id='scheduling_month_dp'>
-        <input class="form-control" id="scheduling_month_selector" type="text" name="scheduling_month" value="<%=@month%>-<%=@year%>" onkeydown="return false">
-        <span class="input-group-addon">
-          <i class="fa fa-calendar" id='scheduling_month_selector_icon' aria-hidden="true"></i>
-        </span>
-      </div>  
-    </div>
-  <%end%>
+  
+  <div class="col-sm-3" id='base_selector_div'>
+    <label> Base </label>
+    <%= select_tag(:base, options_for_select( @organization.bases.map{|b| [b.location_name, b.location_idx.to_i]},:selected => (@base.id if @base)),{class: "form-control", id: "base_selector", include_blank: "All"})%>
+  </div>
+  <div class="col-sm-3" id='scheduling_month_selector_div'>
+    <label> Month </label>
+    <div class="input-group date" id='scheduling_month_dp'>
+      <input class="form-control" id="scheduling_month_selector" type="text" name="scheduling_month" value="<%=@month%>-<%=@year%>" onkeydown="return false">
+      <span class="input-group-addon">
+        <i class="fa fa-calendar" id='scheduling_month_selector_icon' aria-hidden="true"></i>
+      </span>
+    </div>  
+  </div>
 </div>
