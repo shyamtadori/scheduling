@@ -1,5 +1,7 @@
 class SchedulesController < ApplicationController
   before_action :set_schedule, only: [:show, :edit, :update, :destroy]
+  before_action :set_organization, only: [:monthly_schedule]
+  before_action :set_base, only: [:monthly_schedule]
 
   def index
     month = Date.today.month
@@ -65,6 +67,20 @@ class SchedulesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_schedule
       @schedule = Schedule.find(params[:id])
+    end
+
+    def set_organization
+      org_unit = (params[:org_unit]) || Organization::ERA_ORGANIZATION_UNIT
+      @organization = Organization.find(org_unit) rescue Organization.find(Organization::ERA_ORGANIZATION_UNIT)
+      puts @organization.id
+    end
+
+    def set_base
+      base_id = (params[:base_id]) || nil
+      @base = Location.find_by_location_idx_and_org_unit(params[:base_id],@organization.org_unit) if base_id
+      if !@base
+        @base = @organization.bases.first
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
