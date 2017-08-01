@@ -11,6 +11,16 @@ class SchedulesController < ApplicationController
 
   # GET /schedules/:month/:year
   def monthly_schedule
+    # puts '1'*90
+    # res = Location.left_outer_joins(:jobs).where(jobs: {id: nil})
+    # puts '1'*90
+    # puts res.length
+
+    # puts '1'*90
+    # result = Location.joins(:jobs).group('locations.location_idx')
+    # puts result
+    # puts '1'*90
+    
     @start_date = "#{params[:year]}-#{params[:month]}-01".to_date
     @end_date = @start_date.end_of_month
     @no_of_days = (@end_date - @start_date).to_i + 1

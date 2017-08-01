@@ -15,6 +15,8 @@ class Location < ActiveRecord::Base
 	has_many :jobs, class_name: 'Job', foreign_key: :location_idx
 	default_scope {order('location_name asc')}
 	scope :bases, -> { where('"SG_LOCATIONS"."LOCATION_TYPE_IDX" IN (5,6)')}
+	# scope :with_jobs, -> { joins('LEFT OUTER JOIN "TBMS_CH_JOB" ON "SG_LOCATIONS"."LOCATION_IDX" = "TBMS_CH_JOB"."LOCATION_IDX"').group('"SG_LOCATIONS"."LOCATION_IDX"').having('count("TBMS_CH_JOB"."JOB_IDX") > 0') }
+	# scope :with_jobs, -> {Location.includes(:jobs).where(jobs: { location_idx: nil })}
 
 	def id
 		location_idx.to_i
