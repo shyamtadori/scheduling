@@ -1,5 +1,5 @@
 <% (@start_date..@end_date).select {|d| d.day == 1}.each do |month| %>
-	<div class="well well-sm work-month alternative-white">
+	<div class="well well-sm work-month alternative-white" style='overflow-x:scroll'>
 		<div class="row">
 			<div class="col-md-1">
 				<h3 class="center-text"><%= month.strftime('%B') %></h3>
@@ -73,9 +73,3 @@
 */
 });
 </script>
-
-<!-- <style type="text/css">
-	th:hover{
-		background-color: green
-	}	
-</style> -->

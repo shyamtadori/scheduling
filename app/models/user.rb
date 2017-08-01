@@ -141,11 +141,10 @@ class User < ActiveRecord::Base
     return all_working_dates
   end
 
-  def self.get_pilot_available_dates(start_date, end_date, user_id)
-    pilot = User.find(user_id)
-    pilot_all_working_dates = pilot.all_working_dates_of_pilot
+  def get_pilot_available_dates(start_date, end_date)
+    pilot_all_working_dates = self.all_working_dates_of_pilot
     pilot_working_dates_between = ((start_date..end_date).map(&:to_date)) & pilot_all_working_dates
-    pilot_scheduled_dates = Schedule.where("schedule_date >= ? and schedule_date <= ? and user_id = ?", start_date, end_date, user_id).pluck(:schedule_date).map(&:to_date)
+    pilot_scheduled_dates = Schedule.where("schedule_date >= ? and schedule_date <= ? and user_id = ?", start_date, end_date, self.id).pluck(:schedule_date).map(&:to_date)
     return (pilot_working_dates_between - pilot_scheduled_dates)
   end
 
