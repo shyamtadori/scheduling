@@ -43,7 +43,7 @@
   $(document).ready(function() {
     $('#monthly_schedule').DataTable({
       scrollX: true,
-      scrollY: $(window).height()- 220,
+      scrollY: $(window).height()- 230,
       scrollCollapse: true,
       paging: false,
       bSort: false,
@@ -120,12 +120,7 @@
   };
 
   var is_element_present = function(element_id) {
-    if ($('#'+element_id).length) {
-      alert(element_id);
-      alert(true);
-      return true;
-    } else {
-      return false;
-    }
+    if ($('#'+element_id).length) return true;
+    else return false;
   };
 </script>
