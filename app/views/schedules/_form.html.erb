@@ -48,8 +48,9 @@
         </div>
         <%= f.hidden_field :schedule_date %>
         <%= f.hidden_field :job_idx %>
+        <%= f.hidden_field :location_idx %>
         <input type="hidden" name="org_unit" value="<%=params[:org_unit]%>">
-        <input type="hidden" name="base_id" value="<%=params[:base_id]%>">
+        <input type="hidden" name="filter_base_id" value="<%=params[:base_id]%>">
       </div>
     </div>
     <div class="form-group">

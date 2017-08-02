@@ -11,43 +11,22 @@ class SchedulesController < ApplicationController
 
   # GET /schedules/:month/:year
   def monthly_schedule
-    # puts '1'*90
-    # res = Location.left_outer_joins(:jobs).where(jobs: {id: nil})
-    # puts '1'*90
-    # puts res.length
-
-    # puts '1'*90
-    # result = Location.select(:location_idx, :location_name).joins(:jobs)#.group('sg_locations.location_idx')
-    # result = Location.select(:location_idx, :location_name).includes(:jobs).where(jobs: { location_idx: nil })
-    # puts result
-    # puts '1'*90
-
-    @bases = Location.active_bases(@organization.id)
-    # puts result
-    # result.each do |res|
-    #   # puts res.job_id
-    # end
-
-    # puts result.length
-    # puts result.uniq.length
-    # puts Location.all.count
-
-    puts @bases.length
-
     @start_date = "#{params[:year]}-#{params[:month]}-01".to_date
     @end_date = @start_date.end_of_month
     @no_of_days = (@end_date - @start_date).to_i + 1
     @month = params[:month]
     @year = params[:year]
+    @bases = Location.active_bases(@organization.id)
     @jobs = (@base.jobs.active if @base) || @organization.jobs.active
-    @allotted_pilots = Schedule.allotted_pilots(@start_date, @end_date)
+    required_location_ids = ([@base.location_idx] if @base) || @bases.map(&:location_idx)
+    @allotted_pilots = Schedule.allotted_pilots(@start_date, @end_date, required_location_ids)
   end
 
   # POST /schedules
   def create
     start_date = Date.strptime(params[:schedule][:schedule_date])
     org_unit = params[:org_unit]
-    base_id = params[:base_id]
+    base_id = params[:filter_base_id]
     if params[:schedule_up_to] && valid_date?(params[:schedule_up_to])
       job = Job.find(params[:schedule][:job_idx])
       end_date = Date.strptime(params[:schedule_up_to], "%m/%d/%Y")
