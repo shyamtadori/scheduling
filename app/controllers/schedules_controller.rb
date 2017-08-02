@@ -1,6 +1,6 @@
 class SchedulesController < ApplicationController
   before_action :set_schedule, only: [:show, :edit, :update, :destroy]
-  before_action :set_organization, only: [:index, :monthly_schedule]
+  before_action :set_organization, only: [:index, :create, :monthly_schedule]
   before_action :set_base, only: [:index, :monthly_schedule]
 
   def index
@@ -38,7 +38,7 @@ class SchedulesController < ApplicationController
     if params[:schedule_up_to] && valid_date?(params[:schedule_up_to])
       job = Job.find(params[:schedule][:job_idx])
       end_date = Date.strptime(params[:schedule_up_to], "%m/%d/%Y")
-      errors = Schedule.create_schedules(start_date, end_date, job, params[:schedule][:user_id], params[:schedule_on_hitch], params[:schedule_on_free])
+      errors = Schedule.create_schedules(start_date, end_date, job, params[:schedule][:user_id], params[:schedule_on_hitch], params[:schedule_on_free], @organization)
     else
       @schedule = Schedule.new(schedule_params)
       errors = @schedule.errors.full_messages if !@schedule.save

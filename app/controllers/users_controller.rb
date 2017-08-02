@@ -58,8 +58,9 @@ class UsersController < ApplicationController
   end
 
   def available_pilots
+    organization = Organization.find(params[:org_unit])
     @schedule = Schedule.new(job_idx: params[:job_id], schedule_date: params[:date])
-    @available_pilots = User.get_pilots_available_on(params[:date])
+    @available_pilots = User.get_pilots_available_on(params[:date], organization)
   end
 
   private

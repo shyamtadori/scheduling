@@ -115,9 +115,10 @@ class User < ActiveRecord::Base
     Thread.current[:user] = user
   end
 
-  def self.get_pilots_available_on(schedule_date)
+  def self.get_pilots_available_on(schedule_date, organization)
     calendar_hitch_ids = CalendarHitchDate.where(work_date: schedule_date).pluck(:cal_hitch_id).map(&:to_s)
-    hitch_ids = CalendarsHitch.where("cal_hitch_id in (?)",calendar_hitch_ids).pluck(:hitch_id).map(&:to_s)
+    org_calendar_ids = organization.calendar_ids
+    hitch_ids = CalendarsHitch.where("cal_hitch_id in (?) and calendar_id in (?)", calendar_hitch_ids, org_calendar_ids).pluck(:hitch_id).map(&:to_s)
 
     all_available_pilot_ids = PilotsHitch.where('hitch_id in (?) and effective_start_date <= ? and (effective_end_date >= ? or effective_end_date is null)', hitch_ids, schedule_date, schedule_date).pluck(:user_id)
     pilot_ids_working_on_this_date = Schedule.where(schedule_date: schedule_date).pluck(:user_id)
@@ -125,10 +126,11 @@ class User < ActiveRecord::Base
     return User.where('user_id in (?)',available_pilot_ids)
   end
 
-  def all_working_dates_of_pilot
+  def all_working_dates_of_pilot(organization)
     all_working_dates = []
+    org_calendar_ids = organization.calendar_ids
     pilots_hitches.each do |pilot_hitch|
-      cal_hitch_ids = CalendarsHitch.where(:hitch_id => pilot_hitch.hitch_id).pluck(:cal_hitch_id)
+      cal_hitch_ids = CalendarsHitch.where("hitch_id = ? and calendar_id in (?)", pilot_hitch.hitch_id, org_calendar_ids).pluck(:cal_hitch_id)
       start_date = pilot_hitch.effective_start_date
       end_date = pilot_hitch.effective_end_date
       if end_date
@@ -141,8 +143,8 @@ class User < ActiveRecord::Base
     return all_working_dates
   end
 
-  def get_pilot_available_dates(start_date, end_date, schedule_on_hitch, schedule_on_free)
-    pilot_all_working_dates = self.all_working_dates_of_pilot
+  def get_pilot_available_dates(start_date, end_date, schedule_on_hitch, schedule_on_free, organization)
+    pilot_all_working_dates = self.all_working_dates_of_pilot(organization)
     if schedule_on_hitch
       pilot_working_dates_between = ((start_date..end_date).map(&:to_date)) & pilot_all_working_dates
     else

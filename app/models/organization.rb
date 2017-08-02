@@ -7,7 +7,7 @@ class Organization < ActiveRecord::Base
   ERA_ORGANIZATION_UNIT = 2
 
   has_many :users, class_name: "User", foreign_key: "org_unit"
-  has_many :calendars, class_name: "User", foreign_key: "org_unit"
+  has_many :calendars, class_name: "Calendar", foreign_key: "org_unit"
   has_many :locations, class_name: "Location", foreign_key: "org_unit"
   has_many :bases, -> { bases }, class_name: "Location", foreign_key: "org_unit"
   has_many :jobs, through: :locations
