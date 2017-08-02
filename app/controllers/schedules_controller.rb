@@ -17,10 +17,23 @@ class SchedulesController < ApplicationController
     # puts res.length
 
     # puts '1'*90
-    # result = Location.joins(:jobs).group('locations.location_idx')
+    # result = Location.select(:location_idx, :location_name).joins(:jobs)#.group('sg_locations.location_idx')
+    # result = Location.select(:location_idx, :location_name).includes(:jobs).where(jobs: { location_idx: nil })
     # puts result
     # puts '1'*90
-    
+
+    @bases = Location.active_bases(@organization.id)
+    # puts result
+    # result.each do |res|
+    #   # puts res.job_id
+    # end
+
+    # puts result.length
+    # puts result.uniq.length
+    # puts Location.all.count
+
+    puts @bases.length
+
     @start_date = "#{params[:year]}-#{params[:month]}-01".to_date
     @end_date = @start_date.end_of_month
     @no_of_days = (@end_date - @start_date).to_i + 1

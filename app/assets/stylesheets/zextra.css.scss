@@ -661,3 +661,12 @@ textarea.md-text-area {
   padding-bottom:15px;
   padding-left:30px;
 }
+.monthly_schedule > tbody > tr > td,
+.monthly_schedule > tbody > tr > th,
+.monthly_schedule > thead > tr > td,
+.monthly_schedule > thead > tr > th {
+  padding: 25px;
+}
+.monthly_schedule > tbody > tr > td {
+  font-size: 20px;
+}

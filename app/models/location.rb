@@ -22,6 +22,11 @@ class Location < ActiveRecord::Base
 		location_idx.to_i
 	end
 
+	def self.active_bases(org_unit)
+		Location.bases.select("SG_LOCATIONS.LOCATION_IDX, SG_LOCATIONS.LOCATION_NAME").joins(:jobs)
+						.where('SG_LOCATIONS.ORG_UNIT = ? AND ? between "TBMS_CH_JOB"."EFFECTIVE_START_DATE" and "TBMS_CH_JOB"."EFFECTIVE_END_DATE"', org_unit, DateTime.now).uniq
+	end
+
 	def bsee_match
 		sql = "SELECT B.COMPLEX_ID_NUMBER,
 									B.TITLE,
