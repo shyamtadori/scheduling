@@ -1,8 +1,11 @@
-<%customer_name = nil%>
+<%location_name = nil%>
 <% @jobs.each do |job| %>
-  <%if(!customer_name || customer_name != job.customer_name)%>
-      <%customer_name = job.customer_name%>
-      <%= render('customer_row', :no_of_days => no_of_days, :customer_name => customer_name)%>
+  <%if(!location_name || location_name != job.location_name)%>
+      <% location_name = job.location_name%>
+      <% tr_classes = "after-subheader-row" %>
+      <%= render('subheader_row', :no_of_days => no_of_days, :location_name => location_name)%>
+  <% else %>
+  		<% tr_classes = nil %>
   <%end%>
-  <%= render('job_row', :no_of_days => no_of_days, :job => job)%>
+  <%= render('job_row', :no_of_days => no_of_days, :job => job, tr_classes: tr_classes)%>
 <%end%>

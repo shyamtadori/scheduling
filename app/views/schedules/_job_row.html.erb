@@ -1,14 +1,24 @@
-<tr>
-  <th>
+<tr <%= "class=#{tr_classes}" if tr_classes.present? %>>
+  <th data-search="<%= job.location_name %>">
+    <span data-toggle="tooltip" data-placement="right" title="<%= job.customer_name %>" >
+      <%= job.customer_name.split(' ')[0] %>  
+    </span>
     <%= job.job_name %>
   </th>
-
-  <% 1.upto(no_of_days) do |number|%>
-    <td id='<%=job.job_idx%>_<%=number%>' data-job='<%=job.job_idx%>' data-jobname='<%=job.name%>' data-date='<%=@year%>-<%=@month%>-<%=number%>'>
-      <%if(@allotted_pilots["#{number}_#{job.job_idx}"])%>
-        <%= @allotted_pilots["#{number}_#{job.job_idx}"].join(", ")%>
-      <%else%>
-      <%end%>
-    </td>
+  <th data-search="<%= job.location_name %>">
+    <%= job.mdl_name  %>
+  </th>
+  <% days_off = [job.sun, job.mon, job.tue, job.wed, job.thu, job.fri, job.sat] %>
+  <% (@start_date..@end_date).each_with_index do |day, number|%>
+    <% if days_off[day.strftime('%w').to_i] == "1" or (job.effective_end_date.present? and day > job.effective_end_date) or day < job.effective_start_date%>
+      <td data-search="<%= job.location_name %>" class="day-off"></td>
+    <% else %>
+      <td data-search="<%= job.location_name %>" id='<%=job.job_idx%>_<%=number + 1%>' data-job='<%=job.job_idx%>' data-jobname='<%=job.name%>' data-date='<%=@year%>-<%=@month%>-<%=number + 1%>'>
+        <%if(@allotted_pilots["#{number + 1}_#{job.job_idx}"])%>
+          <%= @allotted_pilots["#{number + 1}_#{job.job_idx}"].join(", ")%>
+        <%else%>
+        <%end%>
+      </td>
+    <% end %>
   <%end%>
 </tr>

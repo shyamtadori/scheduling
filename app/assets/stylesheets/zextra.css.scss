@@ -649,10 +649,10 @@ textarea.md-text-area {
 }
 .monthly_schedule > thead > tr > th,
 .monthly_schedule > tbody > tr > th{
-   border: 0.5px solid #000; //fca // eec
+   border: 0.5px solid #373a3c; //fca // eec
 }
 .monthly_schedule {
-   border: 1px solid #000; //fca // eec
+   border: 1px solid #373a3c; //fca // eec
 }
 // #monthly_schedule_wrapper > .row > .col-sm-6{
 //   float: right;
@@ -661,7 +661,7 @@ textarea.md-text-area {
   padding-bottom:15px;
   padding-left:30px;
 }
-.monthly_schedule > tbody > tr > td,
+/*.monthly_schedule > tbody > tr > td,
 .monthly_schedule > tbody > tr > th,
 .monthly_schedule > thead > tr > td,
 .monthly_schedule > thead > tr > th {
@@ -669,4 +669,33 @@ textarea.md-text-area {
 }
 .monthly_schedule > tbody > tr > td {
   font-size: 20px;
+}*/
+.DTFC_LeftBodyWrapper > .DTFC_LeftBodyLiner > table.monthly_schedule {
+  border-right: 0px solid;
+}
+.DTFC_LeftBodyWrapper > .DTFC_LeftBodyLiner > table.monthly_schedule > tbody > tr > th{
+  border-right: 1px solid #373a3c;
+}
+.monthly_schedule > tbody > tr.subheader-row > td {
+  border-right: 0px solid;
+  border-left: 0px solid;
+  border-top: 0.5px solid #373a3c;
+  padding: 5px;
+}
+table.monthly_schedule > tbody > tr.after-subheader-row > td {
+  border-top: 0.5px solid #373a3c;
+}
+
+.DTFC_LeftBodyWrapper > .DTFC_LeftBodyLiner > table.monthly_schedule > tbody > tr.subheader-row > th {
+  border-right: 0px solid;
+  border-left: 0px solid;
+}
+
+.DTFC_LeftBodyWrapper > .DTFC_LeftBodyLiner > table.monthly_schedule > tbody > tr.subheader-row:not(:first-child) > th {
+  border-right: 0px solid;
+  border-left: 0px solid;
+  border-top: 0.5px solid #373a3c;
+}
+table.monthly_schedule > tbody > tr > td.day-off{
+  background-color: #373a3c;
 }

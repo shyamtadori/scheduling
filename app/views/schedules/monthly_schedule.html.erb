@@ -1,10 +1,11 @@
 <%= render("scheduling_filters")%>
 
 <%if(@jobs && @jobs.length > 0)%>
-  <table class="table table-striped table-bordered monthly_schedule" id='monthly_schedule'>
+  <table class="table table-striped table-bordered monthly_schedule table-condensed display compact" id='monthly_schedule'>
     <thead>
       <tr>
         <th><%= @start_date.strftime('%B') %> - <%= @start_date.strftime('%Y') %> > <br> Jobs <i class="fa fa-fw fa-arrow-down"></i></th>
+        <th>AC Model</th>
         <%= render('month_dates')%>
       </tr>
     </thead>
@@ -39,12 +40,15 @@
   $(document).ready(function() {
     $('#monthly_schedule').DataTable({
       scrollX: true,
-      scrollY: $(window).height()- 265,
+      scrollY: '65vh',
       scrollCollapse: true,
       paging: false,
       bSort: false,
-      fixedColumns: true
+      fixedColumns: {
+        leftColumns: 2
+      }
     });
+    $('[data-toggle="tooltip"]').tooltip()
     //don't want to show number of records footer
     $('#monthly_schedule_info').html('');
     $("#monthly_schedule").on("click", "td", function() {

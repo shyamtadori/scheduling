@@ -55,10 +55,32 @@ class Job < ActiveRecord::Base
 
 	def self.active_jobs_with_customers(base, organization)
 		active_job_ids = (base.jobs.active.map(&:job_idx) if base) || organization.jobs.active.map(&:job_idx)
-		jobs = Job.joins('INNER JOIN "TBMS_CONTRACTS" ON "TBMS_CH_JOB"."CONTRACT_IDX" = "TBMS_CONTRACTS"."CONTRACT_IDX" INNER JOIN "SG_CUSTOMERS" ON "TBMS_CONTRACTS"."CUSTOMER_IDX" = "SG_CUSTOMERS"."CUSTOMER_IDX"')
+		jobs = Job.joins('INNER JOIN "TBMS_CONTRACTS" ON "TBMS_CH_JOB"."CONTRACT_IDX" = "TBMS_CONTRACTS"."CONTRACT_IDX" 
+											INNER JOIN "AIRCRAFT_MODELS" ON "TBMS_CH_JOB"."AC_MODEL_IDX" = "AIRCRAFT_MODELS"."AC_MODEL_IDX"
+											INNER JOIN "SG_LOCATIONS" ON "TBMS_CH_JOB"."LOCATION_IDX" = "SG_LOCATIONS"."LOCATION_IDX" 
+											INNER JOIN "SG_CUSTOMERS" ON "TBMS_CONTRACTS"."CUSTOMER_IDX" = "SG_CUSTOMERS"."CUSTOMER_IDX"')
                .where('"TBMS_CH_JOB"."JOB_IDX" IN (?)', active_job_ids)
-               .select('"TBMS_CH_JOB"."JOB_IDX", "TBMS_CH_JOB"."JOB_NAME", "TBMS_CONTRACTS"."CONTRACT_REFERENCE", "SG_CUSTOMERS"."CUSTOMER_NAME"')
-               .order('"SG_CUSTOMERS"."CUSTOMER_NAME" ASC, "TBMS_CH_JOB"."JOB_NAME" ASC')
+               .select('"TBMS_CH_JOB"."JOB_IDX", 
+					              "TBMS_CH_JOB"."JOB_NAME", 
+					              "TBMS_CONTRACTS"."CONTRACT_REFERENCE", 
+					              "SG_CUSTOMERS"."CUSTOMER_NAME", 
+					              "AIRCRAFT_MODELS"."MDL_NAME", 
+					              "SG_LOCATIONS"."LOCATION_NAME", 
+					              "SG_LOCATIONS"."LOCATION_NAME",
+					              "TBMS_CH_JOB"."EFFECTIVE_START_DATE",
+				              	"TBMS_CH_JOB"."EFFECTIVE_END_DATE",
+				              	"TBMS_CH_JOB"."SUN",
+				              	"TBMS_CH_JOB"."MON",
+				              	"TBMS_CH_JOB"."TUE",
+				              	"TBMS_CH_JOB"."WED",
+				              	"TBMS_CH_JOB"."THU",
+				              	"TBMS_CH_JOB"."FRI",
+				              	"TBMS_CH_JOB"."SAT"')
+               .order('"SG_LOCATIONS"."LOCATION_NAME" ASC,
+	             	 			 "SG_CUSTOMERS"."CUSTOMER_NAME" ASC, 
+               				 "TBMS_CH_JOB"."JOB_NAME" ASC')
 		return jobs
 	end
 end
+
+
