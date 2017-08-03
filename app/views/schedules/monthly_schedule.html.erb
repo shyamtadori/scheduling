@@ -51,6 +51,33 @@
     $('[data-toggle="tooltip"]').tooltip()
     //don't want to show number of records footer
     $('#monthly_schedule_info').html('');
+
+    // deleting schedule
+    $(".delete_container_js").on("click", function(e) {
+      e.stopPropagation();
+      var job_id = $(this).closest('td').attr('data-job');
+      var job_name = $(this).closest('td').attr('data-jobname');
+      var date = $(this).closest('td').attr('data-date');
+      var pilot_id = $(this).attr("data-pilotID");
+      var pilot_name = $(this).attr("data-pilotName");
+      var selected_org_unit = $('#org_unit_selector').val();
+      var selected_base = $('#base_selector').val();
+      var params_data = {job_id: job_id, date: date, user_id: pilot_id, org_unit: selected_org_unit, base_id: selected_base};
+      swal({
+        title: "Are you sure?",
+        text: "Removing " + pilot_name + " from "+ job_name,
+        type: "warning",
+        showCancelButton: true,
+        closeOnConfirm: false,
+        showLoaderOnConfirm: true,
+        confirmButtonText: 'Remove',
+        confirmButtonColor: '#F27474'
+      },
+      function(){
+        deleteSchedule(params_data);
+      });
+    });
+
     $("#monthly_schedule").on("click", "td", function() {
       var job_id = $(this).attr("data-job");
       if(job_id){
@@ -124,5 +151,21 @@
   var is_element_present = function(element_id) {
     if ($('#'+element_id).length) return true;
     else return false;
+  };
+
+  var deleteSchedule = function(params_data) {
+    $.ajax({
+      type: "DELETE",
+      url: "/schedules/"+params_data.job_id+"/"+params_data.user_id+".js",
+      data: params_data,
+      error: function(resp) {
+        swal.close();
+        console.log(resp.responseJSON.message);
+        alert(resp.responseJSON.message);
+      },
+      success: function(resp) {
+        location.reload();
+      }
+    });
   };
 </script>

@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :schedules do
     collection do
       get '/:month/:year' => :monthly_schedule
+      delete '/:job_id/:user_id' => :destroy
     end
   end
   resources :mission_types do 

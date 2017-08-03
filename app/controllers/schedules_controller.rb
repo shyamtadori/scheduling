@@ -1,5 +1,6 @@
 class SchedulesController < ApplicationController
-  before_action :set_schedule, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
+  before_action :set_schedule, only: [:destroy]
   before_action :set_organization, only: [:index, :create, :monthly_schedule]
   before_action :set_base, only: [:index, :monthly_schedule]
 
@@ -57,20 +58,22 @@ class SchedulesController < ApplicationController
   #   end
   # end
 
-  # DELETE /schedules/1
-  # DELETE /schedules/1.json
-  # def destroy
-  #   @schedule.destroy
-  #   respond_to do |format|
-  #     format.html { redirect_to schedules_url, notice: 'Schedule was successfully destroyed.' }
-  #     format.json { head :no_content }
-  #   end
-  # end
+  # DELETE /schedules/:job_id/:user_id
+  def destroy
+    # start_date = Date.strptime(params[:date])
+    # org_unit = params[:org_unit]
+    # base_id = params[:base_id]
+    if @schedule.destroy
+      render :status => 200, :json => {message: 'Schedule updated successfully.'}
+    else
+      render :status => 500, :json => {message: 'Can not delete'}
+    end
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_schedule
-      @schedule = Schedule.find(params[:id])
+      @schedule = Schedule.find_by(job_idx: params[:job_id], user_id: params[:user_id])
     end
 
     def set_organization

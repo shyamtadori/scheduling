@@ -13,12 +13,20 @@
     <% if days_off[day.strftime('%w').to_i] == "1" or (job.effective_end_date.present? and day > job.effective_end_date) or day < job.effective_start_date%>
       <td data-search="<%= job.location_name %>" class="day-off"></td>
     <% else %>
-      <td data-search="<%= job.location_name %>" id='<%=job.job_idx%>_<%=number + 1%>' data-job='<%=job.job_idx%>' data-jobname='<%=job.name%>' data-date='<%=@year%>-<%=@month%>-<%=number + 1%>'>
-        <%if(@allotted_pilots["#{number + 1}_#{job.job_idx}"])%>
-          <%= @allotted_pilots["#{number + 1}_#{job.job_idx}"].join(", ")%>
-        <%else%>
+     <td id='<%=job.job_idx%>_<%=number%>' data-job='<%=job.job_idx%>' data-jobname='<%=job.name%>' data-date='<%=@year%>-<%=@month%>-<%=number%>' class='scheduling_cell_js'>
+      <%if(@allotted_pilots["#{number}_#{job.job_idx}"])%>
+        <% @allotted_pilots["#{number}_#{job.job_idx}"].each do |pilotname_id| %>
+          <div style='padding: 2px;'>
+            <span class="pilot-name-container"><%=pilotname_id.split('_')[0]%>
+              <div class="delete_container_js" data-pilotID="<%=pilotname_id.split('_')[1]%>" data-pilotName="<%=pilotname_id.split('_')[0]%>">
+                <i class='fa fa-times-circle-o fa-sm'></i>
+              </div>
+            </span>
+          </div>
         <%end%>
-      </td>
+      <%else%>
+      <%end%>
+    </td>
     <% end %>
   <%end%>
 </tr>
