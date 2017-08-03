@@ -1,16 +1,8 @@
+<%customer_name = nil%>
 <% @jobs.each do |job| %>
-  <tr>
-    <th>
-      <%= job.job_name %>
-    </th>
-
-    <% 1.upto(no_of_days) do |number|%>
-      <td id='<%=job.job_idx%>_<%=number%>' data-job='<%=job.job_idx%>' data-jobname='<%=job.name%>' data-date='<%=@year%>-<%=@month%>-<%=number%>'>
-        <%if(@allotted_pilots["#{number}_#{job.job_idx}"])%>
-          <%= @allotted_pilots["#{number}_#{job.job_idx}"].join(", ")%>
-        <%else%>
-        <%end%>
-      </td>
-    <%end%>
-  </tr>
+  <%if(!customer_name || customer_name != job.customer_name)%>
+      <%customer_name = job.customer_name%>
+      <%= render('customer_row', :no_of_days => no_of_days, :customer_name => customer_name)%>
+  <%end%>
+  <%= render('job_row', :no_of_days => no_of_days, :job => job)%>
 <%end%>

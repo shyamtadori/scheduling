@@ -49,26 +49,28 @@
     $('#monthly_schedule_info').html('');
     $("#monthly_schedule").on("click", "td", function() {
       var job_id = $(this).attr("data-job");
-      var job_name = $(this).attr("data-jobname");
-      var date = $(this).attr("data-date");
-      var selected_org_unit = $('#org_unit_selector').val();
-      var selected_base = $('#base_selector').val();
-      params_data = {job_id: job_id, date: date, org_unit: selected_org_unit, base_id: selected_base};
-      $.ajax({
-        type: "GET",
-        url: "/users/available_pilots.js",
-        data: params_data,
-        beforeSend: function() {
-          $('.modal-title').text('Choose Pilot for Job: ' + job_name + ', Date: ' + date);
-          $('#choose-pilot-modal').modal('show').find('.modal-body').html('Loading...');
-        },
-        error: function() {
-          $('#choose-pilot-modal').modal('show').find('.modal-body').html('Error while loading pilots. Please refresh the page.');
-        },
-        // success: function(resp) {
-        //   $('#choose-pilot-modal').modal('show').find('.modal-body').html('Available Users : '+resp.users.length);
-        // }
-      });
+      if(job_id){
+        var job_name = $(this).attr("data-jobname");
+        var date = $(this).attr("data-date");
+        var selected_org_unit = $('#org_unit_selector').val();
+        var selected_base = $('#base_selector').val();
+        params_data = {job_id: job_id, date: date, org_unit: selected_org_unit, base_id: selected_base};
+        $.ajax({
+          type: "GET",
+          url: "/users/available_pilots.js",
+          data: params_data,
+          beforeSend: function() {
+            $('.modal-title').text('Choose Pilot for Job: ' + job_name + ', Date: ' + date);
+            $('#choose-pilot-modal').modal('show').find('.modal-body').html('Loading...');
+          },
+          error: function() {
+            $('#choose-pilot-modal').modal('show').find('.modal-body').html('Error while loading pilots. Please refresh the page.');
+          },
+          // success: function(resp) {
+          //   $('#choose-pilot-modal').modal('show').find('.modal-body').html('Available Users : '+resp.users.length);
+          // }
+        });
+      }
    });
   });
 

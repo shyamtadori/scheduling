@@ -17,7 +17,7 @@ class SchedulesController < ApplicationController
     @month = params[:month]
     @year = params[:year]
     @bases = Location.active_bases(@organization.id)
-    @jobs = (@base.jobs.active if @base) || @organization.jobs.active
+    @jobs = Job.active_jobs_with_customers(@base, @organization)
     required_location_ids = ([@base.location_idx] if @base) || @bases.map(&:location_idx)
     @allotted_pilots = Schedule.allotted_pilots(@start_date, @end_date, required_location_ids)
   end
