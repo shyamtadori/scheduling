@@ -665,16 +665,20 @@ textarea.md-text-area {
 .monthly_schedule > tbody > tr > th,
 .monthly_schedule > thead > tr > td,
 .monthly_schedule > thead > tr > th {
-  padding: 25px;
+  padding: 4px;
 }
-.monthly_schedule > tbody > tr > td {
-  font-size: 20px;
-}*/
+*/.monthly_schedule > tbody > tr > td {
+  vertical-align: inherit;
+}
 .DTFC_LeftBodyWrapper > .DTFC_LeftBodyLiner > table.monthly_schedule {
   border-right: 0px solid;
 }
 .DTFC_LeftBodyWrapper > .DTFC_LeftBodyLiner > table.monthly_schedule > tbody > tr > th{
   border-right: 1px solid #373a3c;
+  vertical-align: inherit;
+}
+table.monthly_schedule > tbody > tr > th {
+  padding: 10px;
 }
 .monthly_schedule > tbody > tr.subheader-row > td {
   border-right: 0px solid;
