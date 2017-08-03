@@ -128,7 +128,7 @@ class User < ActiveRecord::Base
 
   def all_working_dates_of_pilot(organization)
     all_working_dates = []
-    org_calendar_ids = organization.calendar_ids
+    org_calendar_ids = (organization.calendar_ids if organization) || Calendar.ids
     pilots_hitches.each do |pilot_hitch|
       cal_hitch_ids = CalendarsHitch.where("hitch_id = ? and calendar_id in (?)", pilot_hitch.hitch_id, org_calendar_ids).pluck(:cal_hitch_id)
       start_date = pilot_hitch.effective_start_date

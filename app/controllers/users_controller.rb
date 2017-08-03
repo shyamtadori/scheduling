@@ -9,7 +9,7 @@ class UsersController < ApplicationController
 
   def show
     @associated_hitches = @user.pilots_hitches.includes(:hitch)
-    @work_days = @user.all_working_dates_of_pilot
+    @work_days = @user.all_working_dates_of_pilot(nil)
     @days_hash = @user.days_hash_with_hitch_names(@work_days)
 
   	# calendar_ids = @user.calendars.pluck(:calendar_id).map(&:to_s)

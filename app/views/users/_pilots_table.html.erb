@@ -1,0 +1,33 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    Add from Existing Pilots
+  </div>
+  <div class="panel-body">
+    <table id='select_pilot_table' class='table table-striped datatable'>
+      <thead>
+        <tr>
+          <th class='nosort'></th>
+          <th>Last Name</th>
+          <th>First Name</th>
+          <th>User Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%  pilots.each_with_index do |pilot, index| %>
+          <tr>
+            <td>
+              <%if(selection_type == 'radio')%>
+                <%= f.radio_button :user_id, pilot['user_id'], id: 'pilot_'+pilot['user_id'].to_s, checked: (index == 0) %>
+              <%else%>
+                <%= check_box_tag "hitch[checkbox_pilot_ids][]", pilot['user_id'], false, id: 'pilot_'+pilot['user_id'].to_s, class: "pilot_checkbox" %>
+              <%end%>
+            </td>
+            <td><%= pilot.last_name %></td>
+            <td><%= pilot.first_name %></td>
+            <td><%= pilot.user_name%></td>              
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
