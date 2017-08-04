@@ -672,11 +672,11 @@ textarea.md-text-area {
 }
 .pilot-name-container {
   position: relative;
-  padding: 2px;
+  padding: 4px;
 }
 .pilot-name-container:hover {
   overflow:hidden;
-  padding:2px;
+  padding:4px;
   background-color:#D0D3D4;
   border:0.5px solid #D0D3D4;
   -webkit-border-radius: 10%;
@@ -687,8 +687,8 @@ textarea.md-text-area {
    display: none;
    position: absolute;
    right: -1px;
-   top: -6px;
-   font-size: 14px;
+   top: -4px;
+   font-size: 12px;
    cursor: pointer; 
    cursor: hand;
 }
