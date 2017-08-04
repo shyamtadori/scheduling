@@ -11,10 +11,12 @@ class Schedule < ActiveRecord::Base
     selected_month_schedules.each do |schedule|
       iter_date = schedule.schedule_date.day
       hash_key = "#{iter_date}_#{schedule.job_idx}"
+      user_name = (schedule.user.username.gsub('_',' ') if schedule.user) || "Deleted User"
+      value_of_element = "#{schedule.user.username}_#{schedule.user_id}"
       if allotted_pilots_hash[hash_key]
-        allotted_pilots_hash[hash_key] += [schedule.user.username]
+        allotted_pilots_hash[hash_key] += [value_of_element]
       else
-        allotted_pilots_hash[hash_key] = [schedule.user.username]
+        allotted_pilots_hash[hash_key] = [value_of_element]
       end
     end
     return allotted_pilots_hash

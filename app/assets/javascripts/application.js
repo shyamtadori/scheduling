@@ -29,6 +29,7 @@
 //= require select2
 //= require cocoon
 //= require dataTables.fixedColumns.min.js
+//= require sweetalert
 //= require_tree .
 
 function isHidden(el) {

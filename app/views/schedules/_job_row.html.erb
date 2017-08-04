@@ -4,9 +4,17 @@
   </th>
 
   <% 1.upto(no_of_days) do |number|%>
-    <td id='<%=job.job_idx%>_<%=number%>' data-job='<%=job.job_idx%>' data-jobname='<%=job.name%>' data-date='<%=@year%>-<%=@month%>-<%=number%>'>
+    <td id='<%=job.job_idx%>_<%=number%>' data-job='<%=job.job_idx%>' data-jobname='<%=job.name%>' data-date='<%=@year%>-<%=@month%>-<%=number%>' class='scheduling_cell_js'>
       <%if(@allotted_pilots["#{number}_#{job.job_idx}"])%>
-        <%= @allotted_pilots["#{number}_#{job.job_idx}"].join(", ")%>
+        <% @allotted_pilots["#{number}_#{job.job_idx}"].each do |pilotname_id| %>
+          <div style='padding: 2px;'>
+            <span class="pilot-name-container"><%=pilotname_id.split('_')[0]%>
+              <div class="delete_container_js" data-pilotID="<%=pilotname_id.split('_')[1]%>" data-pilotName="<%=pilotname_id.split('_')[0]%>">
+                <i class='fa fa-times-circle-o fa-sm'></i>
+              </div>
+            </span>
+          </div>
+        <%end%>
       <%else%>
       <%end%>
     </td>
