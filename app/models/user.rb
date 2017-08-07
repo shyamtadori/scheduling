@@ -28,6 +28,7 @@ class User < ActiveRecord::Base
   has_many :schedules
   
   scope :pilot, -> { where(pilot: true) }
+  scope :ordered_by_last_name, -> { order(last_name: :asc) }
 
   def timeout_in
     if Rails.env.development?
@@ -123,7 +124,7 @@ class User < ActiveRecord::Base
     all_available_pilot_ids = PilotsHitch.where('hitch_id in (?) and effective_start_date <= ? and (effective_end_date >= ? or effective_end_date is null)', hitch_ids, schedule_date, schedule_date).pluck(:user_id)
     pilot_ids_working_on_this_date = Schedule.where(schedule_date: schedule_date).pluck(:user_id)
     available_pilot_ids = all_available_pilot_ids - pilot_ids_working_on_this_date
-    return User.where('user_id in (?)',available_pilot_ids)
+    return User.where('user_id in (?)',available_pilot_ids).ordered_by_last_name.includes(:hitches)
   end
 
   def all_working_dates_of_pilot(organization)

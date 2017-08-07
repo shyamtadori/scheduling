@@ -1,0 +1,41 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    Add from Existing Pilots
+  </div>
+  <div class="panel-body">
+    <table id='select_pilot_table' class='table table-striped datatable'>
+      <thead>
+        <tr>
+          <th class='nosort'></th>
+          <th>Name</th>
+          <th>User Name</th>
+          <th>Hitch</th>
+          <th>Hour Start</th>
+          <th>Hour End</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%  pilots.each_with_index do |pilot, index| %>
+          <% pilot.hitches.each do |hitch|%>
+            <tr>
+              <td>
+                <%= f.radio_button :user_id, pilot['user_id'], id: 'pilot_'+pilot['user_id'].to_s, checked: (index == 0) %>
+              </td>
+              <td><%= pilot.full_name %></td>
+              <td><%= pilot.username %></td>
+              <td>
+                <%= hitch.name %>
+              </td>
+              <td>
+                <%= time_format(hitch.hour_start) %>
+              </td>
+              <td>
+                <%= time_format(hitch.hour_end) %>
+              </td>
+            </tr>
+          <%end%>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
