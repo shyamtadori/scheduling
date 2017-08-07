@@ -31,7 +31,7 @@ class SchedulesController < ApplicationController
     if params[:schedule_up_to] && valid_date?(params[:schedule_up_to])
       job = Job.find(params[:schedule][:job_idx])
       end_date = Date.strptime(params[:schedule_up_to], "%m/%d/%Y")
-      errors = Schedule.create_schedules(start_date, end_date, job, params[:schedule][:user_id], params[:schedule_on_hitch], params[:schedule_on_free], @organization)
+      errors = Schedule.create_schedules(start_date, end_date, job, schedule_params, params[:schedule_on_hitch], params[:schedule_on_free], @organization)
     else
       @schedule = Schedule.new(schedule_params)
       errors = @schedule.errors.full_messages if !@schedule.save
@@ -89,6 +89,6 @@ class SchedulesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def schedule_params
-      params.require(:schedule).permit(:schedule_date, :location_idx, :job_idx, :model_idx, :mission_id, :asset_idx, :pic_id, :sic_id, :user_id, :status)
+      params.require(:schedule).permit(:schedule_date, :location_idx, :job_idx, :model_idx, :mission_id, :asset_idx, :assignment, :user_id, :status)
     end
 end

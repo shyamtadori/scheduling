@@ -13,6 +13,14 @@
 
   <%= render('users/pilots_table', f: f, selection_type: 'radio', pilots: @available_pilots)%>
 
+  <!-- <div class="form-group">
+    <label class="col-sm-2 control-label">Assignment</label>
+    <div class="col-sm-6">
+      <= f.select :assignment, options_for_select([["PIC","PIC"],["SIC","SIC"]],"PIC"), {},{:class =>"form-group", :id => "schedule_assignment", :style => "height:46px;border-radius:2px;width:30%"}%>
+    </div>
+  </div> -->
+
+
   <div class="checkbox schedule-form-checkbox-padding">
     <label><input type="checkbox" name="schedule_multiple_dates" id="schedule_multiple_dates" value="true">Scheule Multiple Dates</label>
   </div>
@@ -42,6 +50,7 @@
   <%= f.hidden_field :schedule_date %>
   <%= f.hidden_field :job_idx %>
   <%= f.hidden_field :location_idx %>
+  <%= f.hidden_field :assignment%>
   <input type="hidden" name="org_unit" value="<%=params[:org_unit]%>">
   <input type="hidden" name="filter_base_id" value="<%=params[:base_id]%>">
 
@@ -54,6 +63,9 @@
 
 <script>
   $(document).ready(function() {
+    // $('#schedule_assignment').select2({
+    //   minimumResultsForSearch: -1
+    // });
     $("#schedule_up_to").datetimepicker({
       format: 'MM/DD/YYYY',
       minDate: moment("<%= @schedule.schedule_date %>", "YYYY-MM-DD-"),

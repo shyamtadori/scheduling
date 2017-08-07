@@ -6,6 +6,7 @@
       <tr>
         <th><%= @start_date.strftime('%B') %> - <%= @start_date.strftime('%Y') %> > <br> Jobs <i class="fa fa-fw fa-arrow-down"></i></th>
         <th>AC Model</th>
+        <th>Assignment</th>
         <%= render('month_dates')%>
       </tr>
     </thead>
@@ -52,7 +53,7 @@
         1
       ]
     });
-    $('[data-toggle="tooltip"]').tooltip()
+    $('[data-toggle="tooltip"]').tooltip();
     //don't want to show number of records footer
     $('#monthly_schedule_info').html('');
 
@@ -89,7 +90,8 @@
         var date = $(this).attr("data-date");
         var selected_org_unit = $('#org_unit_selector').val();
         var selected_base = $('#base_selector').val();
-        params_data = {job_id: job_id, date: date, org_unit: selected_org_unit, base_id: selected_base};
+        var assignment_type = $(this).attr("data-job-assignment");
+        params_data = {job_id: job_id, date: date, org_unit: selected_org_unit, base_id: selected_base, assignment: assignment_type};
         $.ajax({
           type: "GET",
           url: "/users/available_pilots.js",
